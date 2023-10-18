@@ -31,9 +31,9 @@ namespace MapEdit{
         private readonly Color _darkerColor = Color.white * 0.1f;
 
         private Vector2 _scrollPosition;
-        float columnHeight = 175f;
+        float columnHeight = EditorGUIUtility.singleLineHeight;
 
-        [MenuItem("Window/UI Toolkit/Map Editor")]
+        [MenuItem("Tools/Map Editor")]
         public static void ShowExample()
         {
             MapEditor wnd = GetWindow<MapEditor>();
@@ -50,9 +50,10 @@ namespace MapEdit{
                     allowToggleVisibility = false, // At least one column must be there.
                     autoResize = true,
                     minWidth = 50.0f,
-                    maxWidth = 50.0f,
+                    width = 75f,
+                    maxWidth = 90.0f,
                     canSort = false,
-                    sortingArrowAlignment = TextAlignment.Left,
+                    sortingArrowAlignment = TextAlignment.Center,
                     headerContent = new GUIContent("Idx", "An index of element."),
                     headerTextAlignment = TextAlignment.Center,
                 },
@@ -131,17 +132,13 @@ namespace MapEdit{
             playTime = settings.playTime;
             spritePool = settings.spritePool;
 
-            playTime = EditorGUILayout.IntField("Play time (s)",playTime);
             //if (editor) { editor.OnInspectorGUI(); }
             DrawMapDataFields();
         }
 
         private void DrawMapDataFields(){
             // After compilation and some other events data of the window is lost if it's not saved in some kind of container. Usually those containers are ScriptableObject(s).
-            if (this.multiColumnHeader == null)
-            {
-                this.Initialize();
-            }
+            playTime = EditorGUILayout.IntField("Play time (s)",playTime);
 
             // Basically we just draw something. Empty space. Which is `FlexibleSpace` here on top of the window.
             // We need this for - `GUILayoutUtility.GetLastRect()` because it needs at least 1 thing to be drawn before it.
@@ -150,6 +147,11 @@ namespace MapEdit{
             // Get automatically aligned rect for our multi column header component.
             Rect windowRect = GUILayoutUtility.GetLastRect();
 
+            if (this.multiColumnHeader == null)
+            {
+                this.Initialize();
+            }
+
             // Here we are basically assigning the size of window to our newly positioned `windowRect`.
             windowRect.width = this.position.width;
             windowRect.height = this.position.height;
@@ -157,17 +159,17 @@ namespace MapEdit{
             // This is a rect for our multi column table.
             Rect columnRectPrototype = new Rect(source: windowRect)
             {
-                height = EditorGUIUtility.singleLineHeight, // This is basically a height of each column including header.
+                height = columnHeight, // This is basically a height of each column including header.
             };
 
             // Just enormously large view if you want it to span for the whole window. This is how it works [shrugs in confusion].
-            Rect positionalRectAreaOfScrollView = GUILayoutUtility.GetRect(0, float.MaxValue, 0, float.MaxValue);
+            Rect positionalRectAreaOfScrollView = GUILayoutUtility.GetRect(0, float.MaxValue, 0, columnHeight * this.spritePool.Count + EditorGUIUtility.singleLineHeight * 7);
 
             // Create a `viewRect` since it should be separate from `rect` to avoid circular dependency.
             Rect viewRect = new Rect(source: windowRect)
             {
                 xMax = this._columns.Sum((column) => column.width), // Scroll max on X is basically a sum of width of columns.
-                //yMax = columnHeight * spritePool.Count + EditorGUIUtility.singleLineHeight
+                yMax = columnHeight * this.spritePool.Count + EditorGUIUtility.singleLineHeight * 7 //-> magic number i dont know man :(
             };
 
             this._scrollPosition = GUI.BeginScrollView(
@@ -184,17 +186,17 @@ namespace MapEdit{
 
             // For each element that we have in object that we are modifying.
             //? I don't have an appropriate object here to modify, but this is just an example. In real world case I would probably use ScriptableObject here.
-            for (int a = 0; a < this.spritePool.Count; a++)
+            for (int i = 0; i < this.spritePool.Count; i++)
             {
                 //! We draw each type of field here separately because each column could require a different type of field as seen here.
                 // This can be improved if we want to have a more robust system. Like for example, we could have logic of drawing each field moved to object itself.
                 // Then here we would be able to just iterate through array of these objects and call a draw methods for these fields and use this window for many types of objects.
                 // But example with such a system would be too complicated for gamedev.stackexchange, so I have decided to not overengineer and just use hard coded indices for columns - `columnIndex`.
                 Rect rowRect = new Rect(source: columnRectPrototype);
-                rowRect.y += columnHeight * (a + 1);
+                rowRect.y += columnHeight * (i + 1);
 
                 // Draw a texture before drawing each of the fields for the whole row.
-                if (a % 2 == 0){
+                if (i % 2 == 0){
                     EditorGUI.DrawRect(rect: rowRect, color: this._darkerColor);
                 }
                 else{
@@ -221,7 +223,7 @@ namespace MapEdit{
 
                     EditorGUI.LabelField(
                         position: this.multiColumnHeader.GetCellRect(visibleColumnIndex: visibleColumnIndex, columnRect),
-                        label: new GUIContent(a.ToString()),
+                        label: new GUIContent((i+1).ToString()),
                         style: nameFieldGUIStyle
                     );
                 }
@@ -240,14 +242,14 @@ namespace MapEdit{
                     EditorGUI.ObjectField(
                         this.multiColumnHeader.GetCellRect(visibleColumnIndex: visibleColumnIndex, columnRect),
                         GUIContent.none,
-                        this.spritePool[a],
+                        this.spritePool[i],
                         typeof(Sprite),
                         false
                     );
                 }
             }
 
-            GUI.EndScrollView(handleScrollWheel: true);
+            GUI.EndScrollView();
         }
     }
 
@@ -260,5 +262,3 @@ namespace MapEdit{
         }
     }
 }
-
-
