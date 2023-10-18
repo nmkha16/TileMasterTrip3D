@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEditor.IMGUI.Controls;
@@ -8,18 +9,18 @@ using UnityEngine;
 
 
 // link: https://gamedev.stackexchange.com/questions/188771/creating-a-custom-editor-window-using-a-multi-column-header
-// multi column 
+// Thanks to Candid Moon _Max_ for multi column solution
 namespace MapEdit{
     public class MapEditor : EditorWindow
     {
-        Editor editor;
+        //Editor editor;
         MapDataScriptableObject scriptableObject;
         AnimBool customizeValues;
         Level currentLevel;
 
         // fields to edit
         int playTime;
-        [SerializeField] List<Sprite> spritePool;
+        [SerializeField] List<Tile> tilePool;
 
         // multi columns
         private MultiColumnHeaderState multiColumnHeaderState;
@@ -27,10 +28,10 @@ namespace MapEdit{
 
         private MultiColumnHeaderState.Column[] _columns;
 
-        private readonly Color _lighterColor = Color.white * 0.3f;
-        private readonly Color _darkerColor = Color.white * 0.1f;
+        private readonly Color lighterColor = Color.white * 0.3f;
+        private readonly Color darkerColor = Color.white * 0.1f;
 
-        private Vector2 _scrollPosition;
+        private Vector2 scrollPosition;
         float columnHeight = EditorGUIUtility.singleLineHeight;
 
         [MenuItem("Tools/Map Editor")]
@@ -64,8 +65,28 @@ namespace MapEdit{
                     minWidth = 125.0f,
                     maxWidth = 175.0f,
                     canSort = false,
-                    sortingArrowAlignment = TextAlignment.Right,
+                    sortingArrowAlignment = TextAlignment.Center,
                     headerContent = new GUIContent("Sprite", "A sprite of an tile."),
+                    headerTextAlignment = TextAlignment.Center,
+                },
+                new MultiColumnHeaderState.Column(){
+                    allowToggleVisibility = true,
+                    autoResize = true,
+                    minWidth = 100.0f,
+                    maxWidth = 125.0f,
+                    canSort = false,
+                    sortingArrowAlignment = TextAlignment.Center,
+                    headerContent = new GUIContent("Chance", "A chance of an tile."),
+                    headerTextAlignment = TextAlignment.Center,
+                },
+                new MultiColumnHeaderState.Column(){
+                    allowToggleVisibility = true,
+                    autoResize = true,
+                    minWidth = 10.0f,
+                    maxWidth = 10.0f,
+                    canSort = false,
+                    sortingArrowAlignment = TextAlignment.Center,
+                    headerContent = new GUIContent("Delete", "Delete a tile."),
                     headerTextAlignment = TextAlignment.Center,
                 }
             };
@@ -89,7 +110,7 @@ namespace MapEdit{
 
         private void OnGUI() {
             //GUILayout.FlexibleSpace();
-            if (!editor) { editor = Editor.CreateEditor(this); }
+            //if (!editor) { editor = Editor.CreateEditor(this); }
             
             GUILayout.Label("Map Editor",EditorStyles.boldLabel);
 
@@ -108,7 +129,8 @@ namespace MapEdit{
                 EditorGUI.indentLevel--;
             }
             else{
-
+                // unload data
+                
             }
             EditorGUILayout.EndFadeGroup();
 
@@ -116,7 +138,8 @@ namespace MapEdit{
 
             if (GUILayout.Button("Save")){
                 // TODO: perform save
-
+                playTime = 0;
+                tilePool = null;
             }
 
             EditorGUI.EndDisabledGroup();
@@ -130,7 +153,7 @@ namespace MapEdit{
         private void ShowCurrentMapDataField(Level currentLevel){
             var settings = scriptableObject.mapData.maps[(int)currentLevel];
             playTime = settings.playTime;
-            spritePool = settings.spritePool;
+            tilePool = settings.tilePool;
 
             //if (editor) { editor.OnInspectorGUI(); }
             DrawMapDataFields();
@@ -163,18 +186,18 @@ namespace MapEdit{
             };
 
             // Just enormously large view if you want it to span for the whole window. This is how it works [shrugs in confusion].
-            Rect positionalRectAreaOfScrollView = GUILayoutUtility.GetRect(0, float.MaxValue, 0, columnHeight * this.spritePool.Count + EditorGUIUtility.singleLineHeight * 7);
+            Rect positionalRectAreaOfScrollView = GUILayoutUtility.GetRect(0, float.MaxValue, 0, float.MaxValue);
 
             // Create a `viewRect` since it should be separate from `rect` to avoid circular dependency.
             Rect viewRect = new Rect(source: windowRect)
             {
                 xMax = this._columns.Sum((column) => column.width), // Scroll max on X is basically a sum of width of columns.
-                yMax = columnHeight * this.spritePool.Count + EditorGUIUtility.singleLineHeight * 7 //-> magic number i dont know man :(
+                yMax = columnHeight * this.tilePool.Count + EditorGUIUtility.singleLineHeight * 7 //-> magic number i dont know man :(
             };
 
-            this._scrollPosition = GUI.BeginScrollView(
+            this.scrollPosition = GUI.BeginScrollView(
                 position: positionalRectAreaOfScrollView,
-                scrollPosition: this._scrollPosition,
+                scrollPosition: this.scrollPosition,
                 viewRect: viewRect,
                 alwaysShowHorizontal: false,
                 alwaysShowVertical: false
@@ -183,24 +206,20 @@ namespace MapEdit{
             // Draw header for columns here.
             this.multiColumnHeader.OnGUI(rect: columnRectPrototype, xScroll: 0.0f);
 
-
-            // For each element that we have in object that we are modifying.
-            //? I don't have an appropriate object here to modify, but this is just an example. In real world case I would probably use ScriptableObject here.
-            for (int i = 0; i < this.spritePool.Count; i++)
+            for (int i = 0; i < this.tilePool.Count; i++)
             {
-                //! We draw each type of field here separately because each column could require a different type of field as seen here.
-                // This can be improved if we want to have a more robust system. Like for example, we could have logic of drawing each field moved to object itself.
-                // Then here we would be able to just iterate through array of these objects and call a draw methods for these fields and use this window for many types of objects.
-                // But example with such a system would be too complicated for gamedev.stackexchange, so I have decided to not overengineer and just use hard coded indices for columns - `columnIndex`.
+                //nmkha: cant serialize custom class
+                //SerializedObject serializedObject = new SerializedObject(this.tilePool[i]);
+                
                 Rect rowRect = new Rect(source: columnRectPrototype);
                 rowRect.y += columnHeight * (i + 1);
 
                 // Draw a texture before drawing each of the fields for the whole row.
                 if (i % 2 == 0){
-                    EditorGUI.DrawRect(rect: rowRect, color: this._darkerColor);
+                    EditorGUI.DrawRect(rect: rowRect, color: this.darkerColor);
                 }
                 else{
-                    EditorGUI.DrawRect(rect: rowRect, color: this._lighterColor);
+                    EditorGUI.DrawRect(rect: rowRect, color: this.lighterColor);
                 }
 
                 // Idx field
@@ -233,19 +252,52 @@ namespace MapEdit{
 
                 if (this.multiColumnHeader.IsColumnVisible(columnIndex: columnIndex))
                 {
-                    int visibleColumnIndex = this.multiColumnHeader.GetVisibleColumnIndex(columnIndex: columnIndex);
-
-                    Rect columnRect = this.multiColumnHeader.GetColumnRect(visibleColumnIndex: visibleColumnIndex);
-
-                    columnRect.y = rowRect.y;
+                    InitializeRectColumn(out int visibleColumnIndex, out Rect columnRect);
                     
                     EditorGUI.ObjectField(
                         this.multiColumnHeader.GetCellRect(visibleColumnIndex: visibleColumnIndex, columnRect),
                         GUIContent.none,
-                        this.spritePool[i],
+                        this.tilePool[i].sprite,
                         typeof(Sprite),
                         false
                     );
+                }
+
+                // chance field
+                columnIndex = 2;
+                if (this.multiColumnHeader.IsColumnVisible(columnIndex: columnIndex))
+                {
+                    InitializeRectColumn(out int visibleColumnIndex, out Rect columnRect);
+                    
+                    tilePool[i].chance = EditorGUI.Slider(
+                        this.multiColumnHeader.GetCellRect(visibleColumnIndex: visibleColumnIndex, columnRect),
+                        tilePool[i].chance,
+                        0f,
+                        1f
+                    );
+                }
+
+                // delete field
+                columnIndex = 3;
+                if (this.multiColumnHeader.IsColumnVisible(columnIndex: columnIndex))
+                {
+                    InitializeRectColumn(out int visibleColumnIndex, out Rect columnRect);
+                    Rect cellRect = this.multiColumnHeader.GetCellRect(visibleColumnIndex,columnRect);
+                    var style = new GUIStyle(EditorStyles.toolbarButton);
+                    style.normal.textColor = Color.red;
+                    style.active.textColor = Color.magenta;
+                    if (GUI.Button(cellRect,new GUIContent("X","Remove"),style)){
+                        // TODO: get index of selected row
+                        Debug.Log("delete at " + i);
+                        tilePool.RemoveAt(i);
+                    }
+                }
+
+
+                void InitializeRectColumn(out int visibleColumnIndex, out Rect columnRect){
+                    visibleColumnIndex = this.multiColumnHeader.GetVisibleColumnIndex(columnIndex: columnIndex);
+                    columnRect = this.multiColumnHeader.GetColumnRect(visibleColumnIndex: visibleColumnIndex);
+                    columnRect.y = rowRect.y;
                 }
             }
 
@@ -253,12 +305,12 @@ namespace MapEdit{
         }
     }
 
-    [CustomEditor(typeof(MapEditor), true)]
-    public class SpritePoolEditorDrawer : Editor {
-        public override void OnInspectorGUI() {
-            var list = serializedObject.FindProperty("spritePool");
-            EditorGUILayout.PropertyField(list, new GUIContent("Sprite Pool"), true);
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
+    // [CustomEditor(typeof(MapEditor), true)]
+    // public class SpritePoolEditorDrawer : Editor {
+    //     public override void OnInspectorGUI() {
+    //         var list = serializedObject.FindProperty("tilePool");
+    //         EditorGUILayout.PropertyField(list, new GUIContent("Sprite Pool"), true);
+    //         serializedObject.ApplyModifiedProperties();
+    //     }
+    // }
 }

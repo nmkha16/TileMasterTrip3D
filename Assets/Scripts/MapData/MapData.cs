@@ -6,12 +6,18 @@ using UnityEngine;
 [Serializable]
 public class MapData
 {
-    public List<MapSettings> maps;
+    public List<MapSetting> maps;
 }
 
 [Serializable]
-public class MapSettings{
+public class MapSetting{
     public Level level;
     public int playTime;
-    public List<Sprite> spritePool;
+    public List<Tile> tilePool;
+}
+
+[Serializable]
+public class Tile{
+    public Sprite sprite;
+    [Range(0,1f)] public float chance;
 }
