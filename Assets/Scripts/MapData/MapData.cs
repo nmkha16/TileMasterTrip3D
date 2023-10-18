@@ -20,4 +20,9 @@ public class MapSetting{
 public class Tile{
     public Sprite sprite;
     [Range(0,1f)] public float chance;
+
+    public Tile(Sprite sprite, float chance){
+        this.sprite = sprite;
+        this.chance = chance;
+    }
 }

@@ -121,40 +121,41 @@ namespace MapEdit{
                 return;
             }
             
-            customizeValues.target = EditorGUILayout.ToggleLeft("Customize Values",customizeValues.target);
+            customizeValues.target = EditorGUILayout.ToggleLeft("Edit",customizeValues.target);
             if (EditorGUILayout.BeginFadeGroup(customizeValues.faded)){
                 EditorGUI.indentLevel++;
-                currentLevel = (Level)EditorGUILayout.EnumPopup("Level to edit: ",currentLevel);
-                ShowCurrentMapDataField(currentLevel);
+                var level = (Level)EditorGUILayout.EnumPopup("Level to edit ",currentLevel);
+                ShowCurrentMapDataField(level);
                 EditorGUI.indentLevel--;
             }
             else{
                 // unload data
-                
+                this.playTime = 0;
+                this.tilePool = null;
             }
             EditorGUILayout.EndFadeGroup();
 
             EditorGUI.BeginDisabledGroup(scriptableObject == null);
 
-            if (GUILayout.Button("Save")){
-                // TODO: perform save
-                playTime = 0;
-                tilePool = null;
+            if (GUILayout.Button("Add Tile")){
+                this.tilePool.Add(new Tile(null,0));
             }
 
             EditorGUI.EndDisabledGroup();
-            
         }
 
         private void OnDisable() {
             customizeValues.valueChanged.RemoveAllListeners();
+            // unload data
+            this.playTime = 0;
+            this.tilePool = null;
         }
 
-        private void ShowCurrentMapDataField(Level currentLevel){
+        private void ShowCurrentMapDataField(Level level){
+            this.currentLevel = level;
             var settings = scriptableObject.mapData.maps[(int)currentLevel];
-            playTime = settings.playTime;
+            this.playTime = settings.playTime;
             tilePool = settings.tilePool;
-
             //if (editor) { editor.OnInspectorGUI(); }
             DrawMapDataFields();
         }
@@ -287,7 +288,6 @@ namespace MapEdit{
                     style.normal.textColor = Color.red;
                     style.active.textColor = Color.magenta;
                     if (GUI.Button(cellRect,new GUIContent("X","Remove"),style)){
-
                         tilePool.RemoveAt(i);
                     }
                 }
