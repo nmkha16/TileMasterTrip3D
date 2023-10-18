@@ -287,8 +287,7 @@ namespace MapEdit{
                     style.normal.textColor = Color.red;
                     style.active.textColor = Color.magenta;
                     if (GUI.Button(cellRect,new GUIContent("X","Remove"),style)){
-                        // TODO: get index of selected row
-                        Debug.Log("delete at " + i);
+
                         tilePool.RemoveAt(i);
                     }
                 }
