@@ -140,7 +140,7 @@ namespace MapEdit{
             GUI.Label(headerRect,"Chance");
             headerRect.x += columnWidth * 0.90f;
             GUI.Label(headerRect,"Move");
-            headerRect.x += columnWidth * 0.45f;
+            headerRect.x += columnWidth * 0.5f;
             GUI.Label(headerRect,"Remove");
             GUILayout.EndHorizontal();
 

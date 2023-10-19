@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+    public Transform tileHolderUI;
     [SerializeField] private ObjectFactory[] factories;
     private ObjectFactory factory;
     public Level currentLevel;
-
     private Camera mainCamera;
 
     public GameState state {
@@ -22,19 +23,28 @@ public class GameManager : MonoBehaviour
 
     private void Awake(){
         mainCamera = Camera.main;
+
+        if (Instance == null){
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else{
+            Destroy(this.gameObject);
+        }
     }
 
     private void Start(){
+        // TODO: spawn tiles according to data
         factory = factories[0];
 
-        for(int i = 0; i < 50; ++i){
-        //    Vector2 randomViewPointPosition = randomPosition.OnScreen();
-        //    Vector3 randomWorldPointPosition = mainCamera.ScreenToWorldPoint(randomViewPointPosition);
-            Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(Random.Range(0,Screen.width), Random.Range(0,Screen.height), 0));
-            pos.y = UnityEngine.Random.Range(0.5f,2f);
+        for(int i = 0; i < 42; ++i){
+            Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(Random.Range(0,Screen.width), Random.Range(Screen.height*0.55f,Screen.height), 0));
+            pos.y = 1.75f;
+            // Vector3 pos = Random.insideUnitSphere*1.25f;
+            // pos.y = 1.5f;
             var tileProduct = factory.GetProduct(pos);
             tileProduct.gameObjectProduct.GetComponent<TileProduct>().Initialize(TileName.Tile_01,null);
-        } 
+        }
     }
 
     private void SelectLevel(Level level){

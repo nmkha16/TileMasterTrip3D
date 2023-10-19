@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6222324317824765104}
   - component: {fileID: 8289602305395749748}
+  - component: {fileID: 7367911419565186581}
+  - component: {fileID: 824181302231714170}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,6 +50,35 @@ MonoBehaviour:
   factories:
   - {fileID: 2790867069684920982}
   currentLevel: 0
+--- !u!114 &7367911419565186581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010526167091007565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af537baa0f4ad4547bb4a6ccc206e4c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  touchPosition: {x: 0, y: 0}
+--- !u!114 &824181302231714170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010526167091007565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ccedf36dd20b543b4a038cd64514bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 7367911419565186581}
+  objectLayermask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &6995753345696363972
 GameObject:
   m_ObjectHideFlags: 0
