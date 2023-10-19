@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CommandInvoker
 {
-    public static Stack<ICommand> undoStack = new Stack<ICommand>();
+    private static Stack<ICommand> undoStack = new Stack<ICommand>();
 
-    public static Stack<ICommand> redoStack = new Stack<ICommand>();
+    private static Stack<ICommand> redoStack = new Stack<ICommand>();
 
     public static void ExecuteCommand(ICommand command){
         command.Execute();

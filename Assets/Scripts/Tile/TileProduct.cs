@@ -20,6 +20,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable
     public int maxTilesHolderCount = 7; // hardcoded
 
     private bool isAllowedToMoveOut;
+    private bool isMoved = false;
     private void Awake(){
         mainCamera = Camera.main;
         rgbd = GetComponent<Rigidbody>();
@@ -54,27 +55,33 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable
     }
 
     public void Click(){
-        // TODO: implement click logic
-        // requires command pattern to undo
         CancelHover();
-        TogglePhysics(false);
-        // move
-        StartCoroutine(MoveToTileUI());
-
-    }
-
-    private IEnumerator MoveToTileUI(){
+        // calculate ui screenpoint to world position
         var pos = GameManager.Instance.tileHolderUI.position;
         pos = mainCamera.ScreenToWorldPoint(pos);
+        // invoke move command
+        ICommand command = new MoveCommand(this,this.transform.position,pos);
+        CommandInvoker.ExecuteCommand(command);
+    }
+
+    public void Move(Vector3 position){
+        isMoved = !isMoved;
+        TogglePhysics(!isMoved);
+        this.gameObject.SetActive(true);
+        StartCoroutine(MoveToTileUI(position));
+    }
+
+    // TODO: make it move to different tile holder UI
+    private IEnumerator MoveToTileUI(Vector3 destination){
         float elapsed = 0f;
         while(elapsed < 1.25f){
             var lerpFactor = elapsed / 1.25f;
             lerpFactor = lerpFactor * lerpFactor * (3f - 2f * lerpFactor);
-            transform.position = Vector3.Lerp(transform.position,pos,lerpFactor);
+            transform.position = Vector3.Lerp(transform.position,destination,lerpFactor);
             elapsed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(!isMoved);
         OnMoveCompleted?.Invoke(this);
         yield break;
     }

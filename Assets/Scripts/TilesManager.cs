@@ -5,16 +5,21 @@ using UnityEngine;
 public class TilesManager : MonoBehaviour
 {
     [SerializeField] private SelectionUI selectionUI;
-    private List<TileProduct> selectedTiles = new List<TileProduct>();
+    [SerializeField] private List<TileProduct> selectedTiles = new List<TileProduct>();
     private void Start() {
-        TileProduct.OnMoveCompleted += AddToList;
+        TileProduct.OnMoveCompleted += PushToList;
     }
 
     private void OnDestroy() {
-        TileProduct.OnMoveCompleted -= AddToList;
+        TileProduct.OnMoveCompleted -= PushToList;
     }
 
-    private void AddToList(TileProduct tileProduct){
-        selectedTiles.Add(tileProduct);
+    // will remove if identical item found in list
+    // helpful to undo command
+    private void PushToList(TileProduct tileProduct){
+        if (selectedTiles.Contains(tileProduct)){
+            selectedTiles.Remove(tileProduct);
+        }
+        else selectedTiles.Add(tileProduct);
     }
 }

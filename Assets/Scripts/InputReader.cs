@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour, Controls.IPlayerActions
 {
+    //public event Action OnUndoPerformed;
     public event Action OnHoverPerformed;
     public event Action OnSelectPerformed;
     public Vector2 touchPosition;
@@ -39,5 +40,12 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
         if (context.canceled){
             OnSelectPerformed?.Invoke();
         }
+    }
+
+    public void OnUndo(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        //OnUndoPerformed?.Invoke();
+        CommandInvoker.UndoCommand();
     }
 }
