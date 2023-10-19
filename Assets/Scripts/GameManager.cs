@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     public Level currentLevel;
 
     private Camera mainCamera;
-    private RandomPosition randomPosition;
 
     public GameState state {
         get{
@@ -23,7 +22,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake(){
         mainCamera = Camera.main;
-        randomPosition = new RandomPosition();
     }
 
     private void Start(){
