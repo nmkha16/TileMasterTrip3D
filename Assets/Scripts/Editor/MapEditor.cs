@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEditor.IMGUI.Controls;
@@ -71,7 +69,7 @@ namespace MapEdit{
             EditorGUI.BeginDisabledGroup(scriptableObject == null);
 
             if (GUILayout.Button("Add Tile")){
-                this.tilePool.Add(new Tile(null,0));
+                this.tilePool.Add(new Tile());
             }
 
             EditorGUI.EndDisabledGroup();
@@ -134,11 +132,13 @@ namespace MapEdit{
             GUILayout.BeginHorizontal();
             Rect headerRect = new Rect(source: columnRectPrototype);
             GUI.Label(headerRect,"Idx");
-            headerRect.x = columnWidth;
+            headerRect.x = columnWidth * 0.85f;
+            GUI.Label(headerRect,"Name");
+            headerRect.x += columnWidth;
             GUI.Label(headerRect,"Sprite");
             headerRect.x += columnWidth;
             GUI.Label(headerRect,"Chance");
-            headerRect.x += columnWidth * 0.80f;
+            headerRect.x += columnWidth * 0.90f;
             GUI.Label(headerRect,"Move");
             headerRect.x += columnWidth * 0.45f;
             GUI.Label(headerRect,"Remove");
@@ -163,8 +163,15 @@ namespace MapEdit{
                 leftAlignStyle.alignment = TextAnchor.UpperLeft;
                 GUI.Label(rowRect,(i+1).ToString(),leftAlignStyle); // index
 
+                // tile name column
+                cellRect.x = columnWidth * 0.5f;
+                cellRect.height = columnHeight *.2f;
+                cellRect.width = columnWidth;
+                this.tilePool[i].name = (TileName)EditorGUI.EnumPopup(cellRect,this.tilePool[i].name);
+
                 // sprite column
-                cellRect.x = columnWidth* 0.5f; // add /t to move new column
+                cellRect.x += columnWidth;
+                cellRect.height = columnHeight - EditorGUIUtility.singleLineHeight;
                 cellRect.width = cellRect.height * 1.25f;
                 this.tilePool[i].sprite = (Sprite)EditorGUI.ObjectField(cellRect, this.tilePool[i].sprite, typeof(Sprite),false);
 

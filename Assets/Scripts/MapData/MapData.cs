@@ -18,10 +18,12 @@ public class MapSetting{
 
 [Serializable]
 public class Tile{
+    public TileName name;
     public Sprite sprite;
     [Range(0,1f)] public float chance;
 
-    public Tile(Sprite sprite, float chance){
+    public Tile(TileName name = TileName.Tile_01, Sprite sprite = null, float chance = 0){
+        this.name = name;
         this.sprite = sprite;
         this.chance = chance;
     }
