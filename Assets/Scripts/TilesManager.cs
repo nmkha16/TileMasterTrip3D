@@ -42,11 +42,12 @@ public class TilesManager : MonoBehaviour
         // increment count
         IncrementTileCount(tileName);
         // check for matching three
-        if (IsMatchingThree(tileName)){
+        var isThreeMatched = IsMatchingThree(tileName);
+        if (isThreeMatched){
             matchingThreeTileName = tileName;
         }
         // if there is no matching three and no more slot to hold
-        else if(IsMatchingThree(tileName) && tilesList.Count == maxTilesSize){
+        else if(!isThreeMatched && tilesList.Count >= maxTilesSize){
             // call end game
             GameManager.Instance.EndGame(false);
         }

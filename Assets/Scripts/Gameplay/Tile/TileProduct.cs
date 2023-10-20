@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Factory;
 using UnityEngine;
 
-public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable
+public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDisposable
 {
     public static Action<TileProduct> OnTileSelected;
     [SerializeField] private Outline outline;
@@ -17,6 +17,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable
     public GameObject gameObjectProduct => this.gameObject;
     private Rigidbody rgbd;
     private Vector3 defaultScale;
+    public float DragValue = 20;
     private void Awake(){
         mainCamera = Camera.main;
         defaultScale = this.transform.localScale;
@@ -26,7 +27,12 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable
 
     private void Start(){
         tileProductMove = GetComponent<TileProductMove>();
-        Invoke(nameof(IncreaseDrag),2f);
+        Invoke(nameof(IncreaseDrag),3f);
+        GameManager.Instance.OnGameEnded += Dispose;
+    }
+
+    private void OnDestroy(){
+        GameManager.Instance.OnGameEnded -= Dispose;
     }
 
     public void Initialize(TileName name, Sprite sprite){
@@ -70,7 +76,13 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable
     }
 
     private void IncreaseDrag(){
-        this.rgbd.drag = 50f;
+        this.rgbd.drag = DragValue;
+        this.rgbd.angularDrag = DragValue;
+    }
+
+    public void Dispose()
+    {
+        Destroy(this.gameObject);
     }
 }
 

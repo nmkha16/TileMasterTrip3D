@@ -14,7 +14,10 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     private Controls control;
 
     private void OnEnable(){
-        if (control != null) return;
+        if (control != null){
+            control.Enable();
+            return;
+        }
         control = new Controls();
         control.Player.SetCallbacks(this);
         control.Player.Enable();

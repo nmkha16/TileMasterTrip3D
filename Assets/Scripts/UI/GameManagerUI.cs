@@ -1,36 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManagerUI : MonoBehaviour
 {
-    [SerializeField] private GameObject inGameCanvas;
     [SerializeField] private GameObject menuCanvas;
+    [SerializeField] private GameObject[] inGameCanvas;
+    [SerializeField] private GameObject pauseInGameCanvas;
 
-    private void Awake(){
-
-    }
+    [Header("Timer")]
+    [SerializeField] private Timer timer;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private Slider timerProgressBar;
 
     private void Start(){
         GameManager.Instance.OnUpdateUI += ActivateState;
-        inGameCanvas.SetActive(false);
+        timer.OnTimeElapsed += UpdateTimeUI;
+        timer.OnCountdownReset += ResetCountdown;
+
+        ToggleInGameCanvas(false);
         menuCanvas.SetActive(true);
     }
 
     private void OnDestroy() {
         GameManager.Instance.OnUpdateUI -= ActivateState;
+        timer.OnTimeElapsed -= UpdateTimeUI;
+        timer.OnCountdownReset -= ResetCountdown;
     }
 
     private void ActivateState(GameState state){
         switch (state)
         {
             case GameState.Menu:
-                inGameCanvas.SetActive(false);
+                ToggleInGameCanvas(false);
                 menuCanvas.SetActive(true);
                 break;
             case GameState.Play:
-                inGameCanvas.SetActive(true);
+                ToggleInGameCanvas(true);
                 menuCanvas.SetActive(false);
+                break;
+            case GameState.Pause:
                 break;
             case GameState.Win:
                 break;
@@ -38,4 +49,40 @@ public class GameManagerUI : MonoBehaviour
                 break;
         }
     }
+
+    private void ToggleInGameCanvas(bool toggle){
+        foreach(var canvas in inGameCanvas){
+            canvas.SetActive(toggle);
+        }
+    }
+
+    #region  Timer
+    private void SetText(string content)
+    {
+        timerText.text = content;
+    }
+
+    private void SetTimeProgressBar(float percentage){
+        timerProgressBar.value = percentage;
+    }
+
+    private void SetTextColor(Color color)
+    {
+        timerText.color = color;
+    }
+
+    private void ResetCountdown(){
+        SetText("0:00");
+    }
+
+    private void UpdateTimeUI(float timer, float percentage){
+        string minutes = ((int)timer / 60).ToString("00"); 
+        string seconds = (timer % 60).ToString("00");
+
+        SetText(string.Format("{0}:{1}", minutes, seconds));
+        SetTextColor(percentage < .1f ? Color.red : Color.white);
+
+        SetTimeProgressBar(percentage);
+    }
+    #endregion
 }

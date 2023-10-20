@@ -5,8 +5,10 @@ public enum Level{
 }
 
 public enum GameState{
-    Menu = 0,
+    None = 0,
+    Menu,
     Play,
+    Pause,
     Win,
     Lose
 }

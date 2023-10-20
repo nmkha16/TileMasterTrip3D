@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public event Action OnGameEnded;
     public event Action<GameState> OnUpdateUI;
     public static GameManager Instance;
+    private InputReader inputReader;
 
     [Header("Map Data")]
     [SerializeField] private MapDataScriptableObject data;
@@ -21,7 +23,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Renderer groundRenderer;
     private Material groundMaterial;
 
-    private GameState state;
+    [Header("Timer")]
+    [SerializeField] private Timer timer;
+
+    [SerializeField] private GameState state;
     public GameState State{
         get{
             return state;
@@ -50,11 +55,25 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
         
         groundMaterial = groundRenderer.material;
+
+        inputReader = GetComponent<InputReader>();
+        State = GameState.Menu;
+
+        timer.OnCountdownFinished += Timeout;
+    }
+
+    private void OnDestroy() {
+        timer.OnCountdownFinished -= Timeout;
     }
 
     public void StartGame(){
         State = GameState.Play;
+        // spawn flower
         SpawnFlower(Level.Level_1);
+        // set timer
+        var duration = data.mapData.maps[(int)Level.Level_1].playTime;
+        timer.StopCountdown();
+        timer.StartCountdown(duration);
     }
 
     public void NextLevel(){
@@ -64,23 +83,36 @@ public class GameManager : MonoBehaviour
     public void Retry(){
 
     }
-
     public void EndGame(bool isWon){
         State = isWon ? GameState.Win : GameState.Lose;
+        inputReader.enabled = false;
+        OnGameEnded?.Invoke();
+    }
+
+    private void Timeout(){
+        EndGame(false);
     }
 
     private void ActivateState(){
         switch (State)
         {
             case GameState.Menu:
+                inputReader.enabled = false;
                 groundMaterial.SetInt("_ShouldGradientNoiseColor",1);
                 break;
             case GameState.Play:
+                timer.ContinueCountdown();
+                inputReader.enabled = true;
                 groundMaterial.SetInt("_ShouldGradientNoiseColor",0);
                 break;
+            case GameState.Pause:
+                timer.PauseCountdown();
+                break;
             case GameState.Win:
+
                 break;
             case GameState.Lose:
+
                 break;
         }
         OnUpdateUI?.Invoke(State);
