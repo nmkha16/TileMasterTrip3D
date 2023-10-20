@@ -17,9 +17,13 @@ public class CommandInvoker
 
     public static void UndoCommand(){
         if (undoStack.Count > 0){
-            ICommand activeCommand = undoStack.Pop();
-            redoStack.Push(activeCommand);
-            activeCommand.Undo();
+            bool undoSuccess = false;
+            do{
+                ICommand activeCommand = undoStack.Pop();
+                redoStack.Push(activeCommand);
+                undoSuccess = activeCommand.Undo();
+
+            }while(!undoSuccess && undoStack.Count > 0);
         }
     }
 

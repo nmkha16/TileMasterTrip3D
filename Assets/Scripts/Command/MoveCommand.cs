@@ -19,10 +19,11 @@ public class MoveCommand : ICommand
         this.tileProduct?.DoMove(nextPosition);
     }
 
-    public void Undo()
+    public bool Undo()
     {
-        if (this.tileProduct == null) return;
+        if (this.tileProduct == null) return false;
         this.tileProduct.DoMove(lastPosition);
         TilesManager.Instance.RemoveFromList(this.tileProduct);
+        return true;
     }
 }
