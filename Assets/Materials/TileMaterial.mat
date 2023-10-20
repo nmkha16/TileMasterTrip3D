@@ -43,7 +43,7 @@ Material:
     - _Spread: 0.06
     m_Colors:
     - _LowerHalfColor: {r: 0.3773585, g: 0.277112, b: 0, a: 0}
-    - _UpperHalfColor: {r: 0.99215686, g: 0.9490196, b: 0.9019608, a: 0}
+    - _UpperHalfColor: {r: 1, g: 0.9296988, b: 0.8537736, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5099733303149555944
 MonoBehaviour:

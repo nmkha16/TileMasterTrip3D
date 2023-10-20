@@ -260,6 +260,8 @@ namespace MapEdit{
                 EditorUtility.DisplayDialog("Alert","All null tiles have been removed on last edited level!","OK");
             }
 
+            EditorUtility.SetDirty(scriptableObject);
+            AssetDatabase.SaveAssets();
             // unload data
             this.playTime = 0;
             this.tilePool = null;

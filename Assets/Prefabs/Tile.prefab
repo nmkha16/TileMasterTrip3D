@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outline: {fileID: 7318713829822088918}
-  dragMultiplier: 1.74
 --- !u!114 &6203628224274637332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,7 +478,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9149186140292657395}
   - component: {fileID: 1016281326963031528}
-  m_Layer: 3
+  m_Layer: 1
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
