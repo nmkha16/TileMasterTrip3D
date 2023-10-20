@@ -77,12 +77,8 @@ public class GameManager : MonoBehaviour
         timer.StartCountdown(duration);
     }
 
-    public void NextLevel(){
-
-    }
-
-    public void Retry(){
-
+    public void ReturnToMenu(){
+        state = GameState.Menu;
     }
 
     public void Pause(){
@@ -107,6 +103,7 @@ public class GameManager : MonoBehaviour
         switch (State)
         {
             case GameState.Menu:
+                timer.StopCountdown();
                 inputReader.enabled = false;
                 groundMaterial.SetInt("_ShouldGradientNoiseColor",1);
                 break;
@@ -120,10 +117,10 @@ public class GameManager : MonoBehaviour
                 inputReader.enabled = false;
                 break;
             case GameState.Win:
-
+                ReturnToMenu();
                 break;
             case GameState.Lose:
-
+                ReturnToMenu();
                 break;
         }
         OnUpdateUI?.Invoke(State);
