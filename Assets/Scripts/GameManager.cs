@@ -5,13 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public Transform tileHolderUI;
+    [Header("Map Data")]
+    [SerializeField] private MapDataScriptableObject data;
+    [Header("Factories")]
     [SerializeField] private ObjectFactory[] factories;
     private ObjectFactory factory;
+    [Header("Level")]
     public Level currentLevel;
     private Camera mainCamera;
 
-    [SerializeField] private MapDataScriptableObject data;
 
     public GameState state {
         get{
@@ -38,17 +40,8 @@ public class GameManager : MonoBehaviour
     private void Start(){
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
-        // TODO: spawn tiles according to data
-        factory = factories[0];
-        var currentData = data.mapData.maps[0].tilePool;
-        for(int i = 0; i < 42; ++i){
-            Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(Random.Range(0,Screen.width), Random.Range(Screen.height*0.55f,Screen.height), 0));
-            pos.y = 1.75f;
-            // Vector3 pos = Random.insideUnitSphere*1.25f;
-            // pos.y = 1.5f;
-            var tileProduct = factory.GetProduct(pos);
-            tileProduct.gameObjectProduct.GetComponent<TileProduct>().Initialize(TileName.Tile_01,currentData[0].sprite);
-        }
+        
+        SpawnFlower(Level.Level_1);
     }
 
     private void SelectLevel(Level level){
@@ -62,8 +55,13 @@ public class GameManager : MonoBehaviour
     private void Retry(){
 
     }
-    
+
+    public void EndGame(bool isWon){
+        ActivateState(isWon ? GameState.Win : GameState.Lose);
+    }
+
     private void ActivateState(GameState state){
+        this.state = state;
         switch (state)
         {
             case GameState.Menu:
@@ -74,4 +72,28 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+    private void SpawnFlower(Level level){
+        factory = factories[0]; // get factory, well technically we only have one factory
+        var currentData = data.mapData.maps[(int)level].tilePool;
+
+        for(int i = 0; i < currentData.Count; ++i){
+            // roll odd to decide whether to spawn
+            float tileOdd = currentData[i].chance;
+            float k = Random.Range(0f,1f);
+            if (tileOdd <= k) continue;
+
+            int setsOfThreeCount = Random.Range(2,5);
+            while(setsOfThreeCount-- >= 0){
+                // spawn 3 tiles of the same type
+                for (int j = 0; j < 3; j++){
+                    Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(Random.Range(0,Screen.width), Random.Range(Screen.height*0.4f,Screen.height), 0));
+                    pos.y = Random.Range(1f,1.75f);
+                    var tileProduct = factory.GetProduct(pos);
+                    tileProduct.gameObjectProduct.GetComponent<TileProduct>().Initialize(currentData[i].name,currentData[i].sprite);
+                }
+            }
+        }
+    }
+    
 }

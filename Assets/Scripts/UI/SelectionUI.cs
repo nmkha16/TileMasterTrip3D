@@ -32,7 +32,7 @@ public class SelectionUI : MonoBehaviour
         else{
             for(int i = 0; i < tilesUI.Count; ++i){
                 if (i < list.Count){
-                    tilesUI[i].sprite = list[i].sprite;
+                    tilesUI[i].sprite = list[i].spriteRenderer.sprite;
                     tilesUI[i].gameObject.SetActive(true);
                 }
                 else{
@@ -42,5 +42,9 @@ public class SelectionUI : MonoBehaviour
             }
         }
         OnUIUpdated?.Invoke();
+    }
+    // ScreenPoint Position
+    public Vector3 GetHolderUILocation(int idx){
+        return tilesUI[idx].rectTransform.position;
     }
 }

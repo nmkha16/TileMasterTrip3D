@@ -30,6 +30,8 @@ public class TileProductMove : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
+        transform.position = destination;
+        this.gameObject.SetActive(!isMoved);
         OnMoveCompleted?.Invoke();
         yield break;
     }

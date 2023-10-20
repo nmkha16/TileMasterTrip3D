@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TilesManager : MonoBehaviour
 {
     public static TilesManager Instance;
     public event Action<List<TileProduct>> OnListUpdated;
-    [SerializeField] private List<TileProduct> tilesList = new List<TileProduct>();
+    [SerializeField] private SelectionUI selectionUI;
+    private List<TileProduct> tilesList = new List<TileProduct>();
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
     private TileName matchingThreeTileName;
+    // hardcoded size
+    private readonly int maxTilesSize = 7;
 
     private void Awake(){
         if (Instance == null) Instance = this;
@@ -39,8 +41,14 @@ public class TilesManager : MonoBehaviour
         else tilesList.Insert(idx, tileProduct);
         // increment count
         IncrementTileCount(tileName);
+        // check for matching three
         if (IsMatchingThree(tileName)){
             matchingThreeTileName = tileName;
+        }
+        // if there is no matching three and no more slot to hold
+        else if(IsMatchingThree(tileName) && tilesList.Count == maxTilesSize){
+            // call end game
+            GameManager.Instance.EndGame(false);
         }
     }
 
@@ -92,5 +100,13 @@ public class TilesManager : MonoBehaviour
         matchingThreeTileName = TileName.None;
         await Task.Delay(500);
         UpdateUI();
+    }
+
+    public Vector3 GetTileUISlotPosition(TileName tileName){
+        int idx = tilesList.GetIndexOfTile(tileName);
+        if (idx == -1){
+            idx = tilesList.Count;
+        }
+        return selectionUI.GetHolderUILocation(idx);
     }
 }

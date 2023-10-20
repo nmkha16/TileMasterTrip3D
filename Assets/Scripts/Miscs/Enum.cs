@@ -19,6 +19,11 @@ public enum TileName{
     Tile_05,
     Tile_06,
     Tile_07,
+    Tile_08,
+    Tile_09,
+    Tile_10,
+    Tile_11,
+    Tile_12,
 }
 
 public enum ScreenDirection
