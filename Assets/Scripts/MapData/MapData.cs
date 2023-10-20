@@ -22,7 +22,7 @@ public class Tile{
     public Sprite sprite;
     [Range(0,1f)] public float chance;
 
-    public Tile(TileName name = TileName.Tile_01, Sprite sprite = null, float chance = 0){
+    public Tile(TileName name = TileName.None, Sprite sprite = null, float chance = 1){
         this.name = name;
         this.sprite = sprite;
         this.chance = chance;

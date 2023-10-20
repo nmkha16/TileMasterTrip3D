@@ -117,7 +117,7 @@ namespace MapEdit{
             Rect viewRect = new Rect(source: windowRect)
             {
                 xMax = columnWidth * 5, // Scroll max on X is basically a sum of width of columns. 5 because there is 5 columns
-                yMax = columnHeight * this.tilePool.Count + EditorGUIUtility.singleLineHeight
+                yMax = columnHeight * this.tilePool.Count + columnHeight + EditorGUIUtility.singleLineHeight
             };
 
             this.scrollPosition = GUI.BeginScrollView(
