@@ -11,6 +11,7 @@ public enum GameState{
 }
 
 public enum TileName{
+    None,
     Tile_01,
     Tile_02,
     Tile_03,

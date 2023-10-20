@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1851256037590568247}
   - component: {fileID: 3148438500379411393}
   - component: {fileID: 1595944041024399308}
+  - component: {fileID: 6203628224274637332}
   - component: {fileID: 7447495678909397313}
   - component: {fileID: 7318713829822088918}
   - component: {fileID: 7351431273587966084}
@@ -100,9 +101,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2acd112f801f05d418cf9befe544ec38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: 0
-  sprite: {fileID: 0}
   outline: {fileID: 7318713829822088918}
+  maxTilesHolderCount: 7
+--- !u!114 &6203628224274637332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800289001453951741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95a549b042301842a0f463dd802010f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &7447495678909397313
 Rigidbody:
   m_ObjectHideFlags: 0

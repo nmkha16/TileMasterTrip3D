@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 62708590}
   - component: {fileID: 62708592}
   - component: {fileID: 62708591}
+  - component: {fileID: 62708593}
   m_Layer: 5
   m_Name: TilesHolder
   m_TagString: Untagged
@@ -334,6 +335,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62708588}
   m_CullTransparentMesh: 1
+--- !u!114 &62708593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62708588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2604476c7c64a264d9bcd4aca7fafaa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilesUI:
+  - {fileID: 1989379742}
+  - {fileID: 857866700}
+  - {fileID: 1908880429}
+  - {fileID: 968089675}
+  - {fileID: 1816185857}
+  - {fileID: 1992233185}
+  - {fileID: 989712675}
+  tilesManager: {fileID: 1798183723}
 --- !u!1 &164699036
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7980606, g: 0.8018868, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.07580059, b: 0.5849056, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1812,11 +1834,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473262578}
   m_CullTransparentMesh: 1
---- !u!4 &1502164344 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6222324317824765104, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
-  m_PrefabInstance: {fileID: 4923177050065902005}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1536953934
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,52 +2100,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1798183721
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1798183722}
-  - component: {fileID: 1798183723}
-  m_Layer: 0
-  m_Name: TilesManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1798183722
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1798183721}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1502164344}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1798183723
+--- !u!114 &1798183723 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5258978879587284522, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+  m_PrefabInstance: {fileID: 4923177050065902005}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1798183721}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ce244a81569a84da66d1c2d4e3eb9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionUI: {fileID: 0}
-  selectedTiles: []
 --- !u!1 &1816185855
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,10 +2808,7 @@ PrefabInstance:
       objectReference: {fileID: 384663390}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6222324317824765104, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1798183722}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
 --- !u!1 &6328136474187767145

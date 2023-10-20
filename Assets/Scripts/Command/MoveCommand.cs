@@ -8,19 +8,21 @@ public class MoveCommand : ICommand
     private Vector3 lastPosition;
     private Vector3 nextPosition;
 
-    public MoveCommand(TileProduct tileProduct, Vector3 lastPosition,Vector3 nextPosition){
-        this.tileProduct = tileProduct;
+    public MoveCommand(TileProduct tileProductMove, Vector3 lastPosition,Vector3 nextPosition){
+        this.tileProduct = tileProductMove;
         this.lastPosition = lastPosition;
         this.nextPosition = nextPosition;
     }
 
     public void Execute()
     {
-        this.tileProduct?.Move(nextPosition);
+        this.tileProduct?.DoMove(nextPosition);
     }
 
     public void Undo()
     {
-        this.tileProduct?.Move(lastPosition);
+        if (this.tileProduct == null) return;
+        this.tileProduct.DoMove(lastPosition);
+        TilesManager.Instance.RemoveFromList(this.tileProduct);
     }
 }

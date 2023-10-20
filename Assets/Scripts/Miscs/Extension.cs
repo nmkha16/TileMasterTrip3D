@@ -8,4 +8,21 @@ public static class ExtensionMethods
         list[index1] = list[index2];
         list[index2] = temp;
     }
+
+    public static void RemoveAllTiles(this List<TileProduct> list, TileName tileName){
+        for (int i = 0; i < list.Count; ++i){
+            if (list[i].tileName == tileName){
+                list.RemoveAt(i--);
+            }
+        }
+    }
+
+    public static int GetIndexOfTile(this List<TileProduct> list, TileName tileName){
+        int i = 0;
+        foreach(var tile in list){
+            if (tile.tileName == tileName) return i;
+            i++;
+        }
+        return -1;
+    }
 }
