@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Timer timer;
 
     [SerializeField] private GameState state;
+
     public GameState State{
         get{
             return state;
@@ -83,6 +84,15 @@ public class GameManager : MonoBehaviour
     public void Retry(){
 
     }
+
+    public void Pause(){
+        State = GameState.Pause;
+    }
+
+    public void UnPause(){
+        State = GameState.Play;
+    }
+
     public void EndGame(bool isWon){
         State = isWon ? GameState.Win : GameState.Lose;
         inputReader.enabled = false;
@@ -107,6 +117,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Pause:
                 timer.PauseCountdown();
+                inputReader.enabled = false;
                 break;
             case GameState.Win:
 
