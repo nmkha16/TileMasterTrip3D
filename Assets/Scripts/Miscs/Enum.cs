@@ -6,6 +6,7 @@ public enum Level{
 
 public enum GameState{
     Menu = 0,
+    Play,
     Win,
     Lose
 }
