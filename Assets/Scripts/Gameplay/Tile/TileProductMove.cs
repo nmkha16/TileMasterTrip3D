@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileProductMove : MonoBehaviour
 {
+    private TileProduct tileProduct;
+    public static event Action<TileProduct> OnTileSelected;
     public static event Action OnMoveCompleted;
     private bool isMoved;
     private Rigidbody rgbd;
@@ -13,6 +15,10 @@ public class TileProductMove : MonoBehaviour
     private void Awake() {
         rgbd = GetComponent<Rigidbody>();
         tileCollider = GetComponent<Collider>();
+    }
+
+    private void Start(){
+        tileProduct = GetComponent<TileProduct>();
     }
 
     public void Move(Vector3 position){
@@ -32,6 +38,7 @@ public class TileProductMove : MonoBehaviour
         }
         transform.position = destination;
         this.gameObject.SetActive(!isMoved);
+        OnTileSelected?.Invoke(tileProduct);
         OnMoveCompleted?.Invoke();
         yield break;
     }

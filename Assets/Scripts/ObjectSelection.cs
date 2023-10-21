@@ -1,8 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
+// nmkha: this old method is not very accurate, raycast usually ignore front object most of the time
 public class ObjectSelection : MonoBehaviour
 {
     [SerializeField] private InputReader inputReader;
@@ -13,45 +12,61 @@ public class ObjectSelection : MonoBehaviour
     private IClickable currentClickable;
     private IHoverable currentHoverable;
 
-    private RaycastHit[] hits = new RaycastHit[1];
+    private RaycastHit[] hits;
 
     private void Awake(){
         mainCamera = Camera.main;
     }
 
     private void Start(){
-        inputReader.OnHoverPerformed += EnableSelecting;
+        //inputReader.OnHoverPerformed += EnableSelecting;
         inputReader.OnSelectPerformed += DisableSelecting;
     }
 
-    private void Update(){
+    private void FixedUpdate(){
         if (isSelecting){
             PerformRaycast();
         }
     }
 
     private void OnDestroy() {
-        inputReader.OnHoverPerformed -= EnableSelecting;
+        //inputReader.OnHoverPerformed -= EnableSelecting;
         inputReader.OnSelectPerformed -= DisableSelecting;
     }
 
     private void PerformRaycast(){
-        var rayPos = mainCamera.ScreenToWorldPoint(inputReader.touchPosition);
-        int hitCount = Physics.RaycastNonAlloc(rayPos,Vector3.down,hits,10f,objectLayermask);
+        var ray = mainCamera.ScreenPointToRay(inputReader.touchPosition);
+        //int hitCount = Physics.RaycastNonAlloc(ray,hits,5f,objectLayermask);
+        hits = Physics.RaycastAll(ray,5f,objectLayermask);
+        int hitCount = hits.Length;
         if (hitCount > 0){
-            var newHoverable = hits[0].transform.GetComponent<IHoverable>();
+            var hit = GetClosestHit(hits,ray.origin);
+            var newHoverable = hit.transform.GetComponent<IHoverable>();
             if (currentHoverable != newHoverable){
                 currentHoverable?.CancelHover();
                 currentHoverable = newHoverable;
                 currentHoverable?.Hover();
             }
-            currentClickable = hits[0].transform.GetComponent<IClickable>();
+            currentClickable = hit.transform.GetComponent<IClickable>();
         }
         else{
             currentHoverable?.CancelHover();
             currentHoverable = null;
             currentClickable = null;
         }
+    }
+
+    private RaycastHit GetClosestHit(RaycastHit[] raycastHits, Vector3 startPos){
+        var hit = raycastHits[0];
+        float distance = (startPos - hit.transform.position).sqrMagnitude;
+
+        for(int i = 1; i < raycastHits.Length; ++i){
+            var distanceSoFar = (startPos - hit.transform.position).sqrMagnitude;
+            hit = raycastHits[i];
+        }
+
+        return hit;
+
     }
 
     private void EnableSelecting() => isSelecting = true;

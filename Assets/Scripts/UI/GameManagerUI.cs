@@ -38,13 +38,11 @@ public class GameManagerUI : MonoBehaviour
         {
             case GameState.Menu:
                 ToggleInGameCanvas(false);
-                
                 menuCanvas.SetActive(true);
                 break;
             case GameState.Play:
                 ToggleInGameCanvas(true);
                 menuCanvas.SetActive(false);
-                
                 break;
             case GameState.Pause:
                 pauseInGameCanvas.SetActive(true);

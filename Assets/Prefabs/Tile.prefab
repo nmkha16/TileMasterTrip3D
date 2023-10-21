@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6203628224274637332}
   - component: {fileID: 7447495678909397313}
   - component: {fileID: 7318713829822088918}
-  - component: {fileID: 8767305807219125278}
+  - component: {fileID: 8568414821414058204}
   m_Layer: 3
   m_Name: Tile
   m_TagString: Untagged
@@ -448,7 +448,7 @@ MonoBehaviour:
     - {x: 0, y: 0, z: -1}
   outlineMaskMaterial: {fileID: 2100000, guid: 106f3ff43a17d4967a2b64c7a92e49ec, type: 2}
   outlineFillMaterial: {fileID: 2100000, guid: 311313efa011949e98b6761d652ad13c, type: 2}
---- !u!65 &8767305807219125278
+--- !u!65 &8568414821414058204
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

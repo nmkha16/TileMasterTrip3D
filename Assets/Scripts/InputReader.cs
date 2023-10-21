@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 public class InputReader : MonoBehaviour, Controls.IPlayerActions
 {
     //public event Action OnUndoPerformed;
-    public event Action OnHoverPerformed;
     public event Action OnSelectPerformed;
     public Vector2 touchPosition;
     private Controls control;
@@ -34,11 +33,6 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 
     public void OnPress(InputAction.CallbackContext context)
     {
-        // press
-        if (context.started){
-            OnHoverPerformed?.Invoke();
-        }
-
         // release
         if (context.canceled){
             OnSelectPerformed?.Invoke();

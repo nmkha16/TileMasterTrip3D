@@ -1,12 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Factory;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDisposable
+public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDisposable, IPointerEnterHandler, IPointerExitHandler
 {
-    public static Action<TileProduct> OnTileSelected;
+    public static event Action<IClickable>  OnTileClicked;
     [SerializeField] private Outline outline;
     TileProductMove tileProductMove;
     private Camera mainCamera;
@@ -18,11 +17,17 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private Rigidbody rgbd;
     private Vector3 defaultScale;
     public float DragValue = 20;
+    private bool isPointerOnSelf;
+
+    private IClickable clickable;
+
     private void Awake(){
         mainCamera = Camera.main;
         defaultScale = this.transform.localScale;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rgbd = GetComponent<Rigidbody>();
+
+        clickable = GetComponent<IClickable>();
     }
 
     private void Start(){
@@ -68,7 +73,6 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
         // invoke move command
         ICommand command = new MoveCommand(this,this.transform.position,pos);
         CommandInvoker.ExecuteCommand(command);
-        OnTileSelected?.Invoke(this);
     }
 
     public void DoMove(Vector3 destination){
@@ -83,6 +87,19 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     public void Dispose()
     {
         Destroy(this.gameObject);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Hover();
+        isPointerOnSelf = true;
+        OnTileClicked?.Invoke(clickable);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        CancelHover();
+        isPointerOnSelf = false;
     }
 }
 

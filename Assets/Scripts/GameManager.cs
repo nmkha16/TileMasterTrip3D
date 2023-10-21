@@ -67,6 +67,10 @@ public class GameManager : MonoBehaviour
         else{
             Destroy(this.gameObject);
         }
+
+        inputReader = GetComponent<InputReader>();
+        tilesManager = GetComponentInChildren<TilesManager>();
+        tilesManager.OnTilesDestroyed +=ReduceTilesCount;
     }
 
     private void Start(){
@@ -74,11 +78,6 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
         
         groundMaterial = groundRenderer.material;
-
-        inputReader = GetComponent<InputReader>();
-        tilesManager = GetComponentInChildren<TilesManager>();
-
-        tilesManager.OnTilesDestroyed +=ReduceTilesCount;
 
         State = GameState.Menu;
         timer.OnCountdownFinished += Timeout;
@@ -102,7 +101,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void ReturnToMenu(){
-        state = GameState.Menu;
+        OnGameEnded?.Invoke();
+        State = GameState.Menu;
     }
 
     public void Pause(){
