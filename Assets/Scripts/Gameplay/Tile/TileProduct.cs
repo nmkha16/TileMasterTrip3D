@@ -17,8 +17,6 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private Rigidbody rgbd;
     private Vector3 defaultScale;
     public float DragValue = 20;
-    private bool isPointerOnSelf;
-
     private IClickable clickable;
 
     private void Awake(){
@@ -92,14 +90,12 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     public void OnPointerEnter(PointerEventData eventData)
     {
         Hover();
-        isPointerOnSelf = true;
         OnTileClicked?.Invoke(clickable);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         CancelHover();
-        isPointerOnSelf = false;
     }
 }
 

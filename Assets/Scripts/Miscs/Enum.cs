@@ -1,9 +1,3 @@
-public enum Level{
-    Level_1,
-    Level_2,
-    Level_3
-}
-
 public enum GameState{
     None = 0,
     Menu,

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Codice.Client.BaseCommands;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+using UnityEngine.Video;
 
 
 // link: https://gamedev.stackexchange.com/questions/188771/creating-a-custom-editor-window-using-a-multi-column-header
@@ -16,11 +18,15 @@ namespace MapEdit{
         [Header("Editor Properties")]
         MapDataScriptableObject scriptableObject;
         AnimBool customizeValues;
-        Level currentLevel;
+        int currentLevel;
 
         [Header("Editable Fields")]
         int playTime;
         [SerializeField] List<Tile> tilePool;
+
+        [Header("Tab")]
+        string[] levelTab;
+        int[] levelOptions;
 
         [Header("Checkerboard color to easier distinguish rows")]
         private readonly Color lighterColor = Color.white * 0.3f;
@@ -53,13 +59,36 @@ namespace MapEdit{
             if (scriptableObject == null){
                 return;
             }
+
+            int tabCount = scriptableObject.mapData.maps.Count;
+            levelTab = new string[tabCount];
+            levelOptions = new int[tabCount];
+            for(int i = 0; i < levelTab.Length; ++i){
+                levelTab[i] = "Map " + (i+1).ToString();
+                levelOptions[i] = i;
+            }
             
-            customizeValues.target = EditorGUILayout.ToggleLeft("Edit",customizeValues.target);
+            customizeValues.target = EditorGUILayout.ToggleLeft("Edit",customizeValues.target,GUILayout.MaxWidth(50));
+            GUILayout.Space(EditorGUIUtility.singleLineHeight);
             if (EditorGUILayout.BeginFadeGroup(customizeValues.faded)){
                 EditorGUI.indentLevel++;
-                var level = (Level)EditorGUILayout.EnumPopup("Level to edit ",currentLevel);
+                GUILayout.BeginHorizontal();
+                var level = EditorGUILayout.IntPopup("Level",currentLevel,levelTab,levelOptions,GUILayout.MaxWidth(250));
+
+                Rect horRect = GUILayoutUtility.GetLastRect();
+                horRect.x = 270;
+                horRect.width = 50;
+                // add new entry to scriptable object map
+                if (GUI.Button(horRect,"＋")){
+                    scriptableObject.mapData.maps.Add(new MapSetting());
+                }
+                GUILayout.EndHorizontal();
                 ShowCurrentMapDataField(level);
                 EditorGUI.indentLevel--;
+
+                if (GUILayout.Button("Add Tile")){
+                    this.tilePool.Add(new Tile());
+                }
             }
             else{
                 CleanUpNullTiles();
@@ -68,10 +97,6 @@ namespace MapEdit{
 
             EditorGUI.BeginDisabledGroup(scriptableObject == null);
 
-            if (GUILayout.Button("Add Tile")){
-                this.tilePool.Add(new Tile());
-            }
-
             EditorGUI.EndDisabledGroup();
         }
 
@@ -79,21 +104,22 @@ namespace MapEdit{
             Dispose();
         }
 
-        private void ShowCurrentMapDataField(Level level){
+        private void ShowCurrentMapDataField(int level){
             if (this.currentLevel != level){
                 // perform null tiles check first
                 CleanUpNullTiles();
             }
             this.currentLevel = level;
-            var settings = scriptableObject.mapData.maps[(int)currentLevel];
+            var settings = scriptableObject.mapData.maps[currentLevel];
             this.playTime = settings.playTime;
             tilePool = settings.tilePool;
             //if (editor) { editor.OnInspectorGUI(); }
+            if (this.tilePool == null || this.tilePool.Count == 0) return;
             DrawMapDataFields();
         }
 
         private void DrawMapDataFields(){
-            scriptableObject.mapData.maps[(int)currentLevel].playTime = EditorGUILayout.IntField("Play time (s)", playTime);
+            scriptableObject.mapData.maps[currentLevel].playTime = EditorGUILayout.IntField("Play time (s)", playTime);
             
             // Basically we just draw something. Empty space. Which is `FlexibleSpace` here on top of the window.
             // We need this for - `GUILayoutUtility.GetLastRect()` because it needs at least 1 thing to be drawn before it.
@@ -117,7 +143,7 @@ namespace MapEdit{
             Rect viewRect = new Rect(source: windowRect)
             {
                 xMax = columnWidth * 5, // Scroll max on X is basically a sum of width of columns. 5 because there is 5 columns
-                yMax = columnHeight * this.tilePool.Count + columnHeight + EditorGUIUtility.singleLineHeight
+                yMax = columnHeight * this.tilePool.Count + columnHeight + EditorGUIUtility.singleLineHeight* 2
             };
 
             this.scrollPosition = GUI.BeginScrollView(

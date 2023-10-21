@@ -11,7 +11,6 @@ public class MapData
 
 [Serializable]
 public class MapSetting{
-    public Level level;
     public int playTime;
     public List<Tile> tilePool;
 }
