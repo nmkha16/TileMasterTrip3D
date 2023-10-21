@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public event Action OnGameStarted;
     public event Action OnGameEnded;
+    public event Action OnReturnedToMenu;
     public event Action<GameState> OnUpdateUI;
     public static GameManager Instance;
     public InputReader inputReader;
-
-    [Header("User Data Manager")]
-    public UserDataManager userDataManager;
-
+    [Header("Data Manager")]
+    private DataManager dataManager;
     [Header("Map Data")]
     [SerializeField] private MapDataScriptableObject data;
+    public int playOnCost = 1000;
     [Header("Factories")]
     [SerializeField] private ObjectFactory[] factories;
     private ObjectFactory factory;
@@ -73,9 +74,7 @@ public class GameManager : MonoBehaviour
 
         inputReader = GetComponent<InputReader>();
         tilesManager = GetComponentInChildren<TilesManager>();
-        tilesManager.OnTilesDestroyed +=ReduceTilesCount;
-
-        userDataManager = new();
+        dataManager = GetComponentInChildren<DataManager>();
     }
 
     private void Start(){
@@ -84,29 +83,38 @@ public class GameManager : MonoBehaviour
         
         groundMaterial = groundRenderer.material;
 
-        State = GameState.Menu;
+        tilesManager.OnTilesDestroyed +=ReduceTilesCount;
         timer.OnCountdownFinished += Timeout;
+        
+        State = GameState.Menu;
     }
 
     private void OnDestroy() {
-        timer.OnCountdownFinished -= Timeout;
         tilesManager.OnTilesDestroyed -=ReduceTilesCount;
+        timer.OnCountdownFinished -= Timeout;
     }
 
     public void StartGame(){
+        OnGameStarted?.Invoke();
         TotalTilesCount = 0;
         tilesManager.enabled = true;
         State = GameState.Play;
+
+        // get user current level progress
+        var currentLevel = dataManager.GetLevel();
+
         // spawn flower
         SpawnFlower(currentLevel);
         // set timer
         var duration = data.mapData.maps[currentLevel].playTime;
         timer.StopCountdown();
         timer.StartCountdown(duration);
+
     }
 
     public void ReturnToMenu(){
         OnGameEnded?.Invoke();
+        OnReturnedToMenu?.Invoke();
         State = GameState.Menu;
     }
 
@@ -116,6 +124,15 @@ public class GameManager : MonoBehaviour
 
     public void UnPause(){
         State = GameState.Play;
+    }
+
+    public void Continue(){
+        // no need to check again, we validate playon button should be enabled or not based on update event
+        //if (dataManager.GetGold() >= playOnCost){
+        dataManager.TransactGold(-playOnCost);
+        //}
+        // undo all previous move before continue
+        CommandInvoker.UndoAllCommands();
     }
 
     public void Retry(){
@@ -153,6 +170,7 @@ public class GameManager : MonoBehaviour
             case GameState.Win:
                 timer.PauseCountdown();
                 inputReader.enabled = false;
+                dataManager.IncrementLevelProgress();
                 //ReturnToMenu();
                 break;
             case GameState.Lose:

@@ -9,8 +9,12 @@ public class GameManagerUI : MonoBehaviour
     [SerializeField] private GameObject menuCanvas;
     [SerializeField] private GameObject[] inGameCanvas;
     [SerializeField] private GameObject pauseInGameCanvas;
+    // win canvas
     [SerializeField] private GameObject winCanvas;
+    // lose canvas
     [SerializeField] private GameObject loseCanvas;
+    [SerializeField] private Button playOnButton;
+    // playcanvas
     [SerializeField] private GameObject playCanvas;
 
     [Header("Timer")]
@@ -61,6 +65,13 @@ public class GameManagerUI : MonoBehaviour
             canvas.SetActive(toggle);
         }
     }
+
+    #region Lose Canvas
+    public void ValidatePlayOnButton(UserData userData){
+        
+        //playOnButton.interactable = userData.gold >= GameManager.Instance.playOnCost;
+    }
+    #endregion
 
     #region  Timer
     private void SetText(string content)

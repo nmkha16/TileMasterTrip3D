@@ -17,6 +17,8 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private Rigidbody rgbd;
     private Vector3 defaultScale;
     public float DragValue = 20;
+    private bool isPointerOnSelf;
+
     private IClickable clickable;
 
     private void Awake(){
@@ -31,11 +33,13 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private void Start(){
         tileProductMove = GetComponent<TileProductMove>();
         Invoke(nameof(IncreaseDrag),3f);
-        GameManager.Instance.OnGameEnded += Dispose;
+        GameManager.Instance.OnGameStarted += Dispose;
+        GameManager.Instance.OnReturnedToMenu += Dispose;
     }
 
     private void OnDestroy(){
-        GameManager.Instance.OnGameEnded -= Dispose;
+        GameManager.Instance.OnReturnedToMenu += Dispose;
+        GameManager.Instance.OnGameStarted -= Dispose;
     }
 
     public void Initialize(TileName name, Sprite sprite){
@@ -63,6 +67,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     }
 
     public void Click(){
+        if (!isPointerOnSelf) return;
         CancelHover();
         // calculate ui screenpoint to world position
         var pos = TilesManager.Instance.GetTileUISlotPosition(this.tileName);
@@ -90,12 +95,14 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     public void OnPointerEnter(PointerEventData eventData)
     {
         Hover();
+        isPointerOnSelf = true;
         OnTileClicked?.Invoke(clickable);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         CancelHover();
+        isPointerOnSelf = false;
     }
 }
 

@@ -38,7 +38,11 @@ public class TileProductMove : MonoBehaviour
         }
         transform.position = destination;
         this.gameObject.SetActive(!isMoved);
-        OnTileSelected?.Invoke(tileProduct);
+
+        if (isMoved){
+            OnTileSelected?.Invoke(tileProduct);
+        }
+
         OnMoveCompleted?.Invoke();
         yield break;
     }

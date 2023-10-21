@@ -10,7 +10,7 @@ public class TilesManager : MonoBehaviour
     public static TilesManager Instance;
     public event Action<List<TileProduct>> OnListUpdated;
     [SerializeField] private SelectionUI selectionUI;
-    private List<TileProduct> tilesList = new List<TileProduct>();
+    [SerializeField] private List<TileProduct> tilesList = new List<TileProduct>();
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
     private TileName ThreeMatchedTileName;
     // hardcoded size
@@ -25,14 +25,10 @@ public class TilesManager : MonoBehaviour
         else Destroy(this.gameObject);
     }
 
-    private void OnEnable() {
-        tilesList.Clear();
-        tilesCountDict.Clear();
-    }
-
     private void Start() {
         TileProduct.OnTileClicked += SelectTile;
         GameManager.Instance.inputReader.OnSelectPerformed += TriggerClick;
+        GameManager.Instance.OnGameStarted += ClearTiles;
         TileProductMove.OnTileSelected += PushToList;
         TileProductMove.OnMoveCompleted += UpdateUI;
         SelectionUI.OnUIUpdated += DestroyMatchingThreeTiles;
@@ -41,9 +37,11 @@ public class TilesManager : MonoBehaviour
     private void OnDestroy() {
         TileProduct.OnTileClicked -= SelectTile;
         GameManager.Instance.inputReader.OnSelectPerformed -= TriggerClick;
+        GameManager.Instance.OnGameStarted += ClearTiles;
         TileProductMove.OnTileSelected -= PushToList;
         TileProductMove.OnMoveCompleted -= UpdateUI;
         SelectionUI.OnUIUpdated -= DestroyMatchingThreeTiles;
+
     }
 
     private void SelectTile(IClickable clickable){
@@ -86,7 +84,9 @@ public class TilesManager : MonoBehaviour
     }
 
     public void RemoveFromList(TileProduct tileProduct){
+        Debug.Log(tilesList.Count);
         tilesList.Remove(tileProduct);
+        Debug.Log(tilesList.Count);
         DecrementTileCount(tileProduct.tileName);
         UpdateUI();
     }
@@ -146,5 +146,10 @@ public class TilesManager : MonoBehaviour
             idx = tilesList.Count;
         }
         return selectionUI.GetHolderUILocation(idx);
+    }
+
+    private void ClearTiles(){
+        tilesList.Clear();
+        tilesCountDict.Clear();
     }
 }

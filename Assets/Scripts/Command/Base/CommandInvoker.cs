@@ -27,6 +27,12 @@ public class CommandInvoker
         }
     }
 
+    public static void UndoAllCommands(){
+        while (undoStack.Count > 0){
+            UndoCommand();
+        }
+    }
+
     public static void RedoCommand(){
         if (redoStack.Count > 0){
             ICommand activeCommand = redoStack.Pop();

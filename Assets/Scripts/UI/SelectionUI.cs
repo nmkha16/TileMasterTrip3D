@@ -11,10 +11,12 @@ public class SelectionUI : MonoBehaviour
 
     private void Start(){
         tilesManager.OnListUpdated += UpdateUI;
+        GameManager.Instance.OnGameEnded += ClearListUI;
     }
 
     private void OnDestroy() {
         tilesManager.OnListUpdated -= UpdateUI;
+        GameManager.Instance.OnGameEnded -= ClearListUI;
     }
 
     public void UpdateUI(List<TileProduct> list){
@@ -28,7 +30,7 @@ public class SelectionUI : MonoBehaviour
         else{
             for(int i = 0; i < tilesUI.Count; ++i){
                 if (i < list.Count){
-                    tilesUI[i].sprite = list[i].spriteRenderer.sprite;
+                    tilesUI[i].sprite = list[i]?.spriteRenderer.sprite;
                     tilesUI[i].gameObject.SetActive(true);
                 }
                 else{
@@ -39,6 +41,14 @@ public class SelectionUI : MonoBehaviour
         }
         OnUIUpdated?.Invoke();
     }
+
+    private void ClearListUI(){
+        foreach(var tileUI in tilesUI){
+            tileUI.sprite = null;
+            tileUI.gameObject.SetActive(false);
+        }
+    }
+
     // ScreenPoint Position
     public Vector3 GetHolderUILocation(int idx){
         return tilesUI[idx].rectTransform.position;
