@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+// nmkha: messy code, need a better way to do this :(
 public class TilesManager : MonoBehaviour
 {
     public event Action OnTilesDestroyed;
@@ -84,9 +85,7 @@ public class TilesManager : MonoBehaviour
     }
 
     public void RemoveFromList(TileProduct tileProduct){
-        Debug.Log(tilesList.Count);
         tilesList.Remove(tileProduct);
-        Debug.Log(tilesList.Count);
         DecrementTileCount(tileProduct.tileName);
         UpdateUI();
     }

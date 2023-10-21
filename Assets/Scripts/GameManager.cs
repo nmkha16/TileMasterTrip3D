@@ -136,7 +136,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void Retry(){
-
+        OnGameEnded?.Invoke();
+        StartGame();
     }
 
     public void EndGame(bool isWon){

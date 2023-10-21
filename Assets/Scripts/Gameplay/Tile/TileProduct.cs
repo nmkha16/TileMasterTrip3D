@@ -18,8 +18,9 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private Vector3 defaultScale;
     public float DragValue = 20;
     private bool isPointerOnSelf;
-
     private IClickable clickable;
+
+    private bool isCooldown;
 
     private void Awake(){
         mainCamera = Camera.main;
@@ -38,7 +39,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     }
 
     private void OnDestroy(){
-        GameManager.Instance.OnReturnedToMenu += Dispose;
+        GameManager.Instance.OnReturnedToMenu -= Dispose;
         GameManager.Instance.OnGameStarted -= Dispose;
     }
 
@@ -48,11 +49,18 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
         this.transform.rotation = Quaternion.Euler(new Vector3(UnityEngine.Random.Range(-90f,90f),UnityEngine.Random.Range(-90f,90f),0f));
     }
 
+    private void Update(){
+        if (isCooldown) return;
+        if (IsUpdsideDown()){
+            ToppleUp();
+        }
+    }
+
     // constraint Tile within camera view
     private void FixedUpdate(){
         Vector3 pos = mainCamera.WorldToViewportPoint (transform.position);
 		pos.x = Mathf.Clamp(pos.x,0.1f,0.9f);
-		pos.y = Mathf.Clamp(pos.y,0.2f,0.9f);
+		pos.y = Mathf.Clamp(pos.y,0.3f,0.9f);
 		transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
@@ -84,7 +92,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 
     private void IncreaseDrag(){
         this.rgbd.drag = DragValue;
-        this.rgbd.angularDrag = DragValue;
+        //this.rgbd.angularDrag = DragValue;
     }
 
     public void Dispose()
@@ -103,6 +111,23 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     {
         CancelHover();
         isPointerOnSelf = false;
+    }
+
+    private bool IsUpdsideDown(){
+        return Vector3.Dot(transform.up,Vector3.down) > 0;
+    }
+
+    private void ToppleUp(){
+        isCooldown = true;
+        rgbd.drag= 0f;
+        rgbd.AddForceAtPosition(Vector3.up * 4f,transform.position * 0.75f,ForceMode.Impulse);
+        rgbd.AddTorque(Vector3.up*2f,ForceMode.Impulse);
+        Invoke(nameof(IncreaseDrag),3f);
+        Invoke(nameof(ResetCooldown),3f);
+    }
+
+    private void ResetCooldown(){
+        isCooldown = false;
     }
 }
 
