@@ -10,13 +10,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public InputReader inputReader;
 
+    [Header("User Data Manager")]
+    public UserDataManager userDataManager;
+
     [Header("Map Data")]
     [SerializeField] private MapDataScriptableObject data;
     [Header("Factories")]
     [SerializeField] private ObjectFactory[] factories;
     private ObjectFactory factory;
     [Header("Level")]
-    public Level currentLevel;
+    public int currentLevel;
     private Camera mainCamera;
 
     [Header("Ground Material")]
@@ -71,6 +74,8 @@ public class GameManager : MonoBehaviour
         inputReader = GetComponent<InputReader>();
         tilesManager = GetComponentInChildren<TilesManager>();
         tilesManager.OnTilesDestroyed +=ReduceTilesCount;
+
+        userDataManager = new();
     }
 
     private void Start(){
@@ -93,9 +98,9 @@ public class GameManager : MonoBehaviour
         tilesManager.enabled = true;
         State = GameState.Play;
         // spawn flower
-        SpawnFlower(Level.Level_1);
+        SpawnFlower(currentLevel);
         // set timer
-        var duration = data.mapData.maps[(int)Level.Level_1].playTime;
+        var duration = data.mapData.maps[currentLevel].playTime;
         timer.StopCountdown();
         timer.StartCountdown(duration);
     }
@@ -159,7 +164,7 @@ public class GameManager : MonoBehaviour
         OnUpdateUI?.Invoke(State);
     }
 
-    private void SpawnFlower(Level level){
+    private void SpawnFlower(int level){
         
         factory = factories[0]; // get factory, well technically we only have one factory
         var currentData = data.mapData.maps[(int)level].tilePool;

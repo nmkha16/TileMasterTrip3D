@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapData:
     maps:
-    - level: 0
-      playTime: 200
+    - playTime: 200
       tilePool:
       - name: 1
         sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
@@ -29,8 +28,7 @@ MonoBehaviour:
       - name: 2
         sprite: {fileID: 21300000, guid: 31cfaee426ab67041b96456f7b6f494a, type: 3}
         chance: 1
-    - level: 0
-      playTime: 300
+    - playTime: 300
       tilePool:
       - name: 1
         sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
@@ -47,8 +45,7 @@ MonoBehaviour:
       - name: 5
         sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
         chance: 0.7
-    - level: 0
-      playTime: 400
+    - playTime: 400
       tilePool:
       - name: 1
         sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
@@ -68,3 +65,8 @@ MonoBehaviour:
       - name: 6
         sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
         chance: 0.7
+    - playTime: 500
+      tilePool:
+      - name: 1
+        sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
+        chance: 1
