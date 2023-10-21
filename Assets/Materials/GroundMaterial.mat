@@ -50,7 +50,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _CelshadingBrightness: 0.54
     - _IntersectionHeight: -0.3
+    - _LightingCutoff: 0.185
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShouldGradientNoiseColor: 1

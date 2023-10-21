@@ -17,6 +17,12 @@
         },
         {
             "m_Id": "8031cb721067463b87a296e9606c44fc"
+        },
+        {
+            "m_Id": "c2a4b501a82b4b8185d802943ae2af59"
+        },
+        {
+            "m_Id": "20a1fad54a634f428c37cfb5c3903f8f"
         }
     ],
     "m_Keywords": [],
@@ -369,8 +375,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": 1193.0001220703125,
+            "y": 141.00006103515626
         },
         "m_Blocks": [
             {
@@ -386,8 +392,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": 0.0,
-            "y": 200.0
+            "x": 1193.0001220703125,
+            "y": 340.99993896484377
         },
         "m_Blocks": [
             {
@@ -622,6 +628,34 @@
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "20a1fad54a634f428c37cfb5c3903f8f",
+    "m_Guid": {
+        "m_GuidSerialized": "1868aa43-0c91-4cba-8fba-688deefe174e"
+    },
+    "m_Name": "CelshadingBrightness",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "CelshadingBrightness",
+    "m_DefaultReferenceName": "_CelshadingBrightness",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.5,
+    "m_FloatType": 1,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 
@@ -1172,6 +1206,12 @@
         },
         {
             "m_Id": "8031cb721067463b87a296e9606c44fc"
+        },
+        {
+            "m_Id": "c2a4b501a82b4b8185d802943ae2af59"
+        },
+        {
+            "m_Id": "20a1fad54a634f428c37cfb5c3903f8f"
         }
     ]
 }
@@ -2264,6 +2304,34 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "c2a4b501a82b4b8185d802943ae2af59",
+    "m_Guid": {
+        "m_GuidSerialized": "d3ca19fc-1367-42b8-937d-7fb3bee8b967"
+    },
+    "m_Name": "LightingCutoff",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "LightingCutoff",
+    "m_DefaultReferenceName": "_LightingCutoff",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.5,
+    "m_FloatType": 1,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
 }
 
 {
