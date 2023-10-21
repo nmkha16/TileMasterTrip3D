@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c776392afd1e84fb77d11c2130e0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataManagerUI: {fileID: 0}
+  gameManagerUI: {fileID: 0}
 --- !u!1 &5010526167091007565
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputReader: {fileID: 0}
   data: {fileID: 11400000, guid: 0903b93481d035449b472b678680490e, type: 2}
+  playOnCost: 1000
   factories:
   - {fileID: 2790867069684920982}
   currentLevel: 0
@@ -215,6 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1179931106109435007}
   - component: {fileID: 5258978879587284522}
+  - component: {fileID: 5815472008150063589}
   m_Layer: 0
   m_Name: TilesManager
   m_TagString: Untagged
@@ -249,5 +253,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ce244a81569a84da66d1c2d4e3eb9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilesComboCounter: {fileID: 0}
   selectionUI: {fileID: 0}
+  tilesList: []
   hasPending: 0
+--- !u!114 &5815472008150063589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087320507819381466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b96c1896ecc3144c923d590529a1855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilesComboCounterUI: {fileID: 0}
+  comboDuration: 5
+  multiplier: 1
+  dataManager: {fileID: 4676711409712593678}

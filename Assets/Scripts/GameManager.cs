@@ -172,6 +172,7 @@ public class GameManager : MonoBehaviour
                 timer.PauseCountdown();
                 inputReader.enabled = false;
                 dataManager.IncrementLevelProgress();
+                dataManager.AddIngameStarsToUserData();
                 //ReturnToMenu();
                 break;
             case GameState.Lose:

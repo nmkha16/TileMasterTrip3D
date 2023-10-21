@@ -8,6 +8,8 @@ public class DataManager : MonoBehaviour
     [Header("User Data")]
     private UserData userData;
     private string saveFile;
+    [Header("Ingame Star")]
+    private int ingameStars = 0;
 
     [Header("Data Manager UI")]
     [SerializeField] private DataManagerUI dataManagerUI;
@@ -26,11 +28,14 @@ public class DataManager : MonoBehaviour
         userData.OnUserDataChanged += gameManagerUI.ValidatePlayOnButton;
 
         userData.OnUserDataChanged?.Invoke(userData);
+
+        GameManager.Instance.OnGameStarted += ResetIngameStarsCount;
     }
 
     private void OnDestroy(){
         userData.OnUserDataChanged -= dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged -= gameManagerUI.ValidatePlayOnButton;
+        GameManager.Instance.OnGameStarted -= ResetIngameStarsCount;
     }
 
     private async Task<UserData> LoadData(){
@@ -64,5 +69,18 @@ public class DataManager : MonoBehaviour
     // use negative value to do minus calculation
     public void TransactGold(int gold){
         userData.AddGold(gold);
+    }
+
+    public void AddIngameStars(int value){
+        ingameStars += value;
+    }
+
+    private void ResetIngameStarsCount(){
+        ingameStars = 0;
+    }
+
+    public void AddIngameStarsToUserData(){
+        userData.AddStar(ingameStars);
+        ingameStars = 0;
     }
 }

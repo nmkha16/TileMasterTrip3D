@@ -7,9 +7,10 @@ using UnityEngine;
 // nmkha: messy code, need a better way to do this :(
 public class TilesManager : MonoBehaviour
 {
-    public event Action OnTilesDestroyed;
+    public Action OnTilesDestroyed;
     public static TilesManager Instance;
     public event Action<List<TileProduct>> OnListUpdated;
+    [SerializeField] private TilesComboCounter tilesComboCounter;
     [SerializeField] private SelectionUI selectionUI;
     [SerializeField] private List<TileProduct> tilesList = new List<TileProduct>();
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
@@ -42,7 +43,6 @@ public class TilesManager : MonoBehaviour
         TileProductMove.OnTileSelected -= PushToList;
         TileProductMove.OnMoveCompleted -= UpdateUI;
         SelectionUI.OnUIUpdated -= DestroyMatchingThreeTiles;
-
     }
 
     private void SelectTile(IClickable clickable){
