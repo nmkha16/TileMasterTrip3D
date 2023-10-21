@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class SelectionUI : MonoBehaviour
 {

@@ -6,18 +6,26 @@ using UnityEngine;
 
 public class TilesManager : MonoBehaviour
 {
+    public event Action OnTilesDestroyed;
     public static TilesManager Instance;
     public event Action<List<TileProduct>> OnListUpdated;
     [SerializeField] private SelectionUI selectionUI;
     private List<TileProduct> tilesList = new List<TileProduct>();
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
-    private TileName matchingThreeTileName;
+    private TileName ThreeMatchedTileName;
     // hardcoded size
     private readonly int maxTilesSize = 7;
+
+    [SerializeField] private bool hasPending = false;
 
     private void Awake(){
         if (Instance == null) Instance = this;
         else Destroy(this.gameObject);
+    }
+
+    private void OnEnable() {
+        tilesList.Clear();
+        tilesCountDict.Clear();
     }
 
     private void Start() {
@@ -39,15 +47,23 @@ public class TilesManager : MonoBehaviour
             tilesList.Add(tileProduct);
         }
         else tilesList.Insert(idx, tileProduct);
+
+        if (tilesList.Count >= maxTilesSize){
+            GameManager.Instance.inputReader.enabled = false;
+        }
+
         // increment count
         IncrementTileCount(tileName);
         // check for matching three
         var isThreeMatched = IsMatchingThree(tileName);
+        if (!hasPending){
+            hasPending = isThreeMatched;
+        }
         if (isThreeMatched){
-            matchingThreeTileName = tileName;
+            ThreeMatchedTileName = tileName;
         }
         // if there is no matching three and no more slot to hold
-        else if(!isThreeMatched && tilesList.Count >= maxTilesSize){
+        else if(!isThreeMatched && tilesList.Count >= maxTilesSize && !hasPending){
             // call end game
             GameManager.Instance.EndGame(false);
         }
@@ -88,6 +104,11 @@ public class TilesManager : MonoBehaviour
             Destroy(tileProduct.gameObject);
             tilesList.Remove(tileProduct);
         }
+        hasPending = false;
+        if (tilesList.Count < maxTilesSize){
+            GameManager.Instance.inputReader.enabled = true;
+        }
+        OnTilesDestroyed?.Invoke();
     }
 
     private void UpdateUI(){
@@ -95,10 +116,10 @@ public class TilesManager : MonoBehaviour
     }
 
     private async void DestroyMatchingThreeTiles(){
-        if (!IsMatchingThree(matchingThreeTileName)) return;
-        DestroyTiles(matchingThreeTileName);
-        tilesCountDict[matchingThreeTileName] = 0; // reset counter
-        matchingThreeTileName = TileName.None;
+        if (!IsMatchingThree(ThreeMatchedTileName)) return;
+        DestroyTiles(ThreeMatchedTileName);
+        tilesCountDict[ThreeMatchedTileName] = 0; // reset counter
+        ThreeMatchedTileName = TileName.None;
         await Task.Delay(500);
         UpdateUI();
     }

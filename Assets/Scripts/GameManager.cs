@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public event Action OnGameEnded;
     public event Action<GameState> OnUpdateUI;
     public static GameManager Instance;
-    private InputReader inputReader;
+    public InputReader inputReader;
 
     [Header("Map Data")]
     [SerializeField] private MapDataScriptableObject data;
@@ -27,6 +27,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Timer timer;
 
     [SerializeField] private GameState state;
+
+    [Header("Tiles Manager")]
+    private TilesManager tilesManager;
+    [SerializeField] private int totalTilesCount;
+    public int TotalTilesCount{
+        get{
+            return totalTilesCount;
+        }
+        set{
+            totalTilesCount = value;
+            if (totalTilesCount == 0){
+                // call end game with win if is playing
+                if (State == GameState.Play){
+                    EndGame(true);
+                }
+            }
+        }
+    }
 
     public GameState State{
         get{
@@ -58,16 +76,22 @@ public class GameManager : MonoBehaviour
         groundMaterial = groundRenderer.material;
 
         inputReader = GetComponent<InputReader>();
-        State = GameState.Menu;
+        tilesManager = GetComponentInChildren<TilesManager>();
 
+        tilesManager.OnTilesDestroyed +=ReduceTilesCount;
+
+        State = GameState.Menu;
         timer.OnCountdownFinished += Timeout;
     }
 
     private void OnDestroy() {
         timer.OnCountdownFinished -= Timeout;
+        tilesManager.OnTilesDestroyed -=ReduceTilesCount;
     }
 
     public void StartGame(){
+        TotalTilesCount = 0;
+        tilesManager.enabled = true;
         State = GameState.Play;
         // spawn flower
         SpawnFlower(Level.Level_1);
@@ -89,9 +113,14 @@ public class GameManager : MonoBehaviour
         State = GameState.Play;
     }
 
+    public void Retry(){
+
+    }
+
     public void EndGame(bool isWon){
         State = isWon ? GameState.Win : GameState.Lose;
         inputReader.enabled = false;
+        tilesManager.enabled = false;
         OnGameEnded?.Invoke();
     }
 
@@ -117,16 +146,21 @@ public class GameManager : MonoBehaviour
                 inputReader.enabled = false;
                 break;
             case GameState.Win:
-                ReturnToMenu();
+                timer.PauseCountdown();
+                inputReader.enabled = false;
+                //ReturnToMenu();
                 break;
             case GameState.Lose:
-                ReturnToMenu();
+                timer.PauseCountdown();
+                inputReader.enabled = false;
+                //ReturnToMenu();
                 break;
         }
         OnUpdateUI?.Invoke(State);
     }
 
     private void SpawnFlower(Level level){
+        
         factory = factories[0]; // get factory, well technically we only have one factory
         var currentData = data.mapData.maps[(int)level].tilePool;
 
@@ -136,17 +170,21 @@ public class GameManager : MonoBehaviour
             float k = UnityEngine.Random.Range(0f,1f);
             if (tileOdd <= k) continue;
 
-            int setsOfThreeCount = UnityEngine.Random.Range(2,5);
+            int setsOfThreeCount = UnityEngine.Random.Range(2,4);
             while(setsOfThreeCount-- >= 0){
                 // spawn 3 tiles of the same type
                 for (int j = 0; j < 3; j++){
-                    Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(Screen.height*0.4f,Screen.height), 0));
+                    Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(Screen.height*0.3f,Screen.height*0.9f), 0));
                     pos.y = UnityEngine.Random.Range(1f,1.75f);
                     var tileProduct = factory.GetProduct(pos);
                     tileProduct.gameObjectProduct.GetComponent<TileProduct>().Initialize(currentData[i].name,currentData[i].sprite);
+                    TotalTilesCount ++;
                 }
             }
         }
     }
     
+    private void ReduceTilesCount(){
+        TotalTilesCount -= 3;
+    }
 }

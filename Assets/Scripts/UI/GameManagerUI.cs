@@ -9,6 +9,9 @@ public class GameManagerUI : MonoBehaviour
     [SerializeField] private GameObject menuCanvas;
     [SerializeField] private GameObject[] inGameCanvas;
     [SerializeField] private GameObject pauseInGameCanvas;
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private GameObject loseCanvas;
+    [SerializeField] private GameObject playCanvas;
 
     [Header("Timer")]
     [SerializeField] private Timer timer;
@@ -35,20 +38,22 @@ public class GameManagerUI : MonoBehaviour
         {
             case GameState.Menu:
                 ToggleInGameCanvas(false);
-                pauseInGameCanvas.SetActive(false);
+                
                 menuCanvas.SetActive(true);
                 break;
             case GameState.Play:
                 ToggleInGameCanvas(true);
                 menuCanvas.SetActive(false);
-                pauseInGameCanvas.SetActive(false);
+                
                 break;
             case GameState.Pause:
                 pauseInGameCanvas.SetActive(true);
                 break;
             case GameState.Win:
+                winCanvas.SetActive(true);
                 break;
             case GameState.Lose:
+                loseCanvas.SetActive(true);
                 break;
         }
     }

@@ -50,15 +50,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CelshadingBrightness: 0.54
-    - _IntersectionHeight: -0.3
-    - _LightingCutoff: 0.185
+    - _CelshadingBrightness: 0.516
+    - _IntersectionHeight: -0.32
+    - _LightingCutoff: 0.247
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShouldGradientNoiseColor: 1
-    - _Speed: 0.64
+    - _Speed: 0.6
     - _Spread: 0
     m_Colors:
-    - _LowerColor: {r: 0, g: 1, b: 0.8535376, a: 0}
-    - _UpperColor: {r: 1, g: 0, b: 0.5843234, a: 0}
+    - _LowerColor: {r: 0, g: 0.3341205, b: 1, a: 0}
+    - _UpperColor: {r: 0.99215686, g: 0.8392157, b: 0, a: 0}
   m_BuildTextureStacks: []

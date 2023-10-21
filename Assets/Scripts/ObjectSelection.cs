@@ -13,7 +13,7 @@ public class ObjectSelection : MonoBehaviour
     private IClickable currentClickable;
     private IHoverable currentHoverable;
 
-    private RaycastHit[] hits = new RaycastHit[1]; // only need to detect one object at a time
+    private RaycastHit[] hits = new RaycastHit[1];
 
     private void Awake(){
         mainCamera = Camera.main;
@@ -36,8 +36,8 @@ public class ObjectSelection : MonoBehaviour
     }
 
     private void PerformRaycast(){
-        var ray = mainCamera.ScreenPointToRay(inputReader.touchPosition);
-        int hitCount = Physics.RaycastNonAlloc(ray,hits,10f,objectLayermask);
+        var rayPos = mainCamera.ScreenToWorldPoint(inputReader.touchPosition);
+        int hitCount = Physics.RaycastNonAlloc(rayPos,Vector3.down,hits,10f,objectLayermask);
         if (hitCount > 0){
             var newHoverable = hits[0].transform.GetComponent<IHoverable>();
             if (currentHoverable != newHoverable){
