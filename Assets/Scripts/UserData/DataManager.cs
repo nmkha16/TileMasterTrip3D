@@ -95,4 +95,10 @@ public class DataManager : MonoBehaviour
     public void AddIngameStarsToUserData(){
         userData.AddStar(IngameStars);
     }
+
+    #region prototype
+    public void Add1000Gold(){
+        userData.AddGold(1000);
+    }
+    #endregion
 }

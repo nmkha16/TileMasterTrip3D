@@ -16,8 +16,8 @@ public class SoundManager : MonoBehaviour
     // store sound to instant find said audio clip in list instead of searching
     private Dictionary<SoundId, AudioClip> soundDict = new();
 
-    [Header("Audio Clips")]
-    public List<Audio> clips;
+    [Header("Audio Data")]
+    public AudioDataScriptableObject audioData;
 
     [Header("Volume Setting")]
     private VolumeSettings setting;
@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour
     public int totalBattleSong = 3;
     
     private SoundId currentSongId;
-    private float currentSongDuration;
+    private float currentSongDuration = 1000f;
 
     private void Awake(){
         if (Instance == null){
@@ -41,10 +41,12 @@ public class SoundManager : MonoBehaviour
     }
 
     private void Start(){
-        foreach(var clip in clips){
+        foreach(var clip in audioData.musics){
             soundDict.Add(clip.id, clip.audioClip);
         }
-        clips.Clear();
+        foreach(var clip in audioData.sfxs){
+            soundDict.Add(clip.id,clip.audioClip);
+        }
     }
 
     private void Update(){
@@ -85,7 +87,7 @@ public class SoundManager : MonoBehaviour
     }
 
     private bool IsSFX(SoundId id){
-        return (int)id < 50;
+        return (int)id < (int)SoundId.m_menu_1;
     }
 
     private void NextSong(){
@@ -111,6 +113,6 @@ public class SoundManager : MonoBehaviour
     }
 
     private bool IsBattleSong(SoundId id){
-        return (int)id >= 60;
+        return (int)id >= (int)SoundId.m_battle_1;
     }
 }

@@ -223,7 +223,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: b49188b273ea6b34d8604c78a8093685, type: 2}
   musicSource: {fileID: 2763941332060870711}
   sfxSource: {fileID: 8416453536121029649}
-  clips: []
+  audioData: {fileID: 11400000, guid: eb646644bbc8e0a42aa6c6a6ee494462, type: 2}
   totalMenuSong: 3
   totalBattleSong: 3
 --- !u!1 &5010526167091007565
