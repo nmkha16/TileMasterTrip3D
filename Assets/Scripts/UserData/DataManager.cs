@@ -34,7 +34,7 @@ public class DataManager : MonoBehaviour
     private async void Start(){
         this.userData = await LoadData();
 
-        userData.OnUserDataChanged += (o) => SaveData();
+        userData.OnUserDataChanged += (o) => {SaveData();};
         userData.OnUserDataChanged += dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged += gameManagerUI.ValidatePlayOnButton;
 
@@ -94,6 +94,5 @@ public class DataManager : MonoBehaviour
 
     public void AddIngameStarsToUserData(){
         userData.AddStar(IngameStars);
-        IngameStars = 0;
     }
 }

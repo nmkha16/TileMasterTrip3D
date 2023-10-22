@@ -4,9 +4,9 @@ using System;
 public class UserData
 {
     public Action<UserData> OnUserDataChanged;
-    public int level {get; private set;}
-    public int star {get; private set;}
-    public int gold {get; private set;}
+    public int level;
+    public int star;
+    public int gold;
 
     public UserData(int level = 0, int star = 0, int gold = 0){
         this.level = level;

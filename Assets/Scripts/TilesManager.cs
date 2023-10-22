@@ -132,7 +132,7 @@ public class TilesManager : MonoBehaviour
         isRemoving = true;
         {
             await DestroyTiles(currentMatchingTile);
-            await Task.Delay(600);
+            await Task.Delay(400);
             GameManager.Instance.inputReader.enabled = true;
             UpdateUI();
         }
@@ -160,7 +160,7 @@ public class TilesManager : MonoBehaviour
         if(tilesList.Count >= maxTilesSize && currentMatchingTile == TileName.None){
             // call end game
             // update UI so we can we get the final slot on UI
-            UpdateUI();
+            //UpdateUI();
             GameManager.Instance.EndGame(false);
         }
     }

@@ -11,12 +11,12 @@ public class SelectionUI : MonoBehaviour
 
     private void Start(){
         tilesManager.OnListUpdated += UpdateUI;
-        GameManager.Instance.OnGameEnded += ClearListUI;
+        GameManager.Instance.OnGameStarted += ClearListUI;
     }
 
     private void OnDestroy() {
         tilesManager.OnListUpdated -= UpdateUI;
-        GameManager.Instance.OnGameEnded -= ClearListUI;
+        GameManager.Instance.OnGameStarted -= ClearListUI;
     }
 
     public void UpdateUI(List<TileProduct> list){

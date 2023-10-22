@@ -5927,6 +5927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comboCanvas: {fileID: 1612476054}
+  comboParent: {fileID: 313310339}
   comboMultiplierText: {fileID: 838560126}
   durationSlider: {fileID: 436462343}
 --- !u!1 &892158583
