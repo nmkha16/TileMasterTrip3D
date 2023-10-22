@@ -76,6 +76,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 
     public void Click(){
         if (!isPointerOnSelf) return;
+        SoundManager.Instance.PlayOneShotSound(SoundId.s_select_tile);
         CancelHover();
         // calculate ui screenpoint to world position
         var pos = TilesManager.Instance.GetTileUISlotPosition(this.tileName);
@@ -102,6 +103,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        SoundManager.Instance.PlayOneShotSound(SoundId.s_hover_tile);
         Hover();
         isPointerOnSelf = true;
         OnTileClicked?.Invoke(clickable);

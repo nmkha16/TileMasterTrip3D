@@ -50,6 +50,7 @@ public class TilesComboCounter : MonoBehaviour
     }
 
     private void ComboUpgrade(){
+        SoundManager.Instance.PlayOneShotSound(SoundId.s_combo_multiplier_up);
         AddStarsToInGameStars();
         elapsed = comboDuration;
         multiplier++;

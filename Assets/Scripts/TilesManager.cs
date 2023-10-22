@@ -133,6 +133,7 @@ public class TilesManager : MonoBehaviour
         {
             await DestroyTiles(currentMatchingTile);
             await Task.Delay(400);
+            SoundManager.Instance.PlayOneShotSound(SoundId.s_explode_tiles);
             GameManager.Instance.inputReader.enabled = true;
             UpdateUI();
         }

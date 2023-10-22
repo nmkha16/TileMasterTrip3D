@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class SoundManager : MonoBehaviour
     public AudioDataScriptableObject audioData;
 
     [Header("Volume Setting")]
-    private VolumeSettings setting;
+    [HideInInspector] public VolumeSettings setting;
 
     [Header("Songs")]
     public int totalMenuSong = 3;
@@ -28,6 +29,7 @@ public class SoundManager : MonoBehaviour
     
     private SoundId currentSongId;
     private float currentSongDuration = 1000f;
+    
 
     private void Awake(){
         if (Instance == null){
@@ -36,19 +38,18 @@ public class SoundManager : MonoBehaviour
         else{
             Destroy(gameObject);
         }
-
         setting = new(audioMixer);
     }
 
     private void Start(){
+        // construct sound dictionary
         foreach(var clip in audioData.musics){
             soundDict.Add(clip.id, clip.audioClip);
         }
         foreach(var clip in audioData.sfxs){
             soundDict.Add(clip.id,clip.audioClip);
         }
-
-
+        // select a random menu music to play
         PlayRandomMenuMusic();
     }
 
@@ -63,7 +64,7 @@ public class SoundManager : MonoBehaviour
         soundDict.Clear();
     }
 
-    public async void PlayOneShotSound(SoundId id, int miliseconds){
+    public async void PlayOneShotSound(SoundId id, int miliseconds = 0){
         await Task.Delay(miliseconds);
         if (soundDict.TryGetValue(id,out var clip)){
             if (IsSFX(id)){

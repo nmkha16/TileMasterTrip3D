@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
@@ -10,6 +11,8 @@ public class Timer : MonoBehaviour
     private float timer;
     private bool runTimer;
     private bool isPaused;
+
+    private Coroutine timeOutAlertRoutine = null;
 
     public void SetDuration(float duration)
     {
@@ -65,11 +68,22 @@ public class Timer : MonoBehaviour
 
         timer -= Time.deltaTime;
         var percentage = timer / duration;
+
+        if (percentage < .1f){
+            if (timeOutAlertRoutine == null){
+                timeOutAlertRoutine = StartCoroutine(PlayTimeRunningOutSoundRoutine());
+            }
+        }
+
         OnTimeElapsed?.Invoke(timer,percentage);
     } 
 
     private void ResetCountdown()
     {
+        if (timeOutAlertRoutine != null){
+            StopCoroutine(timeOutAlertRoutine);
+        }
+        timeOutAlertRoutine = null;
         runTimer = false;
         isPaused = false;
         timer = 0;
@@ -77,8 +91,20 @@ public class Timer : MonoBehaviour
     }
     
     private void Finished() 
-    {   
+    {  
+        if (timeOutAlertRoutine != null){
+            StopCoroutine(timeOutAlertRoutine);
+        }
+        timeOutAlertRoutine = null;
+        CancelInvoke();
         ResetCountdown();
         OnCountdownFinished?.Invoke();
+    }
+
+    private IEnumerator PlayTimeRunningOutSoundRoutine(){
+        while (true){
+            SoundManager.Instance.PlayOneShotSound(SoundId.s_win);
+            yield return new WaitForSeconds(1);
+        }
     }
 }

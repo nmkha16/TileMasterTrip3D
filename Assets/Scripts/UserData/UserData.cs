@@ -43,7 +43,8 @@ public class UserData
         if (this.gold + gold < 0){
             this.gold = 0;
         } 
-        this.gold += gold;
+        else this.gold += gold;
+        OnUserDataChanged?.Invoke(this);
     }
 
     

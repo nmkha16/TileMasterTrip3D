@@ -173,6 +173,7 @@ public class GameManager : MonoBehaviour
                 tilesComboCounter.enabled = false;
                 break;
             case GameState.Win:
+                SoundManager.Instance.PlayOneShotSound(SoundId.s_win);
                 timer.PauseCountdown();
                 inputReader.enabled = false;
                 dataManager.IncrementLevelProgress();
@@ -180,6 +181,7 @@ public class GameManager : MonoBehaviour
                 //ReturnToMenu();
                 break;
             case GameState.Lose:
+                SoundManager.Instance.PlayOneShotSound(SoundId.s_lose);
                 timer.PauseCountdown();
                 inputReader.enabled = false;
                 //ReturnToMenu();
