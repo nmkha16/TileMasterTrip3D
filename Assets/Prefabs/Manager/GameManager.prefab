@@ -103,6 +103,7 @@ MonoBehaviour:
   currentLevel: 0
   groundRenderer: {fileID: 0}
   timer: {fileID: 2281576378996852406}
+  tilesComboCounter: {fileID: 5815472008150063589}
   state: 0
   totalTilesCount: 0
 --- !u!114 &7367911419565186581
@@ -271,5 +272,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilesComboCounterUI: {fileID: 0}
   comboDuration: 5
-  multiplier: 1
   dataManager: {fileID: 4676711409712593678}

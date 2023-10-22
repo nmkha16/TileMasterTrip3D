@@ -5877,6 +5877,7 @@ MonoBehaviour:
   loseCanvas: {fileID: 1711779724}
   playOnButton: {fileID: 1601848325}
   playCanvas: {fileID: 333011477}
+  comboCanvas: {fileID: 1612476054}
   timer: {fileID: 1473168024}
   timerText: {fileID: 2017838415}
   timerProgressBar: {fileID: 1355025609}
@@ -5911,6 +5912,8 @@ MonoBehaviour:
   goldText: {fileID: 1009267130}
   playCanvasHeader: {fileID: 746008062}
   mainMenuLevelNumberText: {fileID: 351224914}
+  ingameStarsText: {fileID: 1539975870}
+  ingameWinStarsText: {fileID: 860497205}
 --- !u!114 &889340353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13069,6 +13072,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ce244a81569a84da66d1c2d4e3eb9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1798183725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5815472008150063589, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+  m_PrefabInstance: {fileID: 4923177050065902005}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b96c1896ecc3144c923d590529a1855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1804398621
 GameObject:
   m_ObjectHideFlags: 0
@@ -15583,6 +15597,10 @@ PrefabInstance:
       propertyPath: groundRenderer
       value: 
       objectReference: {fileID: 2124087486}
+    - target: {fileID: 8289602305395749748, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+      propertyPath: tilesComboCounter
+      value: 
+      objectReference: {fileID: 1798183725}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

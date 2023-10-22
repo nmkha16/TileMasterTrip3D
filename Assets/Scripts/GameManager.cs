@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Timer")]
     [SerializeField] private Timer timer;
+    [SerializeField] private TilesComboCounter tilesComboCounter;
 
     [SerializeField] private GameState state;
 
@@ -133,6 +134,7 @@ public class GameManager : MonoBehaviour
         //}
         // undo all previous move before continue
         CommandInvoker.UndoAllCommands();
+        State = GameState.Play;
     }
 
     public void Retry(){
@@ -162,11 +164,13 @@ public class GameManager : MonoBehaviour
             case GameState.Play:
                 timer.ContinueCountdown();
                 inputReader.enabled = true;
+                tilesComboCounter.enabled = true;
                 groundMaterial.SetInt("_ShouldGradientNoiseColor",0);
                 break;
             case GameState.Pause:
                 timer.PauseCountdown();
                 inputReader.enabled = false;
+                tilesComboCounter.enabled = false;
                 break;
             case GameState.Win:
                 timer.PauseCountdown();

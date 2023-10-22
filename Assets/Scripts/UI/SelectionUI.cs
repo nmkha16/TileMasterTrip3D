@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SelectionUI : MonoBehaviour
 {
-    public static event Action OnUIUpdated;
+    public event Action OnUIUpdated;
     [SerializeField] private List<Image> tilesUI;
     [SerializeField] private TilesManager tilesManager;
 

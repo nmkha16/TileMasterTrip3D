@@ -25,12 +25,14 @@ public class TilesComboCounter : MonoBehaviour
         tilesManager.OnTilesDestroyed += ComboUpgrade;
         OnComboUpdated += tilesComboCounterUI.UpdateMultiplierUI;
         OnTimePercentageElapsed += tilesComboCounterUI.UpdateDurationUI;
+        GameManager.Instance.OnGameStarted += ResetMultiplier;
     }
 
     private void OnDestroy() {
         tilesManager.OnTilesDestroyed -= ComboUpgrade;
         OnComboUpdated -= tilesComboCounterUI.UpdateMultiplierUI;
         OnTimePercentageElapsed -= tilesComboCounterUI.UpdateDurationUI;
+        GameManager.Instance.OnGameStarted -= ResetMultiplier;
     }
 
     private void Update(){
@@ -52,5 +54,9 @@ public class TilesComboCounter : MonoBehaviour
         elapsed = comboDuration;
         multiplier++;
         OnComboUpdated?.Invoke(multiplier);
+    }
+
+    private void ResetMultiplier(){
+        multiplier = 1;
     }
 }

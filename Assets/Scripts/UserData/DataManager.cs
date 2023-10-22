@@ -1,15 +1,26 @@
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    public Action<int> OnIngameStarsUpdated; 
     [Header("User Data")]
     private UserData userData;
     private string saveFile;
     [Header("Ingame Star")]
     private int ingameStars = 0;
+    private int IngameStars{
+        get{
+            return ingameStars;
+        }
+        set{
+            ingameStars = value;
+            OnIngameStarsUpdated?.Invoke(ingameStars);
+        }
+    }
 
     [Header("Data Manager UI")]
     [SerializeField] private DataManagerUI dataManagerUI;
@@ -30,12 +41,14 @@ public class DataManager : MonoBehaviour
         userData.OnUserDataChanged?.Invoke(userData);
 
         GameManager.Instance.OnGameStarted += ResetIngameStarsCount;
+        OnIngameStarsUpdated += dataManagerUI.UpdateIngameStar;
     }
 
     private void OnDestroy(){
         userData.OnUserDataChanged -= dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged -= gameManagerUI.ValidatePlayOnButton;
         GameManager.Instance.OnGameStarted -= ResetIngameStarsCount;
+        OnIngameStarsUpdated -= dataManagerUI.UpdateIngameStar;
     }
 
     private async Task<UserData> LoadData(){
@@ -72,15 +85,15 @@ public class DataManager : MonoBehaviour
     }
 
     public void AddIngameStars(int value){
-        ingameStars += value;
+        IngameStars += value;
     }
 
     private void ResetIngameStarsCount(){
-        ingameStars = 0;
+        IngameStars = 0;
     }
 
     public void AddIngameStarsToUserData(){
-        userData.AddStar(ingameStars);
-        ingameStars = 0;
+        userData.AddStar(IngameStars);
+        IngameStars = 0;
     }
 }

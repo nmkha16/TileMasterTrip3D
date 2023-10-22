@@ -16,6 +16,7 @@ public class GameManagerUI : MonoBehaviour
     [SerializeField] private Button playOnButton;
     // playcanvas
     [SerializeField] private GameObject playCanvas;
+    [SerializeField] private GameObject comboCanvas;
 
     [Header("Timer")]
     [SerializeField] private Timer timer;
@@ -43,6 +44,7 @@ public class GameManagerUI : MonoBehaviour
             case GameState.Menu:
                 ToggleInGameCanvas(false);
                 menuCanvas.SetActive(true);
+                comboCanvas.SetActive(false);
                 break;
             case GameState.Play:
                 ToggleInGameCanvas(true);

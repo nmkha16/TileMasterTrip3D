@@ -10,17 +10,16 @@ public class TilesManager : MonoBehaviour
     public Action OnTilesDestroyed;
     public static TilesManager Instance;
     public event Action<List<TileProduct>> OnListUpdated;
-    [SerializeField] private TilesComboCounter tilesComboCounter;
     [SerializeField] private SelectionUI selectionUI;
-    [SerializeField] private List<TileProduct> tilesList = new List<TileProduct>();
+    public List<TileProduct> tilesList = new List<TileProduct>();
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
-    private TileName ThreeMatchedTileName;
+    private TileName currentMatchingTile;
+    public bool isRemoving = false;
     // hardcoded size
     private readonly int maxTilesSize = 7;
 
-    [SerializeField] private bool hasPending = false;
-
     private IClickable currentClickable;
+
 
     private void Awake(){
         if (Instance == null) Instance = this;
@@ -33,16 +32,18 @@ public class TilesManager : MonoBehaviour
         GameManager.Instance.OnGameStarted += ClearTiles;
         TileProductMove.OnTileSelected += PushToList;
         TileProductMove.OnMoveCompleted += UpdateUI;
-        SelectionUI.OnUIUpdated += DestroyMatchingThreeTiles;
+        selectionUI.OnUIUpdated += DestroyMatchingThreeTiles;
+        selectionUI.OnUIUpdated += CheckLoseGame;
     }
 
     private void OnDestroy() {
         TileProduct.OnTileClicked -= SelectTile;
         GameManager.Instance.inputReader.OnSelectPerformed -= TriggerClick;
-        GameManager.Instance.OnGameStarted += ClearTiles;
+        GameManager.Instance.OnGameStarted -= ClearTiles;
         TileProductMove.OnTileSelected -= PushToList;
         TileProductMove.OnMoveCompleted -= UpdateUI;
-        SelectionUI.OnUIUpdated -= DestroyMatchingThreeTiles;
+        selectionUI.OnUIUpdated -= DestroyMatchingThreeTiles;
+        selectionUI.OnUIUpdated -= CheckLoseGame;
     }
 
     private void SelectTile(IClickable clickable){
@@ -61,6 +62,8 @@ public class TilesManager : MonoBehaviour
         }
         else tilesList.Insert(idx, tileProduct);
 
+
+        // should block player input when max size is reached, wait until further 3 matched tiles remove
         if (tilesList.Count >= maxTilesSize){
             GameManager.Instance.inputReader.enabled = false;
         }
@@ -69,18 +72,9 @@ public class TilesManager : MonoBehaviour
         IncrementTileCount(tileName);
         // check for matching three
         var isThreeMatched = IsMatchingThree(tileName);
-        if (!hasPending){
-            hasPending = isThreeMatched;
-        }
         if (isThreeMatched){
-            ThreeMatchedTileName = tileName;
-        }
-        // if there is no matching three and no more slot to hold
-        else if(!isThreeMatched && tilesList.Count >= maxTilesSize && !hasPending){
-            // call end game
-            // update UI so we can we the final slot on UI
-            OnListUpdated?.Invoke(tilesList);
-            GameManager.Instance.EndGame(false);
+            currentMatchingTile = tileName;
+            GameManager.Instance.inputReader.enabled = false;
         }
     }
 
@@ -112,18 +106,21 @@ public class TilesManager : MonoBehaviour
         return false;
     }
 
-    private void DestroyTiles(TileName tileName){
+    private Task DestroyTiles(TileName tileName) {
         int idx = tilesList.GetIndexOfTile(tileName);
+        if (idx == -1){
+            Debug.LogWarning("Warning: attempt to remove tiles that isnt existed in list");
+            return Task.CompletedTask;
+        }
         for(int i = idx; i < idx+3; ++i){
             var tileProduct = tilesList[idx];
             Destroy(tileProduct.gameObject);
             tilesList.Remove(tileProduct);
         }
-        hasPending = false;
-        if (tilesList.Count < maxTilesSize){
-            GameManager.Instance.inputReader.enabled = true;
-        }
+        tilesCountDict[tileName] = 0;
         OnTilesDestroyed?.Invoke();
+        currentMatchingTile = TileName.None;
+        return Task.CompletedTask;
     }
 
     private void UpdateUI(){
@@ -131,12 +128,15 @@ public class TilesManager : MonoBehaviour
     }
 
     private async void DestroyMatchingThreeTiles(){
-        if (!IsMatchingThree(ThreeMatchedTileName)) return;
-        DestroyTiles(ThreeMatchedTileName);
-        tilesCountDict[ThreeMatchedTileName] = 0; // reset counter
-        ThreeMatchedTileName = TileName.None;
-        await Task.Delay(500);
-        UpdateUI();
+        if (isRemoving || currentMatchingTile == TileName.None) return;
+        isRemoving = true;
+        {
+            await DestroyTiles(currentMatchingTile);
+            await Task.Delay(600);
+            GameManager.Instance.inputReader.enabled = true;
+            UpdateUI();
+        }
+        isRemoving = false;
     }
 
     public Vector3 GetTileUISlotPosition(TileName tileName){
@@ -150,5 +150,19 @@ public class TilesManager : MonoBehaviour
     private void ClearTiles(){
         tilesList.Clear();
         tilesCountDict.Clear();
+        currentMatchingTile = TileName.None;
+        currentClickable = null;
     }
+
+    
+    private void CheckLoseGame(){
+        // if there is no matching three and no more slot to hold
+        if(tilesList.Count >= maxTilesSize && currentMatchingTile == TileName.None){
+            // call end game
+            // update UI so we can we get the final slot on UI
+            UpdateUI();
+            GameManager.Instance.EndGame(false);
+        }
+    }
+
 }
