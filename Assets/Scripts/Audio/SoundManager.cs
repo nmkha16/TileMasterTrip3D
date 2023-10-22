@@ -118,12 +118,23 @@ public class SoundManager : MonoBehaviour
         return (int)id >= (int)SoundId.m_battle_1;
     }
 
-    private void PlayRandomMenuMusic(){
+    public void PlayRandomMenuMusic(){
         var id = UnityEngine.Random.Range(1,4);
         string nextSongId;
 
         id = (id + totalMenuSong) % totalMenuSong + 1;
         nextSongId = "m_menu_";
+        nextSongId += id.ToString();
+
+        ParseSongIdAndPlay(nextSongId);
+    }
+
+    public void PlayRandomBattleMusic(){
+        var id = UnityEngine.Random.Range(1,4);
+        string nextSongId;
+
+        id = (id + totalMenuSong) % totalMenuSong + 1;
+        nextSongId = "m_battle_";
         nextSongId += id.ToString();
 
         ParseSongIdAndPlay(nextSongId);

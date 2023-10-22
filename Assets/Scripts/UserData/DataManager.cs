@@ -65,7 +65,6 @@ public class DataManager : MonoBehaviour
     public void SaveData(){
         string content = JsonUtility.ToJson(userData);
         File.WriteAllText(saveFile,content);
-        Debug.Log("saved");
     }
 
     public void IncrementLevelProgress(){

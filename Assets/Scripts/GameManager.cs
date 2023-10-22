@@ -110,10 +110,11 @@ public class GameManager : MonoBehaviour
         var duration = data.mapData.maps[currentLevel].playTime;
         timer.StopCountdown();
         timer.StartCountdown(duration);
-
+        SoundManager.Instance.PlayRandomBattleMusic();
     }
 
     public void ReturnToMenu(){
+        SoundManager.Instance.PlayRandomMenuMusic();
         OnGameEnded?.Invoke();
         OnReturnedToMenu?.Invoke();
         State = GameState.Menu;
