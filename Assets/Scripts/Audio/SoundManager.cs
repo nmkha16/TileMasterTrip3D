@@ -47,6 +47,9 @@ public class SoundManager : MonoBehaviour
         foreach(var clip in audioData.sfxs){
             soundDict.Add(clip.id,clip.audioClip);
         }
+
+
+        PlayRandomMenuMusic();
     }
 
     private void Update(){
@@ -107,12 +110,30 @@ public class SoundManager : MonoBehaviour
 
         }
 
-        if (Enum.TryParse<SoundId>(nextSongId,true, out var result)){
-            PlayMusic(result);
-        }
+        ParseSongIdAndPlay(nextSongId);
     }
 
     private bool IsBattleSong(SoundId id){
         return (int)id >= (int)SoundId.m_battle_1;
+    }
+
+    private void PlayRandomMenuMusic(){
+        var id = UnityEngine.Random.Range(1,4);
+        string nextSongId;
+
+        id = (id + totalMenuSong) % totalMenuSong + 1;
+        nextSongId = "m_menu_";
+        nextSongId += id.ToString();
+
+        ParseSongIdAndPlay(nextSongId);
+    }
+
+    private void ParseSongIdAndPlay(string songId){
+        if (Enum.TryParse<SoundId>(songId,true, out var result)){
+            PlayMusic(result);
+        }
+        else{
+            Debug.LogWarning("Error trying to parse sound id.\nPlease check your string or enum.");
+        }
     }
 }

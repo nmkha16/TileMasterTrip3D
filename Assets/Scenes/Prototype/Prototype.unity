@@ -17562,14 +17562,6 @@ PrefabInstance:
       propertyPath: gameManagerUI
       value: 
       objectReference: {fileID: 889340350}
-    - target: {fileID: 4913439925190360760, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
-      propertyPath: audioData
-      value: 
-      objectReference: {fileID: 11400000, guid: eb646644bbc8e0a42aa6c6a6ee494462, type: 2}
-    - target: {fileID: 4913439925190360760, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
-      propertyPath: clips.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5010526167091007565, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -17626,6 +17618,18 @@ PrefabInstance:
       propertyPath: groundRenderer
       value: 
       objectReference: {fileID: 2124087486}
+    - target: {fileID: 8456529895599183787, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456529895599183787, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456529895599183787, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
