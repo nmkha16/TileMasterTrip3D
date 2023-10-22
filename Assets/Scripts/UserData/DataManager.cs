@@ -34,7 +34,7 @@ public class DataManager : MonoBehaviour
     private async void Start(){
         this.userData = await LoadData();
 
-        userData.OnUserDataChanged += (o) => {SaveData();};
+        userData.OnUserDataChanged += (o) => SaveData();
         userData.OnUserDataChanged += dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged += gameManagerUI.ValidatePlayOnButton;
 
@@ -56,7 +56,7 @@ public class DataManager : MonoBehaviour
         TaskCompletionSource<UserData> tcs = new TaskCompletionSource<UserData>();
         if (File.Exists(saveFile)){
             string content = File.ReadAllText(saveFile);
-            userData = JsonUtility.FromJson<UserData>(content);
+            data = JsonUtility.FromJson<UserData>(content);
         }
         tcs.SetResult(data);
         return await tcs.Task;
@@ -65,6 +65,7 @@ public class DataManager : MonoBehaviour
     public void SaveData(){
         string content = JsonUtility.ToJson(userData);
         File.WriteAllText(saveFile,content);
+        Debug.Log("saved");
     }
 
     public void IncrementLevelProgress(){
