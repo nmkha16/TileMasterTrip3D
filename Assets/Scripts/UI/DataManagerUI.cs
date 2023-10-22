@@ -14,8 +14,17 @@ public class DataManagerUI : MonoBehaviour
 
     [Header("Ingame")]
     [SerializeField] private TMP_Text ingameStarsText;
+
     [Header("Ingame Win")]
     [SerializeField] private TMP_Text ingameWinStarsText;
+
+    [Header("Game Version")]
+    [SerializeField] private TMP_Text appVersionText;
+    private readonly string appVersionPrefix = "Application version: v";
+
+    private void Start(){
+        appVersionText.text = appVersionPrefix + Application.version;
+    }
 
     public void UpdateStatUI(UserData userData){
         starText.text = userData.star.ToString();
@@ -28,4 +37,6 @@ public class DataManagerUI : MonoBehaviour
         ingameStarsText.text = stars.ToString();
         ingameWinStarsText.text = "+" + stars.ToString();
     }
+
+
 }
