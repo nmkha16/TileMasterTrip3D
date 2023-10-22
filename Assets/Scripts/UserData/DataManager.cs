@@ -97,8 +97,8 @@ public class DataManager : MonoBehaviour
     }
 
     #region prototype
-    public void Add1000Gold(){
-        userData.AddGold(1000);
+    public void AddGoldPrototype(int value){
+        userData.AddGold(value);
     }
     #endregion
 }
