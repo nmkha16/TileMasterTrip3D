@@ -15,6 +15,9 @@ public class TilesManager : MonoBehaviour
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
     private TileName currentMatchingTile;
     public bool isRemoving = false;
+
+    [SerializeField] private GameObject explosionEffect;
+
     // hardcoded size
     private readonly int maxTilesSize = 7;
 
@@ -138,6 +141,16 @@ public class TilesManager : MonoBehaviour
             UpdateUI();
         }
         isRemoving = false;
+    }
+
+    public void SetExplosion(){
+        // find explosion point
+
+        // enable explosion
+    }
+
+    public void CloseExplosion(){
+        
     }
 
     public Vector3 GetTileUISlotPosition(TileName tileName){
