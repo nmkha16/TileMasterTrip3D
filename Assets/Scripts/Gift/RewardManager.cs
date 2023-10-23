@@ -96,7 +96,7 @@ public class RewardManager : MonoBehaviour
         dataManager.SetClaimGoldRewardStatus(true);
 
 
-        // close the box 3s later
+        // close the box after milliseconds later
         rewardManagerUI.CloseGoldRewardBox(12500);
     }
 
@@ -109,7 +109,8 @@ public class RewardManager : MonoBehaviour
         var rewardIdx = GetLevelFromStars(dataManager.star);
         var rewards = skillRewardData.data[rewardIdx >= skillRewardData.data.Count ? skillRewardData.data.Count-1 : rewardIdx];
         dataManager.AddSkills(rewards.dataEntry);
-
+        dataManager.SetClaimSkillRewardStatus(true);
+        
         // close the box
         rewardManagerUI.CloseSkillRewardBox(12500);
     }
