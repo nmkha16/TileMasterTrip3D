@@ -19,7 +19,6 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     public float DragValue = 20;
     private bool isPointerOnSelf;
     private IClickable clickable;
-
     private bool isCooldown;
 
     private void Awake(){
@@ -37,12 +36,16 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
         GameManager.Instance.OnGameStarted += Dispose;
         GameManager.Instance.OnReturnedToMenu += Dispose;
         GameManager.Instance.OnNuked += Dispose;
+        GameManager.Instance.OnGamePaused += DisableMotion;
+        GameManager.Instance.OnGameUnpaused += EnableMotion;
     }
 
     private void OnDestroy(){
         GameManager.Instance.OnReturnedToMenu -= Dispose;
         GameManager.Instance.OnGameStarted -= Dispose;
         GameManager.Instance.OnNuked -= Dispose;
+        GameManager.Instance.OnGamePaused -= DisableMotion;
+        GameManager.Instance.OnGameUnpaused -= EnableMotion;
     }
 
     public void Initialize(TileName name, Sprite sprite){
@@ -64,6 +67,21 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 		pos.x = Mathf.Clamp(pos.x,0.1f,0.9f);
 		pos.y = Mathf.Clamp(pos.y,0.3f,0.9f);
 		transform.position = Camera.main.ViewportToWorldPoint(pos);
+    }
+
+    private void EnableMotion(){
+        SetMotion(true);
+    }
+
+    private void DisableMotion(){
+        SetMotion(false);
+    }
+
+    private void SetMotion(bool toggle){
+        rgbd.isKinematic = !toggle;
+        rgbd.useGravity = toggle;
+        rgbd.freezeRotation = !toggle;
+        this.enabled = toggle;
     }
 
     public void Hover(){

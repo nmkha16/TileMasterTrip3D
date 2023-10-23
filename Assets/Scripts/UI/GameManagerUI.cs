@@ -103,4 +103,13 @@ public class GameManagerUI : MonoBehaviour
         SetTimeProgressBar(percentage);
     }
     #endregion
+
+    public void OpenScale(GameObject target){
+        target.transform.parent.gameObject.SetActive(true);
+        LeanTween.scale(target,Vector3.one,0.5f).setEaseInOutQuad();
+    }
+
+    public void CloseScale(GameObject target){
+        LeanTween.scale(target,Vector3.zero,0.5f).setEaseInOutQuad().setOnComplete(() =>target.transform.parent.gameObject.SetActive(false) );
+    }
 }

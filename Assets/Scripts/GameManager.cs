@@ -7,6 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public event Action OnGameStarted;
+    public event Action OnGamePaused;
+    public event Action OnGameUnpaused;
     public event Action OnGameEnded;
     public event Action OnNuked;
     public event Action OnReturnedToMenu;
@@ -134,10 +136,12 @@ public class GameManager : MonoBehaviour
     }
 
     public void Pause(){
+        OnGamePaused?.Invoke();
         State = GameState.Pause;
     }
 
     public void UnPause(){
+        OnGameUnpaused?.Invoke();
         State = GameState.Play;
     }
 
