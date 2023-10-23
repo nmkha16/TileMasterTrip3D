@@ -36,7 +36,7 @@ public class RewardManager : MonoBehaviour
         // gold reward (use level)
         int currentModuleLevel = userData.level % goldRewardStep;
         // if we reach 5/5
-        goldReached = currentModuleLevel == 0;
+        goldReached = currentModuleLevel == 0 && userData.level != 0;
         // we should check if user reach designated reward step like 5/5 to be eligible to claim reward
         if (goldReached){
             // we are eligible to claim
