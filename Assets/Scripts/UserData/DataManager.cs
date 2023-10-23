@@ -63,6 +63,10 @@ public class DataManager : MonoBehaviour
         OnIngameStarsUpdated -= dataManagerUI.UpdateIngameStar;
     }
 
+    public void ClearData(){
+        userData.Clear();
+    }
+
     private async Task<UserData> LoadData(){
         UserData data = new();
         TaskCompletionSource<UserData> tcs = new TaskCompletionSource<UserData>();

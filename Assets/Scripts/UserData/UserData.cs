@@ -92,6 +92,19 @@ public class UserData
         skillRewardClaimStates[step].status = status;
         if (!surpassSavefile) OnUserDataChanged?.Invoke(this);
     }
+
+    public void Clear(){
+        this.level = 0;
+        this.star = 1;
+        this.gold = 0;
+        this.undo = 50;
+        this.tacNuke = 20;
+
+        goldRewardClaimStates = new(new ClaimRewardState[10]);
+        skillRewardClaimStates = new(new ClaimRewardState[10]);
+
+        OnUserDataChanged?.Invoke(this);
+    }
 }
 
 [Serializable]
