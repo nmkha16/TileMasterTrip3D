@@ -31,6 +31,7 @@ public class DataManagerUI : MonoBehaviour
 
     [Header("Skill")]
     [SerializeField] private TMP_Text undoSkillRemainingText;
+    [SerializeField] private TMP_Text nukeSkillRemainingText;
 
     private void Start(){
         appVersionText.text = appVersionPrefix + Application.version;
@@ -57,10 +58,11 @@ public class DataManagerUI : MonoBehaviour
         ingameWinStarsText.text = "+" + stars.ToString();
     }
 
-    public void UpdateRemainingUndoSkill(UserData userData){
+    public void UpdateRemainingSkill(UserData userData){
         undoSkillRemainingText.text = userData.undo.ToString();
+        nukeSkillRemainingText.text = userData.tacNuke.ToString();
     }
-    
+
     private void ConfigurateVolumeSetting(){
         var setting = SoundManager.Instance.setting;
         // set slider value on first load

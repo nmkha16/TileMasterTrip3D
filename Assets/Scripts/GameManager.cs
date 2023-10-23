@@ -1,15 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public event Action OnGameStarted;
     public event Action OnGameEnded;
+    public event Action OnNuked;
     public event Action OnReturnedToMenu;
     public event Action<GameState> OnUpdateUI;
     public static GameManager Instance;
+    [Header("Camera Action Handler")]
+    public CameraActionHandler cameraActionHandler;
+    [Header("Nuke Explosion Effect")]
+    public GameObject nukeExplosionEffectPrefab;
+    [Header("Input Reader/Input Manager")]
     public InputReader inputReader;
     [Header("Data Manager")]
     private DataManager dataManager;
@@ -89,6 +96,7 @@ public class GameManager : MonoBehaviour
         timer.OnCountdownFinished += Timeout;
         
         inputReader.OnUndoPerformed += dataManager.Undo;
+        inputReader.OnNukePerformed += DoTacticalNuke;
 
         State = GameState.Menu;
     }
@@ -97,6 +105,7 @@ public class GameManager : MonoBehaviour
         tilesManager.OnTilesDestroyed -=ReduceTilesCount;
         timer.OnCountdownFinished -= Timeout;
         inputReader.OnUndoPerformed -= dataManager.Undo;
+        inputReader.OnNukePerformed -= DoTacticalNuke;
     }
 
     public void StartGame(){
@@ -197,7 +206,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnFlower(int level){
         
-        factory = factories[0]; // get factory, well technically we only have one factory
+        factory = factories[0]; // get tiles factory
         var currentData = data.mapData.maps[(int)level].tilePool;
 
         for(int i = 0; i < currentData.Count; ++i){
@@ -218,6 +227,35 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private async void DoTacticalNuke(){
+        if (!dataManager.CanNuke()) return;
+        // call this to decrement nuke count
+        dataManager.DecrementTacticalNukeCount();
+        inputReader.enabled = false;
+        // make camera action
+        cameraActionHandler.ZoomCamera(true);
+
+        // play siren
+        SoundManager.Instance.PlayOneShotSound(SoundId.s_nuke_siren);
+        // turn off input reader
+        await Task.Delay(6000);
+        // do nuke logic
+        var factory = factories[1];
+        var nuke = factory.GetProductAsGameObject(Vector3.zero);
+        await Task.Delay(2500);
+        Destroy(nuke);
+        // add explosion effect
+        var nukeEffect = Instantiate(nukeExplosionEffectPrefab);
+
+        SoundManager.Instance.PlayOneShotSound(SoundId.s_nuke_explode);
+        cameraActionHandler.ZoomCamera(false);
+        OnNuked?.Invoke();
+        await Task.Delay(1000);
+        Destroy(nukeEffect);
+        dataManager.AddIngameStars(500);
+        State = GameState.Win;
     }
     
     private void ReduceTilesCount(){

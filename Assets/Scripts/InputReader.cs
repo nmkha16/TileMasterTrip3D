@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour, Controls.IPlayerActions
 {
+    public event Action OnNukePerformed;
     public event Action OnUndoPerformed;
     public event Action OnSelectPerformed;
     public Vector2 touchPosition;
@@ -43,5 +44,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     {
         if (!context.performed) return;
         OnUndoPerformed?.Invoke();
+    }
+
+    public void OnNuke(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        OnNukePerformed?.Invoke();
     }
 }

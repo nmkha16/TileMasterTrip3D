@@ -43,7 +43,7 @@ public class DataManager : MonoBehaviour
 
         userData.OnUserDataChanged += (o) => SaveData();
         userData.OnUserDataChanged += dataManagerUI.UpdateStatUI;
-        userData.OnUserDataChanged += dataManagerUI.UpdateRemainingUndoSkill;
+        userData.OnUserDataChanged += dataManagerUI.UpdateRemainingSkill;
         userData.OnUserDataChanged += gameManagerUI.ValidatePlayOnButton;
 
         userData.OnUserDataChanged += rewardManager.SetRewardsProgress;
@@ -57,7 +57,7 @@ public class DataManager : MonoBehaviour
     private void OnDestroy(){
         userData.OnUserDataChanged -= dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged -= gameManagerUI.ValidatePlayOnButton;
-        userData.OnUserDataChanged -= dataManagerUI.UpdateRemainingUndoSkill;
+        userData.OnUserDataChanged -= dataManagerUI.UpdateRemainingSkill;
         userData.OnUserDataChanged -= rewardManager.SetRewardsProgress;
         GameManager.Instance.OnGameStarted -= ResetIngameStarsCount;
         OnIngameStarsUpdated -= dataManagerUI.UpdateIngameStar;
@@ -128,6 +128,14 @@ public class DataManager : MonoBehaviour
             CommandInvoker.UndoCommand();
             userData.AddSkill(SkillType.Undo,-1);
         }
+    }
+
+    public bool CanNuke(){
+        return userData.tacNuke > 0;
+    }
+
+    public void DecrementTacticalNukeCount(){
+        userData.AddSkill(SkillType.Tactical_Nuke,-1);
     }
 
     #region prototype

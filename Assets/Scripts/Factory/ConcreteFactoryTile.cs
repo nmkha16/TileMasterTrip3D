@@ -12,7 +12,14 @@ public class ConcreteFactoryTile : ObjectFactory
         GameObject instance = Instantiate(tilePrefab.gameObject, position, rot);
         instance.transform.parent = parent;
         TileProduct newProduct = instance.GetComponent<TileProduct>();
-
         return newProduct;
+    }
+
+    public override GameObject GetProductAsGameObject(Vector3 position){
+        // TODO: replace with object pool
+        Quaternion rot = Quaternion.Euler(new Vector3(0f,Random.Range(0,360f),0f));
+        GameObject instance = Instantiate(tilePrefab.gameObject, position, rot);
+        instance.transform.parent = parent;
+        return instance;
     }
 }

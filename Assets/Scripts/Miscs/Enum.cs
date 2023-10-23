@@ -52,6 +52,8 @@ public enum SoundId{
     s_combo_multiplier_up,
     s_win,
     s_lose,
+    s_nuke_siren,
+    s_nuke_explode,
 
     // background music
     // menu music

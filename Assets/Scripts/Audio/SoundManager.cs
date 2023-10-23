@@ -74,6 +74,9 @@ public class SoundManager : MonoBehaviour
                 musicSource.PlayOneShot(clip);
             }
         }
+        else{
+            Debug.LogWarning("No sound clip found for " + id.ToString() +".\nPlease check your scene setup.");
+        }
     }
 
     public void PlayMusic(SoundId id){

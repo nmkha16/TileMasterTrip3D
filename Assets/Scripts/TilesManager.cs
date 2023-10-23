@@ -10,7 +10,7 @@ public class TilesManager : MonoBehaviour
     public Action OnTilesDestroyed;
     public static TilesManager Instance;
     public event Action<List<TileProduct>> OnListUpdated;
-    [SerializeField] private SelectionUI selectionUI;
+    private SelectionUI selectionUI;
     public List<TileProduct> tilesList = new List<TileProduct>();
     private Dictionary<TileName,int> tilesCountDict = new Dictionary<TileName, int>();
     private TileName currentMatchingTile;

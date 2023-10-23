@@ -36,11 +36,13 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
         Invoke(nameof(IncreaseDrag),3f);
         GameManager.Instance.OnGameStarted += Dispose;
         GameManager.Instance.OnReturnedToMenu += Dispose;
+        GameManager.Instance.OnNuked += Dispose;
     }
 
     private void OnDestroy(){
         GameManager.Instance.OnReturnedToMenu -= Dispose;
         GameManager.Instance.OnGameStarted -= Dispose;
+        GameManager.Instance.OnNuked -= Dispose;
     }
 
     public void Initialize(TileName name, Sprite sprite){

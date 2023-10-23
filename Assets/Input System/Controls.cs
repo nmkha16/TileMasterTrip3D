@@ -53,6 +53,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Nuke"",
+                    ""type"": ""Button"",
+                    ""id"": ""4ec385f8-4ffd-4b47-8037-6127b000f334"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Undo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6eede0a-7793-4f8e-a94e-3a421a4311c2"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Nuke"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -138,6 +158,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Position = m_Player.FindAction("Position", throwIfNotFound: true);
         m_Player_Press = m_Player.FindAction("Press", throwIfNotFound: true);
         m_Player_Undo = m_Player.FindAction("Undo", throwIfNotFound: true);
+        m_Player_Nuke = m_Player.FindAction("Nuke", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -202,6 +223,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Position;
     private readonly InputAction m_Player_Press;
     private readonly InputAction m_Player_Undo;
+    private readonly InputAction m_Player_Nuke;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -209,6 +231,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Position => m_Wrapper.m_Player_Position;
         public InputAction @Press => m_Wrapper.m_Player_Press;
         public InputAction @Undo => m_Wrapper.m_Player_Undo;
+        public InputAction @Nuke => m_Wrapper.m_Player_Nuke;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -227,6 +250,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Undo.started += instance.OnUndo;
             @Undo.performed += instance.OnUndo;
             @Undo.canceled += instance.OnUndo;
+            @Nuke.started += instance.OnNuke;
+            @Nuke.performed += instance.OnNuke;
+            @Nuke.canceled += instance.OnNuke;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -240,6 +266,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Undo.started -= instance.OnUndo;
             @Undo.performed -= instance.OnUndo;
             @Undo.canceled -= instance.OnUndo;
+            @Nuke.started -= instance.OnNuke;
+            @Nuke.performed -= instance.OnNuke;
+            @Nuke.canceled -= instance.OnNuke;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -271,5 +300,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnPosition(InputAction.CallbackContext context);
         void OnPress(InputAction.CallbackContext context);
         void OnUndo(InputAction.CallbackContext context);
+        void OnNuke(InputAction.CallbackContext context);
     }
 }
