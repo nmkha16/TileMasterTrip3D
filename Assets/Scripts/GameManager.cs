@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
                 // spawn 3 tiles of the same type
                 for (int j = 0; j < 3; j++){
                     Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(Screen.height*0.3f,Screen.height*0.9f), 0));
-                    pos.y = UnityEngine.Random.Range(1f,1.75f);
+                    pos.y = UnityEngine.Random.Range(1.5f,2f);
                     var tileProduct = factory.GetProduct(pos);
                     tileProduct.gameObjectProduct.GetComponent<TileProduct>().Initialize(currentData[i].name,currentData[i].sprite);
                     TotalTilesCount ++;

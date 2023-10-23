@@ -18,6 +18,8 @@ public class TilesManager : MonoBehaviour
 
     [SerializeField] private GameObject explosionEffect;
 
+    private Vector3 explosionPoint;
+
     // hardcoded size
     private readonly int maxTilesSize = 7;
 
@@ -115,6 +117,7 @@ public class TilesManager : MonoBehaviour
             Debug.LogWarning("Warning: attempt to remove tiles that isnt existed in list");
             return Task.CompletedTask;
         }
+        explosionPoint = GetExplosionPoint(idx);
         for(int i = idx; i < idx+3; ++i){
             var tileProduct = tilesList[idx];
             Destroy(tileProduct.gameObject);
@@ -138,19 +141,24 @@ public class TilesManager : MonoBehaviour
             await Task.Delay(400);
             SoundManager.Instance.PlayOneShotSound(SoundId.s_explode_tiles);
             GameManager.Instance.inputReader.enabled = true;
+            SetExplosion();
             UpdateUI();
         }
         isRemoving = false;
     }
 
     public void SetExplosion(){
-        // find explosion point
+        // set explosion go to explosion point
+        explosionEffect.transform.position = explosionPoint;
 
         // enable explosion
+        explosionEffect.SetActive(true);
+        CloseExplosion(500);
     }
 
-    public void CloseExplosion(){
-        
+    public async void CloseExplosion(int milliseconds){
+        await Task.Delay(milliseconds);
+        explosionEffect.SetActive(false);
     }
 
     public Vector3 GetTileUISlotPosition(TileName tileName){
@@ -159,6 +167,11 @@ public class TilesManager : MonoBehaviour
             idx = tilesList.Count;
         }
         return selectionUI.GetHolderUILocation(idx);
+    }
+
+    public Vector3 GetExplosionPoint(int idx){
+        // +1 move to middle
+        return selectionUI.GetHolderUILocation(idx+1);
     }
 
     private void ClearTiles(){
