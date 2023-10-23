@@ -43,6 +43,7 @@ public class DataManager : MonoBehaviour
 
         userData.OnUserDataChanged += (o) => SaveData();
         userData.OnUserDataChanged += dataManagerUI.UpdateStatUI;
+        userData.OnUserDataChanged += dataManagerUI.UpdateRemainingUndoSkill;
         userData.OnUserDataChanged += gameManagerUI.ValidatePlayOnButton;
 
         userData.OnUserDataChanged += rewardManager.SetRewardsProgress;
@@ -51,13 +52,12 @@ public class DataManager : MonoBehaviour
 
         GameManager.Instance.OnGameStarted += ResetIngameStarsCount;
         OnIngameStarsUpdated += dataManagerUI.UpdateIngameStar;
-
-
     }
 
     private void OnDestroy(){
         userData.OnUserDataChanged -= dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged -= gameManagerUI.ValidatePlayOnButton;
+        userData.OnUserDataChanged -= dataManagerUI.UpdateRemainingUndoSkill;
         userData.OnUserDataChanged -= rewardManager.SetRewardsProgress;
         GameManager.Instance.OnGameStarted -= ResetIngameStarsCount;
         OnIngameStarsUpdated -= dataManagerUI.UpdateIngameStar;
@@ -68,7 +68,9 @@ public class DataManager : MonoBehaviour
         TaskCompletionSource<UserData> tcs = new TaskCompletionSource<UserData>();
         if (File.Exists(saveFile)){
             string content = File.ReadAllText(saveFile);
-            data = JsonUtility.FromJson<UserData>(content);
+            if (!string.IsNullOrEmpty(content)){
+                data = JsonUtility.FromJson<UserData>(content);
+            }
         }
         tcs.SetResult(data);
         return await tcs.Task;
@@ -113,15 +115,19 @@ public class DataManager : MonoBehaviour
         userData.AddSkills(rewards);
     }
 
-    public bool IsClaimedGoldReward => userData.isClaimedGoldReward;
-    public bool IsClaimedSkillReward => userData.isClaimedSkillReward;
-
-    public void SetClaimGoldRewardStatus(bool toggle){
-        userData.SetClaimGoldRewardStatus(toggle);
+    public void SetClaimGoldRewardStatus(int step, bool toggle){
+        userData.SetClaimGoldRewardStatus(step,toggle);
     }
 
-    public void SetClaimSkillRewardStatus(bool  toggle){
-        userData.SetClaimSkillRewardStatus(toggle);
+    public void SetClaimSkillRewardStatus(int step, bool  toggle){
+        userData.SetClaimSkillRewardStatus(step, toggle);
+    }
+
+    public void Undo(){
+        if (userData.undo > 0){
+            CommandInvoker.UndoCommand();
+            userData.AddSkill(SkillType.r_undo,-1);
+        }
     }
 
     #region prototype

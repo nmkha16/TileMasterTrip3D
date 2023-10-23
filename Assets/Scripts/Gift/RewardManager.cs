@@ -9,7 +9,7 @@ using UnityEngine;
 // => Level = Sqrt(Stars) * 0.07
 public class RewardManager : MonoBehaviour
 {
-    [SerializeField] private int goldRewardStep = 5;
+    [SerializeField] private int goldRewardStepOffset = 5;
     private readonly float x = 0.07f;
     //private readonly float y = 2;
     [Header("Data Manager")]
@@ -20,6 +20,9 @@ public class RewardManager : MonoBehaviour
 
     [Header("Reward Manager UI")]
     [SerializeField] private RewardManagerUI rewardManagerUI;
+
+    private int currentGoldRewardStep;
+    private int currentSkillRewardStep;
 
     private void Start() {
         rewardManagerUI.goldRewardBoxPointer.OnClicked += ClaimGoldReward;
@@ -32,53 +35,72 @@ public class RewardManager : MonoBehaviour
     }
 
     public void SetRewardsProgress(UserData userData){
-        bool goldReached, starsReached;
+        bool levelReached, starsReached;
         // gold reward (use level)
-        int currentModuleLevel = userData.level % goldRewardStep;
+        int currentModuleLevel = userData.level % goldRewardStepOffset;
+        currentGoldRewardStep = Mathf.Clamp(Mathf.CeilToInt(userData.level/(float)goldRewardStepOffset) - 1,0,int.MaxValue);
+
+        bool isPreviousClaimed = true;
+        // check if user has claimed previous rewards yet
+        for (int i = 0; i < currentGoldRewardStep; ++i){
+            if (!userData.goldRewardClaimStates[i].status){
+                isPreviousClaimed = false;
+                currentGoldRewardStep = i;
+                break;
+            }
+        }
+
         // if we reach 5/5
-        goldReached = currentModuleLevel == 0 && userData.level != 0;
+        levelReached = (currentModuleLevel == 0 || !isPreviousClaimed) && userData.level != 0 ;
         // we should check if user reach designated reward step like 5/5 to be eligible to claim reward
-        if (goldReached){
-            // we are eligible to claim
-            // check if reward is already claim at this step
+        if (levelReached){
+
             // if user hasn't claim
-            if (!userData.isClaimedGoldReward){
+            if (!userData.goldRewardClaimStates[currentGoldRewardStep].status){
                 // play gift box anim here
-                rewardManagerUI.EnableGoldRewardToClaim();
+                rewardManagerUI.ToggleGoldRewardToClaim(true);
                 // this will make ui show user reaches current reward step
                 // if reward step is 5 then it will show 5/5 if user hasn't claimed reward
-                rewardManagerUI.UpdateGoldRewardProgress(goldRewardStep,goldRewardStep);
+                rewardManagerUI.UpdateGoldRewardProgress(goldRewardStepOffset,goldRewardStepOffset);
             }
             else{
-                rewardManagerUI.UpdateGoldRewardProgress(currentModuleLevel,goldRewardStep);
+                rewardManagerUI.ToggleGoldRewardToClaim(false);
+                rewardManagerUI.UpdateGoldRewardProgress(currentModuleLevel,goldRewardStepOffset);
             }
         }
         else{
-            if (dataManager.IsClaimedGoldReward){
-                dataManager.SetClaimGoldRewardStatus(false);
-            }
-            rewardManagerUI.UpdateGoldRewardProgress(currentModuleLevel,goldRewardStep);
+            rewardManagerUI.UpdateGoldRewardProgress(currentModuleLevel,goldRewardStepOffset);
         }
 
         // skill reward (use star)
         int requiredStars = GetRequiredStarsFromCurrentStarsProgress(userData.star, out int currentLevel);
-        starsReached = userData.star == requiredStars;
+        currentSkillRewardStep = currentLevel - 1;
+
+        isPreviousClaimed = true;
+        // check if user has claimed previous rewards yet
+        for (int i = 0; i < currentSkillRewardStep; ++i){
+            if (!userData.skillRewardClaimStates[i].status){
+                isPreviousClaimed = false;
+                currentSkillRewardStep = i;
+                break;
+            }
+        }
+
+        starsReached = userData.star >= requiredStars || !isPreviousClaimed;
         if (starsReached){
-            if (!userData.isClaimedSkillReward){
-                rewardManagerUI.EnabledSkillRewardToClaim();
+            if (!userData.skillRewardClaimStates[currentSkillRewardStep].status){
+                rewardManagerUI.ToggleSkillRewardToClaim(true);
                 rewardManagerUI.UpdateSkillRewardProgress(userData.star, requiredStars);
             }
             else {
                 // show required stars
                 // example: if we reach 50/50 stars but we already claim reward so the UI will show 50/100 or something
+                rewardManagerUI.ToggleSkillRewardToClaim(false);
                 requiredStars = GetRequiredStarsFromCurrentLevelProgress(currentLevel+1);
                 rewardManagerUI.UpdateSkillRewardProgress(userData.star,requiredStars);
             }
         }
         else{
-            if (dataManager.IsClaimedSkillReward){
-                dataManager.SetClaimSkillRewardStatus(false);
-            }
             rewardManagerUI.UpdateSkillRewardProgress(userData.star,requiredStars);
         }
     }
@@ -89,12 +111,11 @@ public class RewardManager : MonoBehaviour
         // play sound
         SoundManager.Instance.PlayOneShotSound(SoundId.s_ui_gift_open);
         // handle the data
-        var rewardIdx = Mathf.FloorToInt(dataManager.level/(float)goldRewardStep);
+        var rewardIdx = Mathf.FloorToInt(dataManager.level/(float)goldRewardStepOffset);
         
         var goldAmount = goldRewardData.data.gold[rewardIdx >= goldRewardData.data.gold.Count ? goldRewardData.data.gold.Count-1 : rewardIdx];
+        dataManager.SetClaimGoldRewardStatus(currentGoldRewardStep, true);
         dataManager.TransactGold(goldAmount);
-        dataManager.SetClaimGoldRewardStatus(true);
-
 
         // close the box after milliseconds later
         rewardManagerUI.CloseGoldRewardBox(12500);
@@ -108,8 +129,8 @@ public class RewardManager : MonoBehaviour
         // handle the data
         var rewardIdx = GetLevelFromStars(dataManager.star);
         var rewards = skillRewardData.data[rewardIdx >= skillRewardData.data.Count ? skillRewardData.data.Count-1 : rewardIdx];
+        dataManager.SetClaimSkillRewardStatus(currentSkillRewardStep, true);
         dataManager.AddSkills(rewards.dataEntry);
-        dataManager.SetClaimSkillRewardStatus(true);
         
         // close the box
         rewardManagerUI.CloseSkillRewardBox(12500);

@@ -64,6 +64,6 @@ public enum SoundId{
     m_battle_3
 }
 
-public enum RewardSkill{
+public enum SkillType{
     r_undo,
 }

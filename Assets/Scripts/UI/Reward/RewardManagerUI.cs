@@ -35,40 +35,41 @@ public class RewardManagerUI : MonoBehaviour
         skillRewardProgressText.text = current + "/" + maxBound;
     }
 
-    public void EnableGoldRewardToClaim(){
-        goldRewardBoxAnimator.enabled = true;
-        goldRewardBoxPointer.enabled = true;
+    public void ToggleGoldRewardToClaim(bool toggle){
+        goldRewardBoxAnimator.enabled = toggle;
+        goldRewardBoxPointer.enabled = toggle;
     }
 
-    public void EnabledSkillRewardToClaim(){
-        // play anim box
-        skillRewardBoxAnimator.enabled = true;
-        skillRewardBoxPointer.enabled = true;
+    public void ToggleSkillRewardToClaim(bool toggle){
+        skillRewardBoxAnimator.enabled = toggle;
+        skillRewardBoxPointer.enabled = toggle;
     }
 
     public void OpenGoldRewardBox(){
+        goldRewardBoxAnimator.enabled = false;
         goldRewardBoxAnimator.gameObject.SetActive(false);
+        goldRewardBoxPointer.enabled = false;
         openGoldRewardBox.SetActive(true);
     }
 
     public void OpenSkillRewardBox(){
+        skillRewardBoxAnimator.enabled = false;
         skillRewardBoxPointer.gameObject.SetActive(false);
+        skillRewardBoxPointer.enabled = false;
         openSkillRewardBox.SetActive(true);
     }
 
     public async void CloseGoldRewardBox(int milliseconds){
+        //goldRewardBoxAnimator.enabled = false;
         await Task.Delay(milliseconds);
-        goldRewardBoxPointer.enabled = false;
         goldRewardBoxAnimator.gameObject.SetActive(true);
-        goldRewardBoxAnimator.enabled = false;
         openGoldRewardBox.SetActive(false);
     }
 
     public async void CloseSkillRewardBox(int milliseconds){
+        //skillRewardBoxAnimator.enabled = false;
         await Task.Delay(milliseconds);
-        skillRewardBoxPointer.enabled = false;
         skillRewardBoxAnimator.gameObject.SetActive(true);
-        skillRewardBoxAnimator.enabled = false;
         openSkillRewardBox.SetActive(false);
     }
 }

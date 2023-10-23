@@ -88,12 +88,15 @@ public class GameManager : MonoBehaviour
         tilesManager.OnTilesDestroyed +=ReduceTilesCount;
         timer.OnCountdownFinished += Timeout;
         
+        inputReader.OnUndoPerformed += dataManager.Undo;
+
         State = GameState.Menu;
     }
 
     private void OnDestroy() {
         tilesManager.OnTilesDestroyed -=ReduceTilesCount;
         timer.OnCountdownFinished -= Timeout;
+        inputReader.OnUndoPerformed -= dataManager.Undo;
     }
 
     public void StartGame(){

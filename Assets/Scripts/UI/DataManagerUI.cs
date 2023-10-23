@@ -29,6 +29,9 @@ public class DataManagerUI : MonoBehaviour
     [SerializeField] private Slider sfxSlider1;
     [SerializeField] private Slider sfxSlider2;
 
+    [Header("Skill")]
+    [SerializeField] private TMP_Text undoSkillRemainingText;
+
     private void Start(){
         appVersionText.text = appVersionPrefix + Application.version;
         ConfigurateVolumeSetting();
@@ -52,6 +55,10 @@ public class DataManagerUI : MonoBehaviour
     public void UpdateIngameStar(int stars){
         ingameStarsText.text = stars.ToString();
         ingameWinStarsText.text = "+" + stars.ToString();
+    }
+
+    public void UpdateRemainingUndoSkill(UserData userData){
+        undoSkillRemainingText.text = userData.undo.ToString();
     }
     
     private void ConfigurateVolumeSetting(){

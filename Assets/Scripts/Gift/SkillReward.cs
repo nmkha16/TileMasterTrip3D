@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [Serializable]
 public class SkillReward{
-    public RewardSkill type;
+    public SkillType type;
     public int amount;
 }
 

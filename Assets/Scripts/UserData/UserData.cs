@@ -9,14 +9,17 @@ public class UserData
     public int star;
     public int gold;
     public int undo;
-    public bool isClaimedGoldReward;
-    public bool isClaimedSkillReward;
+    public List<ClaimRewardState> goldRewardClaimStates;
+    public List<ClaimRewardState> skillRewardClaimStates;
 
-    public UserData(int level = 0, int star = 0, int gold = 0){
+    public UserData(int level = 0, int star = 1, int gold = 0){
         this.level = level;
         this.star = star;
         this.gold = gold;
-        this.undo = 10;
+        this.undo = 50;
+
+        goldRewardClaimStates = new(new ClaimRewardState[10]);
+        skillRewardClaimStates = new(new ClaimRewardState[10]);
     }
 
     public void SetLevel(int level){
@@ -55,7 +58,7 @@ public class UserData
     public void AddSkills(List<SkillReward> rewards){
         foreach(var entry in rewards){
             switch(entry.type){
-                case RewardSkill.r_undo:
+                case SkillType.r_undo:
                     this.undo += entry.amount;
                     break;
             }
@@ -63,13 +66,30 @@ public class UserData
         OnUserDataChanged?.Invoke(this);
     }
 
-    public void SetClaimGoldRewardStatus(bool status){
-        isClaimedGoldReward = status;
+    public void AddSkill(SkillType type, int amount){
+        switch(type){
+            case SkillType.r_undo:
+                this.undo +=  amount;
+                break;
+        }
         OnUserDataChanged?.Invoke(this);
     }
 
-    public void SetClaimSkillRewardStatus(bool status){
-        isClaimedSkillReward = status;
-        OnUserDataChanged?.Invoke(this);
+    public void SetClaimGoldRewardStatus(int step, bool status, bool surpassSavefile = true){
+        goldRewardClaimStates[step].status = status;
+        if (!surpassSavefile) OnUserDataChanged?.Invoke(this);
+    }
+
+    public void SetClaimSkillRewardStatus(int step, bool status, bool surpassSavefile = true){
+        skillRewardClaimStates[step].status = status;
+        if (!surpassSavefile) OnUserDataChanged?.Invoke(this);
+    }
+}
+
+[Serializable]
+public class ClaimRewardState{
+    public bool status;
+    public ClaimRewardState(){
+        status = false;
     }
 }
