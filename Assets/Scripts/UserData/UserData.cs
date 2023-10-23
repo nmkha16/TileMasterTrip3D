@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class UserData
@@ -7,11 +8,15 @@ public class UserData
     public int level;
     public int star;
     public int gold;
+    public int undo;
+    public bool isClaimedGoldReward;
+    public bool isClaimedSkillReward;
 
     public UserData(int level = 0, int star = 0, int gold = 0){
         this.level = level;
         this.star = star;
         this.gold = gold;
+        this.undo = 10;
     }
 
     public void SetLevel(int level){
@@ -47,5 +52,24 @@ public class UserData
         OnUserDataChanged?.Invoke(this);
     }
 
-    
+    public void AddSkills(List<SkillReward> rewards){
+        foreach(var entry in rewards){
+            switch(entry.type){
+                case RewardSkill.r_undo:
+                    this.undo += entry.amount;
+                    break;
+            }
+        }
+        OnUserDataChanged?.Invoke(this);
+    }
+
+    public void SetClaimGoldRewardStatus(bool status){
+        isClaimedGoldReward = status;
+        OnUserDataChanged?.Invoke(this);
+    }
+
+    public void SetClaimSkillRewardStatus(bool status){
+        isClaimedSkillReward = status;
+        OnUserDataChanged?.Invoke(this);
+    }
 }

@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class DataManager : MonoBehaviour
     public Action<int> OnIngameStarsUpdated; 
     [Header("User Data")]
     private UserData userData;
+    public int gold {get => userData.gold;}
+    public int star {get => userData.star;}
+    public int level {get => userData.level;}
     private string saveFile;
     [Header("Ingame Star")]
     private int ingameStars = 0;
@@ -21,6 +25,9 @@ public class DataManager : MonoBehaviour
             OnIngameStarsUpdated?.Invoke(ingameStars);
         }
     }
+
+    [Header("Reward Manager")]
+    [SerializeField] private RewardManager rewardManager;
 
     [Header("Data Manager UI")]
     [SerializeField] private DataManagerUI dataManagerUI;
@@ -38,15 +45,20 @@ public class DataManager : MonoBehaviour
         userData.OnUserDataChanged += dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged += gameManagerUI.ValidatePlayOnButton;
 
+        userData.OnUserDataChanged += rewardManager.SetRewardsProgress;
+
         userData.OnUserDataChanged?.Invoke(userData);
 
         GameManager.Instance.OnGameStarted += ResetIngameStarsCount;
         OnIngameStarsUpdated += dataManagerUI.UpdateIngameStar;
+
+
     }
 
     private void OnDestroy(){
         userData.OnUserDataChanged -= dataManagerUI.UpdateStatUI;
         userData.OnUserDataChanged -= gameManagerUI.ValidatePlayOnButton;
+        userData.OnUserDataChanged -= rewardManager.SetRewardsProgress;
         GameManager.Instance.OnGameStarted -= ResetIngameStarsCount;
         OnIngameStarsUpdated -= dataManagerUI.UpdateIngameStar;
     }
@@ -94,6 +106,21 @@ public class DataManager : MonoBehaviour
 
     public void AddIngameStarsToUserData(){
         userData.AddStar(IngameStars);
+    }
+
+    public void AddSkills(List<SkillReward> rewards){
+        userData.AddSkills(rewards);
+    }
+
+    public bool IsClaimedGoldReward => userData.isClaimedGoldReward;
+    public bool IsClaimedSkillReward => userData.isClaimedSkillReward;
+
+    public void SetClaimGoldRewardStatus(bool toggle){
+        userData.SetClaimGoldRewardStatus(toggle);
+    }
+
+    public void SetClaimSkillRewardStatus(bool  toggle){
+        userData.SetClaimSkillRewardStatus(toggle);
     }
 
     #region prototype

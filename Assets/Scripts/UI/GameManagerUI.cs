@@ -70,8 +70,7 @@ public class GameManagerUI : MonoBehaviour
 
     #region Lose Canvas
     public void ValidatePlayOnButton(UserData userData){
-        
-        //playOnButton.interactable = userData.gold >= GameManager.Instance.playOnCost;
+        playOnButton.interactable = userData.gold >= GameManager.Instance.playOnCost;
     }
     #endregion
 

@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c776392afd1e84fb77d11c2130e0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardManager: {fileID: 7693047921440732188}
   dataManagerUI: {fileID: 0}
   gameManagerUI: {fileID: 0}
 --- !u!1 &2654144757739341544
@@ -174,6 +175,61 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &3479889242785341192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8067528215067276155}
+  - component: {fileID: 7693047921440732188}
+  m_Layer: 0
+  m_Name: RewardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8067528215067276155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3479889242785341192}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6222324317824765104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7693047921440732188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3479889242785341192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c6e0b422a19284cacd4b6c64e904ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldRewardStep: 5
+  dataManager: {fileID: 4676711409712593678}
+  goldRewardData: {fileID: 11400000, guid: 85680a1f76ef06f4ba08c1137c32ce23, type: 2}
+  skillRewardData: {fileID: 11400000, guid: af5ec8c2dd49d8844888f933d9a5cb54, type: 2}
+  rewardManagerUI: {fileID: 0}
+  goldRewardBoxAnimator: {fileID: 0}
+  skillRewardBoxAnimator: {fileID: 0}
+  goldRewardBoxPointer: {fileID: 0}
+  skillRewardBoxPointer: {fileID: 0}
+  openGoldRewardBox: {fileID: 0}
+  openSkillRewardBox: {fileID: 0}
 --- !u!1 &3840259544720694868
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +318,7 @@ Transform:
   - {fileID: 7438863026025509539}
   - {fileID: 17378740724739880}
   - {fileID: 8456529895599183787}
+  - {fileID: 8067528215067276155}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8289602305395749748
