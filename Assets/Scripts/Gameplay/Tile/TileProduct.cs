@@ -78,10 +78,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
         if (!isPointerOnSelf) return;
         SoundManager.Instance.PlayOneShotSound(SoundId.s_select_tile);
         CancelHover();
-        // calculate ui screenpoint to world position
         var pos = TilesManager.Instance.GetTileUISlotPosition(this.tileName);
-        pos = mainCamera.ScreenToWorldPoint(pos);
-
         // invoke move command
         ICommand command = new MoveCommand(this,this.transform.position,pos);
         CommandInvoker.ExecuteCommand(command);

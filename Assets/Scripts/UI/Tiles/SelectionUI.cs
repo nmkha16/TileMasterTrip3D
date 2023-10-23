@@ -49,8 +49,8 @@ public class SelectionUI : MonoBehaviour
         }
     }
 
-    // ScreenPoint Position
+    // already converted to world point
     public Vector3 GetHolderUILocation(int idx){
-        return tilesUI[idx].rectTransform.position;
+        return tilesUI[idx].rectTransform.TransformPoint(tilesUI[idx].rectTransform.rect.center);
     }
 }
