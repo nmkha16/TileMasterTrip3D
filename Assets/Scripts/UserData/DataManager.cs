@@ -79,7 +79,8 @@ public class DataManager : MonoBehaviour
         File.WriteAllText(saveFile,content);
     }
 
-    public void IncrementLevelProgress(){
+    public void IncrementLevelProgress(int maximum){
+        if (userData.level >= maximum-1) return;
         userData.AddLevel(1);
     }
 

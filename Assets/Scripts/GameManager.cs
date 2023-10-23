@@ -178,7 +178,7 @@ public class GameManager : MonoBehaviour
                 SoundManager.Instance.PlayOneShotSound(SoundId.s_win);
                 timer.PauseCountdown();
                 inputReader.enabled = false;
-                dataManager.IncrementLevelProgress();
+                dataManager.IncrementLevelProgress(data.mapData.maps.Count);
                 dataManager.AddIngameStarsToUserData();
                 //ReturnToMenu();
                 break;
