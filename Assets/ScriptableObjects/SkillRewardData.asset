@@ -15,10 +15,14 @@ MonoBehaviour:
   data:
   - dataEntry:
     - type: 0
-      amount: 5
+      amount: 7
+    - type: 1
+      amount: 9
   - dataEntry:
     - type: 0
-      amount: 5
+      amount: 10
   - dataEntry:
     - type: 0
-      amount: 5
+      amount: 7
+    - type: 1
+      amount: 15

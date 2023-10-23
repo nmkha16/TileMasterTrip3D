@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -10,10 +11,12 @@ public class RewardManagerUI : MonoBehaviour
     [Header("Gold Reward")]
     [SerializeField] private Slider goldRewardSlider;
     [SerializeField] private TMP_Text goldRewardProgressText;
+    [SerializeField] private TMP_Text floatingTextGoldRewards;
 
     [Header("Skill Reward")]
     [SerializeField] private Slider skillRewardSlider;
     [SerializeField] private TMP_Text skillRewardProgressText;
+    [SerializeField] private TMP_Text floatingTextSkillRewards;
 
     [Header("Reward Box")]
     [SerializeField] private Animator goldRewardBoxAnimator;
@@ -45,18 +48,42 @@ public class RewardManagerUI : MonoBehaviour
         skillRewardBoxPointer.enabled = toggle;
     }
 
-    public void OpenGoldRewardBox(){
+    public void OpenGoldRewardBox(int reward){
+        // set floating text
+        floatingTextGoldRewards.text = "+" + reward.ToString();
+        OpenGoldRewardFloatingText();
         goldRewardBoxAnimator.enabled = false;
         goldRewardBoxAnimator.gameObject.SetActive(false);
         goldRewardBoxPointer.enabled = false;
         openGoldRewardBox.SetActive(true);
     }
 
-    public void OpenSkillRewardBox(){
+    public async void OpenGoldRewardFloatingText(int milliseconds = 3000){
+        floatingTextGoldRewards.gameObject.SetActive(true);
+        await Task.Delay(milliseconds);
+        floatingTextGoldRewards.gameObject.SetActive(false);
+    }
+
+    public void OpenSkillRewardBox(List<SkillReward> rewards){
+        // set floating text
+        StringBuilder builder = new StringBuilder();
+        foreach(var reward in rewards){
+            builder.AppendLine("+ x"+ reward.amount + " " + reward.type.ToString());
+        }
+        floatingTextSkillRewards.text = builder.ToString();
+        builder.Clear();
+        OpenSkillRewardFloatingText();
+
         skillRewardBoxAnimator.enabled = false;
         skillRewardBoxPointer.gameObject.SetActive(false);
         skillRewardBoxPointer.enabled = false;
         openSkillRewardBox.SetActive(true);
+    }
+
+    public async void OpenSkillRewardFloatingText(int milliseconds = 3000){
+        floatingTextSkillRewards.gameObject.SetActive(true);
+        await Task.Delay(milliseconds);
+        floatingTextSkillRewards.gameObject.SetActive(false);
     }
 
     public async void CloseGoldRewardBox(int milliseconds){

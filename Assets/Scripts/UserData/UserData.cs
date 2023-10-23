@@ -9,6 +9,7 @@ public class UserData
     public int star;
     public int gold;
     public int undo;
+    public int tacNuke;
     public List<ClaimRewardState> goldRewardClaimStates;
     public List<ClaimRewardState> skillRewardClaimStates;
 
@@ -17,6 +18,7 @@ public class UserData
         this.star = star;
         this.gold = gold;
         this.undo = 50;
+        this.tacNuke = 20;
 
         goldRewardClaimStates = new(new ClaimRewardState[10]);
         skillRewardClaimStates = new(new ClaimRewardState[10]);
@@ -58,8 +60,11 @@ public class UserData
     public void AddSkills(List<SkillReward> rewards){
         foreach(var entry in rewards){
             switch(entry.type){
-                case SkillType.r_undo:
+                case SkillType.Undo:
                     this.undo += entry.amount;
+                    break;
+                case SkillType.Tactical_Nuke:
+                    this.tacNuke += entry.amount;
                     break;
             }
         }
@@ -68,8 +73,11 @@ public class UserData
 
     public void AddSkill(SkillType type, int amount){
         switch(type){
-            case SkillType.r_undo:
-                this.undo +=  amount;
+            case SkillType.Undo:
+                this.undo += amount;
+                break;
+            case SkillType.Tactical_Nuke:
+                this.tacNuke += amount;
                 break;
         }
         OnUserDataChanged?.Invoke(this);

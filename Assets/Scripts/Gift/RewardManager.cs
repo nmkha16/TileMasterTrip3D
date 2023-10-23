@@ -106,14 +106,12 @@ public class RewardManager : MonoBehaviour
     }
 
     private void ClaimGoldReward(){
+        // handle the data, get amount to reward
+        var goldAmount = goldRewardData.data.gold[currentGoldRewardStep >= goldRewardData.data.gold.Count ? goldRewardData.data.gold.Count-1 : currentGoldRewardStep];
         // show opening box
-        rewardManagerUI.OpenGoldRewardBox();
+        rewardManagerUI.OpenGoldRewardBox(goldAmount);
         // play sound
         SoundManager.Instance.PlayOneShotSound(SoundId.s_ui_gift_open);
-        // handle the data
-        var rewardIdx = Mathf.FloorToInt(dataManager.level/(float)goldRewardStepOffset);
-        
-        var goldAmount = goldRewardData.data.gold[rewardIdx >= goldRewardData.data.gold.Count ? goldRewardData.data.gold.Count-1 : rewardIdx];
         dataManager.SetClaimGoldRewardStatus(currentGoldRewardStep, true);
         dataManager.TransactGold(goldAmount);
 
@@ -122,13 +120,12 @@ public class RewardManager : MonoBehaviour
     }
 
     private void ClaimSkillReward(){
+        // handle the data
+        var rewards = skillRewardData.data[currentSkillRewardStep >= skillRewardData.data.Count ? skillRewardData.data.Count-1 : currentSkillRewardStep];
         // show opening box
-        rewardManagerUI.OpenSkillRewardBox();
+        rewardManagerUI.OpenSkillRewardBox(rewards.dataEntry);
         // play sound
         SoundManager.Instance.PlayOneShotSound(SoundId.s_ui_gift_open);
-        // handle the data
-        var rewardIdx = GetLevelFromStars(dataManager.star);
-        var rewards = skillRewardData.data[rewardIdx >= skillRewardData.data.Count ? skillRewardData.data.Count-1 : rewardIdx];
         dataManager.SetClaimSkillRewardStatus(currentSkillRewardStep, true);
         dataManager.AddSkills(rewards.dataEntry);
         

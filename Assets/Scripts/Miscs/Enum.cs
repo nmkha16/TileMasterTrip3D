@@ -65,5 +65,6 @@ public enum SoundId{
 }
 
 public enum SkillType{
-    r_undo,
+    Undo,
+    Tactical_Nuke
 }

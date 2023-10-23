@@ -126,7 +126,7 @@ public class DataManager : MonoBehaviour
     public void Undo(){
         if (userData.undo > 0){
             CommandInvoker.UndoCommand();
-            userData.AddSkill(SkillType.r_undo,-1);
+            userData.AddSkill(SkillType.Undo,-1);
         }
     }
 
