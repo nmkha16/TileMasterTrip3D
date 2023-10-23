@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("Map Data")]
     [SerializeField] private MapDataScriptableObject data;
     public int playOnCost = 1000;
+    public int maximumTriplet = 2;
     [Header("Factories")]
     [SerializeField] private ObjectFactory[] factories;
     private ObjectFactory factory;
@@ -202,7 +203,7 @@ public class GameManager : MonoBehaviour
             float k = UnityEngine.Random.Range(0f,1f);
             if (tileOdd <= k) continue;
 
-            int setsOfThreeCount = UnityEngine.Random.Range(2,4);
+            int setsOfThreeCount = UnityEngine.Random.Range(1,maximumTriplet+1);
             while(setsOfThreeCount-- >= 0){
                 // spawn 3 tiles of the same type
                 for (int j = 0; j < 3; j++){
