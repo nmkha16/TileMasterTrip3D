@@ -62,6 +62,13 @@ Game too hard? **Drop a tactical nuke on them**.
 - **Object Pool**
 - **Factory**
 - **Singleton**
+- **State**
+
+### Optimization
+- **Sprite Atlas**
+- **TexturePacker Importer**
+- **Pooling Objects**
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
