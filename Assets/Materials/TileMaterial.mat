@@ -39,7 +39,7 @@ Material:
     m_Floats:
     - _CelShadingBrightness: 0.75
     - _IntersectionHeight: 0
-    - _LightingCutoff: 0.4
+    - _LightingCutoff: 0.492
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Spread: 0.06
