@@ -38,6 +38,11 @@ public class RewardManagerUI : MonoBehaviour
         skillRewardProgressText.text = current + "/" + maxBound;
     }
 
+    public void DisableClaimReward(){
+        ToggleGoldRewardToClaim(false);
+        ToggleSkillRewardToClaim(false);
+    }
+
     public void ToggleGoldRewardToClaim(bool toggle){
         goldRewardBoxAnimator.enabled = toggle;
         goldRewardBoxPointer.enabled = toggle;

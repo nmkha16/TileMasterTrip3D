@@ -27,11 +27,13 @@ public class RewardManager : MonoBehaviour
     private void Start() {
         rewardManagerUI.goldRewardBoxPointer.OnClicked += ClaimGoldReward;
         rewardManagerUI.skillRewardBoxPointer.OnClicked += ClaimSkillReward;
+        dataManager.OnDeletedUserData += rewardManagerUI.DisableClaimReward;
     }
 
     private void OnDestroy() {
         rewardManagerUI.goldRewardBoxPointer.OnClicked -= ClaimGoldReward;
         rewardManagerUI.skillRewardBoxPointer.OnClicked -= ClaimSkillReward;
+        dataManager.OnDeletedUserData -= rewardManagerUI.DisableClaimReward;
     }
 
     public void SetRewardsProgress(UserData userData){

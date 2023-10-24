@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    public Action OnDeletedUserData;
     public Action<int> OnIngameStarsUpdated; 
     [Header("User Data")]
     private UserData userData;
@@ -65,6 +66,7 @@ public class DataManager : MonoBehaviour
 
     public void ClearData(){
         userData.Clear();
+        OnDeletedUserData?.Invoke();
     }
 
     private async Task<UserData> LoadData(){
