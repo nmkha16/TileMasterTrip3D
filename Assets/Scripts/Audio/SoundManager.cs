@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
+    public event Action OnVolumeSettingLoaded;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
@@ -38,10 +39,11 @@ public class SoundManager : MonoBehaviour
         else{
             Destroy(gameObject);
         }
+        setting = new(audioMixer);
     }
 
     private void Start(){
-        setting = new(audioMixer);
+        OnVolumeSettingLoaded?.Invoke();
         // construct sound dictionary
         foreach(var clip in audioData.musics){
             soundDict.Add(clip.id, clip.audioClip);
@@ -150,5 +152,13 @@ public class SoundManager : MonoBehaviour
         else{
             Debug.LogWarning("Error trying to parse sound id.\nPlease check your string or enum.");
         }
+    }
+
+    public void SetMusicVolume(float value){
+        setting.SetMusicVolume(value);
+    }
+
+    public void SetSFXVolume(float value){
+        setting.SetSFXVolume(value);
     }
 }

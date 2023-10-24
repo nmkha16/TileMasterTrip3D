@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
     private void Start(){
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         
         groundMaterial = groundRenderer.material;
 

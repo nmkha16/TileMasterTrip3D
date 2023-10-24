@@ -33,12 +33,17 @@ public class DataManagerUI : MonoBehaviour
     [SerializeField] private TMP_Text undoSkillRemainingText;
     [SerializeField] private TMP_Text nukeSkillRemainingText;
 
+    private void Awake() {
+        SoundManager.Instance.OnVolumeSettingLoaded += ConfigurateVolumeSetting;
+    }
+
     private void Start(){
         appVersionText.text = appVersionPrefix + Application.version;
-        ConfigurateVolumeSetting();
     }
 
     private void OnDestroy() {
+        SoundManager.Instance.OnVolumeSettingLoaded -= ConfigurateVolumeSetting;
+
         musicSlider1.onValueChanged.RemoveAllListeners();
         musicSlider2.onValueChanged.RemoveAllListeners();
 
@@ -75,11 +80,12 @@ public class DataManagerUI : MonoBehaviour
         sfxSlider1.value = sfxVolume;
         sfxSlider2.value = sfxVolume;
 
-        // bind slider to volume settings
-        musicSlider1.onValueChanged.AddListener(setting.SetMusicVolume);
-        musicSlider2.onValueChanged.AddListener(setting.SetMusicVolume);
+        // nmkha: this won't work on android build for some reason and god knows why, i added function directly on inspector OnValueChanged!!!
+        // // bind slider to volume settings
+        // musicSlider1.onValueChanged.AddListener(setting.SetMusicVolume);
+        // musicSlider2.onValueChanged.AddListener(setting.SetMusicVolume);
 
-        sfxSlider1.onValueChanged.AddListener(setting.SetSFXVolume);
-        sfxSlider1.onValueChanged.AddListener(setting.SetSFXVolume);
+        // sfxSlider1.onValueChanged.AddListener(setting.SetSFXVolume);
+        // sfxSlider1.onValueChanged.AddListener(setting.SetSFXVolume);
     }
 }
