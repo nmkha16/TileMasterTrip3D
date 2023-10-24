@@ -38,10 +38,10 @@ public class SoundManager : MonoBehaviour
         else{
             Destroy(gameObject);
         }
-        setting = new(audioMixer);
     }
 
     private void Start(){
+        setting = new(audioMixer);
         // construct sound dictionary
         foreach(var clip in audioData.musics){
             soundDict.Add(clip.id, clip.audioClip);
