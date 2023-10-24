@@ -61,7 +61,7 @@ public class PoolManager : MonoBehaviour
         {
             return;
         }
-
+        
         foreach(KeyValuePair<GameObject,Pool> pool in currentPools){
             if (pool.Value.IsResponsibleForObject(go)){
                 pool.Value.Kill(go);

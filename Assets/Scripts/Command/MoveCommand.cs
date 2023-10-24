@@ -16,12 +16,13 @@ public class MoveCommand : ICommand
 
     public void Execute()
     {
+        if (this.tileProduct.isDestroyed) return;
         this.tileProduct?.DoMove(nextPosition);
     }
 
     public bool Undo()
     {
-        if (this.tileProduct == null) return false;
+        if (this.tileProduct.isDestroyed) return false;
         this.tileProduct.DoMove(lastPosition);
         TilesManager.Instance.RemoveFromList(this.tileProduct);
         return true;

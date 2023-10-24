@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MapDataScriptableObject data;
     public int playOnCost = 1000;
     public int maximumTriplet = 2;
-    [Header("Factories")]
+    [Header("Factories/Pool Manager")]
     [SerializeField] private ObjectFactory[] factories;
+    public PoolManager poolManager;
     private ObjectFactory factory;
     [Header("Level")]
     public int currentLevel;
@@ -99,7 +100,7 @@ public class GameManager : MonoBehaviour
         
         inputReader.OnUndoPerformed += dataManager.Undo;
         inputReader.OnNukePerformed += DoTacticalNuke;
-
+        
         State = GameState.Menu;
     }
 
@@ -111,6 +112,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartGame(){
+        CommandInvoker.ClearStack();
         OnGameStarted?.Invoke();
         TotalTilesCount = 0;
         tilesManager.enabled = true;
@@ -217,15 +219,16 @@ public class GameManager : MonoBehaviour
             // roll odd to decide whether to spawn
             float tileOdd = currentData[i].chance;
             float k = UnityEngine.Random.Range(0f,1f);
-            if (tileOdd <= k) continue;
+            if (tileOdd < k) continue;
 
             int setsOfThreeCount = UnityEngine.Random.Range(1,maximumTriplet+1);
             while(setsOfThreeCount-- >= 0){
                 // spawn 3 tiles of the same type
                 for (int j = 0; j < 3; j++){
                     Vector3 pos = mainCamera.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(Screen.height*0.3f,Screen.height*0.9f), 0));
-                    pos.y = UnityEngine.Random.Range(1.5f,2f);
-                    var tileProduct = factory.GetProduct(pos);
+                    pos.y = UnityEngine.Random.Range(2f,3f);
+                    //var tileProduct = factory.GetProduct(pos);
+                    var tileProduct = factory.GetProduct(poolManager,pos);
                     tileProduct.gameObjectProduct.GetComponent<TileProduct>().Initialize(currentData[i].name,currentData[i].sprite);
                     TotalTilesCount ++;
                 }

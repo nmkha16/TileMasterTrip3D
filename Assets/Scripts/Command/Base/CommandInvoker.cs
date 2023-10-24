@@ -8,6 +8,11 @@ public class CommandInvoker
 
     private static Stack<ICommand> redoStack = new Stack<ICommand>();
 
+    public static void ClearStack(){
+        undoStack.Clear();
+        redoStack.Clear();
+    }
+
     public static void ExecuteCommand(ICommand command){
         command.Execute();
         undoStack.Push(command);
@@ -15,9 +20,9 @@ public class CommandInvoker
         redoStack.Clear();
     }
 
-    public static void UndoCommand(){
+    public static bool UndoCommand(){
+        bool undoSuccess = false;
         if (undoStack.Count > 0){
-            bool undoSuccess = false;
             do{
                 ICommand activeCommand = undoStack.Pop();
                 redoStack.Push(activeCommand);
@@ -25,6 +30,7 @@ public class CommandInvoker
 
             }while(!undoSuccess && undoStack.Count > 0);
         }
+        return undoSuccess;
     }
 
     public static void UndoAllCommands(){
