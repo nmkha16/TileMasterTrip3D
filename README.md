@@ -176,7 +176,7 @@ You can build this project using:
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I would like to thank to Dented Pixel for free LeanTween library and CodeAndWeb GmbH for their awesome sprite optimization TexturePacker Importer library and many other authors for providing non-copyrighted products to use in my project.
+I would like to thank to Dented Pixel for free LeanTween library and CodeAndWeb GmbH for their awesome sprite optimization TexturePacker Importer library, chrisnolet for his awesome outline shader, and many other authors for providing non-copyrighted products to use in my project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
