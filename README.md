@@ -62,15 +62,46 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-[Gameplay demo](https://youtu.be/-EQ537rt6mI)
+### Video
+**[Gameplay demo](https://youtu.be/-EQ537rt6mI)**
+
+### Screenshot
+
+#### Main Menu
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/b2a7ed04-0f57-4283-9b6b-d9becb05143d)
+
+#### Setting
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/d3b36465-afda-4b6b-adfb-9d2ac4e6d56f)
+
+#### Gameplay
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/de99b2fb-1850-42d5-a2d8-0544e113283f)
+
+#### Tiles Explosion
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/be6613a7-b654-419f-8836-d4060c63695f)
+
+#### Tactical Nuke Incomming
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/832aa170-a272-402e-92a3-8bd4ccab1224)
+
+#### Tactical Nuke Explosion
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/c83177c3-e608-42ec-b70e-471bf1f5e9a0)
+
+
+#### Gameplay-pause
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/317dca71-cce0-4f77-9111-3eef1d6d2877)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
 ## 💻 Getting Started <a name="getting-started"></a>
-
-> Describe how a new developer could make use of your project.
 
 To get a local copy up and running, follow these steps.
 
