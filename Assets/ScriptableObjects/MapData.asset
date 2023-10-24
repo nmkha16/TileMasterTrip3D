@@ -25,12 +25,15 @@ MonoBehaviour:
       - name: 3
         sprite: {fileID: 21300000, guid: d1565fab0bd9f3544bb4e1c315e2f350, type: 3}
         chance: 1
-      - name: 1
+      - name: 4
         sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
         chance: 0.8
-      - name: 0
+      - name: 5
         sprite: {fileID: 21300000, guid: 486bff7c250b7494282fda39ce1130e9, type: 3}
-        chance: 0.5
+        chance: 0.77
+      - name: 6
+        sprite: {fileID: 21300000, guid: 60303d2a74b8a6a428cc1992db6639e4, type: 3}
+        chance: 0.58
     - playTime: 300
       tilePool:
       - name: 1
