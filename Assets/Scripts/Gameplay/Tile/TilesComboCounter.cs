@@ -59,5 +59,6 @@ public class TilesComboCounter : MonoBehaviour
 
     private void ResetMultiplier(){
         multiplier = 1;
+        OnComboUpdated?.Invoke(multiplier);
     }
 }

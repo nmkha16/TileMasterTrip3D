@@ -21,6 +21,8 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private IClickable clickable;
     private bool isCooldown;
 
+    public bool isDestroyed;
+
     private void Awake(){
         mainCamera = Camera.main;
         defaultScale = this.transform.localScale;
@@ -32,17 +34,28 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 
     private void Start(){
         tileProductMove = GetComponent<TileProductMove>();
-        Invoke(nameof(IncreaseDrag),3f);
-        GameManager.Instance.OnGameStarted += Dispose;
+        
         GameManager.Instance.OnReturnedToMenu += Dispose;
+        GameManager.Instance.OnGameStarted += Dispose;
+        // GameManager.Instance.OnGameEnded += Dispose;
         GameManager.Instance.OnNuked += Dispose;
         GameManager.Instance.OnGamePaused += DisableMotion;
         GameManager.Instance.OnGameUnpaused += EnableMotion;
     }
 
+    private void OnEnable() {
+        Invoke(nameof(IncreaseDrag),6f);
+    }
+
+    private void OnDisable() {
+        rgbd.drag = 1f;
+        rgbd.angularDrag = 0.01f;
+    }
+
     private void OnDestroy(){
         GameManager.Instance.OnReturnedToMenu -= Dispose;
         GameManager.Instance.OnGameStarted -= Dispose;
+        // GameManager.Instance.OnGameEnded -= Dispose;
         GameManager.Instance.OnNuked -= Dispose;
         GameManager.Instance.OnGamePaused -= DisableMotion;
         GameManager.Instance.OnGameUnpaused -= EnableMotion;
@@ -51,23 +64,15 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     public void Initialize(TileName name, Sprite sprite){
         this.tileName = name;
         this.spriteRenderer.sprite = sprite;        
-        this.transform.rotation = Quaternion.Euler(new Vector3(UnityEngine.Random.Range(-90f,90f),UnityEngine.Random.Range(-90f,90f),0f));
+        isDestroyed = false;
     }
 
-    private void Update(){
-        if (isCooldown) return;
-        if (IsUpdsideDown()){
-            ToppleUp();
-        }
-    }
-
-    // constraint Tile within camera view
-    private void FixedUpdate(){
-        Vector3 pos = mainCamera.WorldToViewportPoint (transform.position);
-		pos.x = Mathf.Clamp(pos.x,0.1f,0.9f);
-		pos.y = Mathf.Clamp(pos.y,0.3f,0.9f);
-		transform.position = Camera.main.ViewportToWorldPoint(pos);
-    }
+    // private void Update(){
+    //     if (isCooldown) return;
+    //     if (IsUpdsideDown()){
+    //         ToppleUp();
+    //     }
+    // }
 
     private void EnableMotion(){
         SetMotion(true);
@@ -96,12 +101,14 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 
     public void Click(){
         if (!isPointerOnSelf) return;
-        SoundManager.Instance.PlayOneShotSound(SoundId.s_select_tile);
-        CancelHover();
-        var pos = TilesManager.Instance.GetTileUISlotPosition(this.tileName);
-        // invoke move command
-        ICommand command = new MoveCommand(this,this.transform.position,pos);
-        CommandInvoker.ExecuteCommand(command);
+        if (TilesManager.Instance.isAvailableToMove){
+            SoundManager.Instance.PlayOneShotSound(SoundId.s_select_tile);
+            CancelHover();
+            var pos = TilesManager.Instance.GetTileUISlotPosition(this.tileName);
+            // invoke move command
+            ICommand command = new MoveCommand(this,this.transform.position,pos);
+            CommandInvoker.ExecuteCommand(command);
+        }
     }
 
     public void DoMove(Vector3 destination){
@@ -109,13 +116,16 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     }
 
     private void IncreaseDrag(){
-        this.rgbd.drag = DragValue;
-        //this.rgbd.angularDrag = DragValue;
+        // this.rgbd.drag = DragValue;
+        this.rgbd.angularDrag = DragValue;
     }
 
     public void Dispose()
     {
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
+        isDestroyed = true;
+        SetMotion(true);
+        GameManager.Instance.poolManager.Kill(gameObject);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -139,7 +149,7 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     private void ToppleUp(){
         isCooldown = true;
         rgbd.drag= 0f;
-        rgbd.AddForceAtPosition(Vector3.up * 4f,transform.position * 0.75f,ForceMode.Impulse);
+        rgbd.AddForceAtPosition(Vector3.up * 2f,transform.position * 0.75f,ForceMode.Impulse);
         rgbd.AddTorque(Vector3.up*2f,ForceMode.Impulse);
         Invoke(nameof(IncreaseDrag),3f);
         Invoke(nameof(ResetCooldown),3f);

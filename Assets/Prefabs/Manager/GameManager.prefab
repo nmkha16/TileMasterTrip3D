@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1153319984019837448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1660795719746506495}
+  - component: {fileID: 8985712945047288604}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1660795719746506495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153319984019837448}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 742803194001021215}
+  m_Father: {fileID: 6222324317824765104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8985712945047288604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153319984019837448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6989c707463206a4696c92f72178a970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1388816292708199222
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +404,7 @@ Transform:
   - {fileID: 17378740724739880}
   - {fileID: 8456529895599183787}
   - {fileID: 8067528215067276155}
+  - {fileID: 1660795719746506495}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8289602305395749748
@@ -374,7 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraActionHandler: {fileID: 0}
-  nukeExplosionEffectPrefab: {fileID: 7894986362847478994, guid: 7a20a2aafcfa2fb43bf74feb8152a069, type: 3}
+  nukeExplosionEffectPrefab: {fileID: 4305686991832115151, guid: 7a20a2aafcfa2fb43bf74feb8152a069, type: 3}
   inputReader: {fileID: 7367911419565186581}
   data: {fileID: 11400000, guid: 0903b93481d035449b472b678680490e, type: 2}
   playOnCost: 1000
@@ -382,6 +428,7 @@ MonoBehaviour:
   factories:
   - {fileID: 2790867069684920982}
   - {fileID: 6124402758159964516}
+  poolManager: {fileID: 0}
   currentLevel: 0
   groundRenderer: {fileID: 0}
   timer: {fileID: 2281576378996852406}
@@ -401,6 +448,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   touchPosition: {x: 0, y: 0}
+--- !u!1 &6517431065367159170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 742803194001021215}
+  - component: {fileID: 738733471099842774}
+  m_Layer: 0
+  m_Name: Tiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &742803194001021215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517431065367159170}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1660795719746506495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &738733471099842774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517431065367159170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234b91e4c8599f644b7840820d21cea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 800289001453951741, guid: 944860badb2ca21499ed36c7830592e7, type: 3}
+  initialSize: 75
 --- !u!1 &6995753345696363972
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402ef380d8ec309409b73bcfdf9d8386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 1595944041024399308, guid: 944860badb2ca21499ed36c7830592e7, type: 3}
+  tilePrefab: {fileID: 800289001453951741, guid: 944860badb2ca21499ed36c7830592e7, type: 3}
   parent: {fileID: 0}
 --- !u!1 &7990167823650464704
 GameObject:
@@ -537,7 +630,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionUI: {fileID: 0}
-  tilesList: []
   isRemoving: 0
   explosionEffect: {fileID: 0}
 --- !u!114 &5815472008150063589
