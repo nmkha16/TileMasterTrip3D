@@ -25,6 +25,11 @@
 
 **FlowerTileMaster3D** is a hypercasual game of matching triplet, select three tile of the same flower to explode them. Destroy all tiles to win the game.
 
+## Tips
+If you're short on gold, press plus symbol on gold counter to get 200 gold.
+
+Game too hard? **Drop a tactical nuke on them**.
+
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
