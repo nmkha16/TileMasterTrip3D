@@ -8,6 +8,7 @@
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
     - [Design Patterns](#design-patterns)
+    - [Optimization](#optimization)
   - [🚀 Live Demo](#live-demo)
 - [💻 Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -54,8 +55,6 @@ Game too hard? **Drop a tactical nuke on them**.
   </ul>
 </details>
 
-<!-- Features -->
-
 ### Design Patterns <a name="design-patterns"></a>
 
 - **Command**
@@ -64,7 +63,7 @@ Game too hard? **Drop a tactical nuke on them**.
 - **Singleton**
 - **State**
 
-### Optimization
+### Optimization <a name="optimization"></a>
 - **Sprite Atlas**
 - **TexturePacker Importer**
 - **Pooling Objects**
