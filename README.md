@@ -18,7 +18,6 @@
 - [🔭 Future Features](#future-features)
 - [🙏 Acknowledgements](#acknowledgements)
 - [❓ FAQ](#faq)
-- [📝 License](#license)
 
 <!-- PROJECT DESCRIPTION -->
 
@@ -78,32 +77,33 @@ On Unity Editor, go to Tools\Map Editor
 
 #### Main Menu
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/b2a7ed04-0f57-4283-9b6b-d9becb05143d)
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/1db4ff7f-7af1-4a6c-a275-340ca65ce5dc)
+
 
 #### Setting
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/d3b36465-afda-4b6b-adfb-9d2ac4e6d56f)
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/92924010-2c54-4713-b8c3-73505125f3be)
 
 #### Gameplay
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/de99b2fb-1850-42d5-a2d8-0544e113283f)
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/96defc94-9fb1-42b4-88ff-28c5c562317b)
 
 #### Tiles Explosion
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/be6613a7-b654-419f-8836-d4060c63695f)
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/f491a8e3-2b4e-470e-95e7-03f129434e8d)
+
 
 #### Tactical Nuke Incomming
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/832aa170-a272-402e-92a3-8bd4ccab1224)
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/c649ab83-48b5-45b6-82c3-bfc9cdd6242c)
 
 #### Tactical Nuke Explosion
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/c83177c3-e608-42ec-b70e-471bf1f5e9a0)
-
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/af67416b-9c35-4306-85e1-ec8f5cd896c4)
 
 #### Gameplay-pause
 
-![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/317dca71-cce0-4f77-9111-3eef1d6d2877)
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/26fc669c-5902-4595-8ae2-22450611fc8b)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -191,15 +191,5 @@ I would like to thank to Dented Pixel for free LeanTween library and CodeAndWeb 
 - **Why is the UI style not consistent?**
 
   - Great question, for I am a developer with no skill in art design field, I am not proficient enough to draw all the UI for the game.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
-
-## 📝 License <a name="license"></a>
-
-This project is [MIT](./LICENSE) licensed.
-
-_NOTE: we recommend using the [MIT license](https://choosealicense.com/licenses/mit/) - you can set it up quickly by [using templates available on GitHub](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository). You can also use [any other license](https://choosealicense.com/licenses/) if you wish._
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
