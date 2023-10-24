@@ -19,7 +19,6 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
     public float DragValue = 20;
     private bool isPointerOnSelf;
     private IClickable clickable;
-    private bool isCooldown;
 
     public bool isDestroyed;
 
@@ -66,13 +65,6 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
         this.spriteRenderer.sprite = sprite;        
         isDestroyed = false;
     }
-
-    // private void Update(){
-    //     if (isCooldown) return;
-    //     if (IsUpdsideDown()){
-    //         ToppleUp();
-    //     }
-    // }
 
     private void EnableMotion(){
         SetMotion(true);
@@ -144,19 +136,6 @@ public class TileProduct : MonoBehaviour, IProduct, IHoverable, IClickable, IDis
 
     private bool IsUpdsideDown(){
         return Vector3.Dot(transform.up,Vector3.down) > 0;
-    }
-
-    private void ToppleUp(){
-        isCooldown = true;
-        rgbd.drag= 0f;
-        rgbd.AddForceAtPosition(Vector3.up * 2f,transform.position * 0.75f,ForceMode.Impulse);
-        rgbd.AddTorque(Vector3.up*2f,ForceMode.Impulse);
-        Invoke(nameof(IncreaseDrag),3f);
-        Invoke(nameof(ResetCooldown),3f);
-    }
-
-    private void ResetCooldown(){
-        isCooldown = false;
     }
 }
 
