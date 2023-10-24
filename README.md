@@ -67,6 +67,15 @@
 
 ### Screenshot
 
+#### Map Editor
+
+```
+On Unity Editor, go to Tools\Map Editor
+```
+
+![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/a9e1f72e-118c-4f9e-97cc-2fac611b61eb)
+
+
 #### Main Menu
 
 ![image](https://github.com/nmkha16/TileMasterTrip3D/assets/91834063/b2a7ed04-0f57-4283-9b6b-d9becb05143d)
