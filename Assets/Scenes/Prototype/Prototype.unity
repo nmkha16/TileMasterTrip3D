@@ -21665,6 +21665,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2124087486}
     - target: {fileID: 8289602305395749748, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
+      propertyPath: maximumTriplet
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289602305395749748, guid: 67cab4bd8e587dc44b9e59514e1654bc, type: 3}
       propertyPath: cameraActionHandler
       value: 
       objectReference: {fileID: 2020294528}
