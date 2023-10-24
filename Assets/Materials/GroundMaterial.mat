@@ -36,6 +36,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_48095eb9278a4606be1a05a9d70c3149_Texture_1_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -60,5 +64,5 @@ Material:
     - _Spread: 0
     m_Colors:
     - _LowerColor: {r: 0, g: 0.3341205, b: 1, a: 0}
-    - _UpperColor: {r: 0.99215686, g: 0.8392157, b: 0, a: 0}
+    - _UpperColor: {r: 0.99215686, g: 0.46887615, b: 0, a: 0}
   m_BuildTextureStacks: []

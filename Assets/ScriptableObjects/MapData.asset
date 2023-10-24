@@ -17,27 +17,18 @@ MonoBehaviour:
     - playTime: 200
       tilePool:
       - name: 1
-        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
-        chance: 1
-      - name: 2
         sprite: {fileID: 21300000, guid: 31cfaee426ab67041b96456f7b6f494a, type: 3}
         chance: 1
-      - name: 3
-        sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
+      - name: 2
+        sprite: {fileID: 21300000, guid: 7ae687a732c712345af9805f09c025ff, type: 3}
         chance: 1
-      - name: 4
+      - name: 3
+        sprite: {fileID: 21300000, guid: d1565fab0bd9f3544bb4e1c315e2f350, type: 3}
+        chance: 1
+      - name: 1
         sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
-        chance: 0.9
-      - name: 5
-        sprite: {fileID: 21300000, guid: bcf287b26a81f2e4c93208c5df76db7f, type: 3}
         chance: 0.8
-      - name: 6
-        sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
-        chance: 0.7
-      - name: 7
-        sprite: {fileID: 21300000, guid: 1e160ee5ecb109d4ba35d43196fb83c6, type: 3}
-        chance: 0.6
-      - name: 8
+      - name: 0
         sprite: {fileID: 21300000, guid: 486bff7c250b7494282fda39ce1130e9, type: 3}
         chance: 0.5
     - playTime: 300
@@ -53,55 +44,49 @@ MonoBehaviour:
         chance: 1
       - name: 4
         sprite: {fileID: 21300000, guid: f3caca2c2718aff40838e4bd9214d23e, type: 3}
-        chance: 0.91
+        chance: 1
       - name: 5
         sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
-        chance: 0.64
+        chance: 1
       - name: 6
-        sprite: {fileID: 21300000, guid: 486bff7c250b7494282fda39ce1130e9, type: 3}
-        chance: 1
-      - name: 7
-        sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
-        chance: 1
-      - name: 8
         sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
-        chance: 0.56
+        chance: 0.78
+      - name: 7
+        sprite: {fileID: 21300000, guid: c59ac2b1e3b143b45a90dc8405747aa9, type: 3}
+        chance: 0.49
     - playTime: 400
       tilePool:
       - name: 1
-        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
+        sprite: {fileID: 21300000, guid: 60303d2a74b8a6a428cc1992db6639e4, type: 3}
         chance: 1
       - name: 2
-        sprite: {fileID: 21300000, guid: 85f49de5fc416aa489c16b0ebcc68263, type: 3}
+        sprite: {fileID: 21300000, guid: c402ddbab26a8c04f8c733932fff2f6f, type: 3}
         chance: 1
       - name: 3
         sprite: {fileID: 21300000, guid: 31cfaee426ab67041b96456f7b6f494a, type: 3}
         chance: 1
       - name: 4
-        sprite: {fileID: 21300000, guid: f3caca2c2718aff40838e4bd9214d23e, type: 3}
+        sprite: {fileID: 21300000, guid: 7ae687a732c712345af9805f09c025ff, type: 3}
         chance: 1
       - name: 5
         sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
         chance: 1
       - name: 6
         sprite: {fileID: 21300000, guid: 486bff7c250b7494282fda39ce1130e9, type: 3}
-        chance: 0.8
+        chance: 1
       - name: 7
-        sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
+        sprite: {fileID: 21300000, guid: c59ac2b1e3b143b45a90dc8405747aa9, type: 3}
         chance: 1
       - name: 8
-        sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
-        chance: 0.8
+        sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
+        chance: 0.71
       - name: 9
-        sprite: {fileID: 21300000, guid: bcf287b26a81f2e4c93208c5df76db7f, type: 3}
-        chance: 1
-      - name: 10
-        sprite: {fileID: 21300000, guid: 60303d2a74b8a6a428cc1992db6639e4, type: 3}
-        chance: 0.8
+        sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
+        chance: 0.67
     - playTime: 500
       tilePool:
       - name: 1
-        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
+        sprite: {fileID: 21300000, guid: 60303d2a74b8a6a428cc1992db6639e4, type: 3}
         chance: 1
       - name: 2
         sprite: {fileID: 21300000, guid: 85f49de5fc416aa489c16b0ebcc68263, type: 3}
@@ -110,7 +95,7 @@ MonoBehaviour:
         sprite: {fileID: 21300000, guid: 31cfaee426ab67041b96456f7b6f494a, type: 3}
         chance: 1
       - name: 4
-        sprite: {fileID: 21300000, guid: f3caca2c2718aff40838e4bd9214d23e, type: 3}
+        sprite: {fileID: 21300000, guid: bcf287b26a81f2e4c93208c5df76db7f, type: 3}
         chance: 1
       - name: 5
         sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
@@ -123,17 +108,17 @@ MonoBehaviour:
         chance: 1
       - name: 8
         sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
-        chance: 0.5
-      - name: 9
-        sprite: {fileID: 21300000, guid: bcf287b26a81f2e4c93208c5df76db7f, type: 3}
-        chance: 0.76
-      - name: 0
-        sprite: {fileID: 21300000, guid: 1e160ee5ecb109d4ba35d43196fb83c6, type: 3}
         chance: 1
+      - name: 9
+        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
+        chance: 0.78
+      - name: 10
+        sprite: {fileID: 21300000, guid: 1e160ee5ecb109d4ba35d43196fb83c6, type: 3}
+        chance: 0.64
     - playTime: 600
       tilePool:
       - name: 1
-        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
+        sprite: {fileID: 21300000, guid: f3caca2c2718aff40838e4bd9214d23e, type: 3}
         chance: 1
       - name: 2
         sprite: {fileID: 21300000, guid: 85f49de5fc416aa489c16b0ebcc68263, type: 3}
@@ -142,24 +127,33 @@ MonoBehaviour:
         sprite: {fileID: 21300000, guid: 31cfaee426ab67041b96456f7b6f494a, type: 3}
         chance: 1
       - name: 4
-        sprite: {fileID: 21300000, guid: f3caca2c2718aff40838e4bd9214d23e, type: 3}
+        sprite: {fileID: 21300000, guid: bcf287b26a81f2e4c93208c5df76db7f, type: 3}
         chance: 1
       - name: 5
         sprite: {fileID: 21300000, guid: abac2a559755f694a9510ed51ba88429, type: 3}
         chance: 1
       - name: 6
         sprite: {fileID: 21300000, guid: 486bff7c250b7494282fda39ce1130e9, type: 3}
-        chance: 0.64
+        chance: 1
       - name: 7
-        sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
-        chance: 0.76
+        sprite: {fileID: 21300000, guid: d1565fab0bd9f3544bb4e1c315e2f350, type: 3}
+        chance: 1
       - name: 8
         sprite: {fileID: 21300000, guid: 1e160ee5ecb109d4ba35d43196fb83c6, type: 3}
         chance: 1
+      - name: 9
+        sprite: {fileID: 21300000, guid: c402ddbab26a8c04f8c733932fff2f6f, type: 3}
+        chance: 1
+      - name: 10
+        sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
+        chance: 0.69
+      - name: 11
+        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
+        chance: 0.6
     - playTime: 700
       tilePool:
       - name: 1
-        sprite: {fileID: 21300000, guid: cb56dd3b533ada647ac99639f4785753, type: 3}
+        sprite: {fileID: 21300000, guid: 381c8809b4237a34582e0dc02e92b518, type: 3}
         chance: 1
       - name: 2
         sprite: {fileID: 21300000, guid: 85f49de5fc416aa489c16b0ebcc68263, type: 3}
@@ -177,14 +171,20 @@ MonoBehaviour:
         sprite: {fileID: 21300000, guid: 486bff7c250b7494282fda39ce1130e9, type: 3}
         chance: 1
       - name: 7
-        sprite: {fileID: 21300000, guid: 1fbdcf47b8e5bdc48ba8f6beafe9634c, type: 3}
-        chance: 0.7
+        sprite: {fileID: 21300000, guid: 60303d2a74b8a6a428cc1992db6639e4, type: 3}
+        chance: 1
       - name: 8
         sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
-        chance: 0.51
+        chance: 1
       - name: 9
         sprite: {fileID: 21300000, guid: bcf287b26a81f2e4c93208c5df76db7f, type: 3}
-        chance: 0.8
+        chance: 1
       - name: 10
-        sprite: {fileID: 21300000, guid: 60303d2a74b8a6a428cc1992db6639e4, type: 3}
-        chance: 0.8
+        sprite: {fileID: 21300000, guid: c402ddbab26a8c04f8c733932fff2f6f, type: 3}
+        chance: 1
+      - name: 11
+        sprite: {fileID: 21300000, guid: 7ae687a732c712345af9805f09c025ff, type: 3}
+        chance: 1
+      - name: 12
+        sprite: {fileID: 21300000, guid: dfeb066fad9a8294ba7228981a108ef4, type: 3}
+        chance: 1
