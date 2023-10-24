@@ -17,7 +17,7 @@
 - [👥 Authors](#authors)
 - [🔭 Future Features](#future-features)
 - [🙏 Acknowledgements](#acknowledgements)
-- [❓ FAQ (OPTIONAL)](#faq)
+- [❓ FAQ](#faq)
 - [📝 License](#license)
 
 <!-- PROJECT DESCRIPTION -->
@@ -62,10 +62,7 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-> Add a link to your deployed project.
-
-<!-- will add later -->
-
+[Gameplay demo](https://youtu.be/-EQ537rt6mI)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
