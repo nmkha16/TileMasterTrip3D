@@ -1,4 +1,4 @@
-# TileMasterTrip3D
+# FlowerTileMaster3D
 
 <!-- TABLE OF CONTENTS -->
 
@@ -22,9 +22,9 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 TileFlowerMaster3D <a name="about-project"></a>
+# 📖 FlowerTileMaster3D <a name="about-project"></a>
 
-**TileFlowerMaster3D** is a hypercasual game of matching triplet, select three tile of the same flower to explode them. Destroy all tiles to win the game.
+**FlowerTileMaster3D** is a hypercasual game of matching triplet, select three tile of the same flower to explode them. Destroy all tiles to win the game.
 
 ## 🛠 Built With <a name="built-with"></a>
 
