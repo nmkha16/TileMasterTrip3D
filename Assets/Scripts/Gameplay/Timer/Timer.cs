@@ -103,7 +103,7 @@ public class Timer : MonoBehaviour
 
     private IEnumerator PlayTimeRunningOutSoundRoutine(){
         while (true){
-            SoundManager.Instance.PlayOneShotSound(SoundId.s_win);
+            SoundManager.Instance.PlayOneShotSound(SoundId.s_time_running_out);
             yield return new WaitForSeconds(1);
         }
     }
