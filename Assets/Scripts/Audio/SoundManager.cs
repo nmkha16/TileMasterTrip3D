@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-    public static Action OnVolumeSettingLoaded;
+    public static Action OnVolumeSettingUpdated;
     public static SoundManager Instance;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource musicSource;
@@ -49,7 +49,7 @@ public class SoundManager : MonoBehaviour
         foreach(var clip in audioData.sfxs){
             soundDict.Add(clip.id,clip.audioClip);
         }
-        OnVolumeSettingLoaded?.Invoke();
+        OnVolumeSettingUpdated?.Invoke();
         // select a random menu music to play
         PlayRandomMenuMusic();
     }
@@ -155,9 +155,11 @@ public class SoundManager : MonoBehaviour
 
     public void SetMusicVolume(float value){
         setting.SetMusicVolume(value);
+        OnVolumeSettingUpdated?.Invoke();
     }
 
     public void SetSFXVolume(float value){
         setting.SetSFXVolume(value);
+        OnVolumeSettingUpdated?.Invoke();
     }
 }
