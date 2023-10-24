@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,15 +34,17 @@ public class DataManagerUI : MonoBehaviour
     [SerializeField] private TMP_Text nukeSkillRemainingText;
 
     private void Awake() {
-        SoundManager.Instance.OnVolumeSettingLoaded += ConfigurateVolumeSetting;
+        SoundManager.OnVolumeSettingLoaded += ConfigurateVolumeSetting;
     }
 
     private void Start(){
-        appVersionText.text = appVersionPrefix + Application.version;
+#if UNITY_EDITOR
+        appVersionText.text = appVersionPrefix + Application.version; // only work in editor
+#endif
     }
 
     private void OnDestroy() {
-        SoundManager.Instance.OnVolumeSettingLoaded -= ConfigurateVolumeSetting;
+        SoundManager.OnVolumeSettingLoaded -= ConfigurateVolumeSetting;
 
         musicSlider1.onValueChanged.RemoveAllListeners();
         musicSlider2.onValueChanged.RemoveAllListeners();
@@ -69,10 +71,9 @@ public class DataManagerUI : MonoBehaviour
     }
 
     private void ConfigurateVolumeSetting(){
-        var setting = SoundManager.Instance.setting;
         // set slider value on first load
-        var musicVolume = PlayerPrefs.GetFloat(setting.MIXER_MUSIC_VOLUME,1f);
-        var sfxVolume = PlayerPrefs.GetFloat(setting.MIXER_SFX_VOLUME,1f);
+        float musicVolume = PlayerPrefs.GetFloat(VolumeSettings.MIXER_MUSIC_VOLUME,1f);
+        float sfxVolume = PlayerPrefs.GetFloat(VolumeSettings.MIXER_SFX_VOLUME,1f);
 
         musicSlider1.value = musicVolume;
         musicSlider2.value = musicVolume;

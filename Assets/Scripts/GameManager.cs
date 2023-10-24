@@ -112,6 +112,10 @@ public class GameManager : MonoBehaviour
         inputReader.OnNukePerformed -= DoTacticalNuke;
     }
 
+    private void OnApplicationQuit(){
+        PlayerPrefs.Save();
+    }
+
     public void StartGame(){
         CommandInvoker.ClearStack();
         OnGameStarted?.Invoke();

@@ -63,7 +63,7 @@ public class DataManager : MonoBehaviour
         GameManager.Instance.OnGameStarted -= ResetIngameStarsCount;
         OnIngameStarsUpdated -= dataManagerUI.UpdateIngameStar;
     }
-
+    
     public void ClearData(){
         userData.Clear();
         OnDeletedUserData?.Invoke();

@@ -7,8 +7,8 @@ using UnityEngine.Audio;
 public class VolumeSettings
 {
     private AudioMixer audioMixer;
-    public readonly string MIXER_MUSIC_VOLUME = "MusicVolume";
-    public readonly string MIXER_SFX_VOLUME = "SFXVolume";
+    public static readonly string MIXER_MUSIC_VOLUME = "MusicVolume";
+    public static readonly string MIXER_SFX_VOLUME = "SFXVolume";
 
     public VolumeSettings(AudioMixer mixer){
         this.audioMixer = mixer;
@@ -29,9 +29,7 @@ public class VolumeSettings
         var musicVolume = PlayerPrefs.GetFloat(MIXER_MUSIC_VOLUME,1f);
         var sfxVolume = PlayerPrefs.GetFloat(MIXER_SFX_VOLUME,1f);
         
-        // audioMixer.SetFloat(MIXER_MUSIC_VOLUME, musicVolume == 0f ? -80f : Mathf.Log10(musicVolume) * 20);
-        // audioMixer.SetFloat(MIXER_SFX_VOLUME, sfxVolume == 0f ? -80f : Mathf.Log10(sfxVolume) * 20);
-        SetMusicVolume(musicVolume);
-        SetSFXVolume(sfxVolume);
+        audioMixer.SetFloat(MIXER_MUSIC_VOLUME, musicVolume == 0f ? -80f : Mathf.Log10(musicVolume) * 20);
+        audioMixer.SetFloat(MIXER_SFX_VOLUME, sfxVolume == 0f ? -80f : Mathf.Log10(sfxVolume) * 20);
     }
 }

@@ -60,9 +60,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShouldGradientNoiseColor: 1
-    - _Speed: 0.6
+    - _Speed: 1
     - _Spread: 0
     m_Colors:
-    - _LowerColor: {r: 0, g: 0.3341205, b: 1, a: 0}
-    - _UpperColor: {r: 0.99215686, g: 0.46887615, b: 0, a: 0}
+    - _LowerColor: {r: 1, g: 0.8207547, b: 0.5424528, a: 0}
+    - _UpperColor: {r: 0, g: 0.48321056, b: 1, a: 0}
   m_BuildTextureStacks: []

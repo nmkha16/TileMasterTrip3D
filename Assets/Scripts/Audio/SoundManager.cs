@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
+    public static Action OnVolumeSettingLoaded;
     public static SoundManager Instance;
-    public event Action OnVolumeSettingLoaded;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
@@ -29,8 +29,7 @@ public class SoundManager : MonoBehaviour
     public int totalBattleSong = 3;
     
     private SoundId currentSongId;
-    private float currentSongDuration = 1000f;
-    
+    private float currentSongDuration = 1000f;    
 
     private void Awake(){
         if (Instance == null){
@@ -39,11 +38,10 @@ public class SoundManager : MonoBehaviour
         else{
             Destroy(gameObject);
         }
-        setting = new(audioMixer);
     }
 
     private void Start(){
-        OnVolumeSettingLoaded?.Invoke();
+        setting = new(audioMixer);
         // construct sound dictionary
         foreach(var clip in audioData.musics){
             soundDict.Add(clip.id, clip.audioClip);
@@ -51,6 +49,7 @@ public class SoundManager : MonoBehaviour
         foreach(var clip in audioData.sfxs){
             soundDict.Add(clip.id,clip.audioClip);
         }
+        OnVolumeSettingLoaded?.Invoke();
         // select a random menu music to play
         PlayRandomMenuMusic();
     }
@@ -64,8 +63,8 @@ public class SoundManager : MonoBehaviour
     
     private void OnDestroy(){
         soundDict.Clear();
-    }
 
+    }
     public async void PlayOneShotSound(SoundId id, int miliseconds = 0){
         await Task.Delay(miliseconds);
         if (soundDict.TryGetValue(id,out var clip)){
